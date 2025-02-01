@@ -380,7 +380,7 @@ function resizeCanvas() {
 
 var count    = 0;
 var grey = 0.7 + Math.random() * 0.3; 
-var color2 = 0.71 + Math.random() * 0.3; 
+var color2 = 0.71 + Math.random() * 0.1; 
 var colorArr = [ grey , color2, grey ];
 
 canvas.addEventListener( 'mousemove', function ( e ) {
