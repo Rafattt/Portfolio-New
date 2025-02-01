@@ -1,33 +1,22 @@
 import { useState, useEffect, useRef } from 'react';
 import './App.css';
 import './styles.scss';
-import { initWebGL } from './utils/webglUtils';
+import { initWebGL } from './utils/WebglUtils';
 import background from './assets/img/bg.jpg';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
+import MyWork from './pages/MyWork';
+import Header from './components/Header';
+import Layout from './components/Layout';
 
 
-function App() {
+function Home() {
   const [count, setCount] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const navigate = useNavigate();  
 
   useEffect(() => {
     if (!canvasRef.current) return;
 
-    VANTA.FOG({
-      el: "#root",
-      mouseControls: true,
-      touchControls: true,
-      gyroControls: false,
-      minHeight: 200.00,
-      minWidth: 200.00,
-      highlightColor: 0x0,
-      midtoneColor: 0x0,
-      lowlightColor: 0xf5f5f5,
-      baseColor: 0x0,
-      blurFactor: 0.27,
-      speed: 0.30
-    })
-
- 
     setTimeout(() => {
       const subtitle : HTMLElement = document.querySelector('.subtitle');
       subtitle.classList.add('active');
@@ -45,14 +34,13 @@ function App() {
 
     const { gl, ext, support_linear_float } = getWebGLContext(canvas);
 
-    // Initialize your WebGL or rendering code here
+
     initWebGL(canvas, gl, ext, support_linear_float);
 
-    // Set up any event listeners if necessary
+
     const handleResize = () => {
       canvas.width = canvas.clientWidth;
       canvas.height = canvas.clientHeight;
-      // Resize related WebGL calls
     };
     window.addEventListener('resize', handleResize);
 
@@ -78,26 +66,37 @@ function App() {
     return { gl, ext: {}, support_linear_float };
   }
   
+  const handleOpenPortfolio = () => {
+    navigate('/my-work');
+  };
 
 
   return (
-    <>
-      {/* <div className="bg-img">
-        <img src={background} />
-      </div> */}
-      {/* <div className="lines">
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
-      </div> */}
+    <>   
       <div className="home-content">
       <canvas ref={canvasRef}></canvas>
         <div className="home-content-inner" id="home-content">
           <h1  className="home-title"><span>RAFAL KMIECIK</span><div className="subtitle-height"><span className="subtitle">FRONTEND DEVELOPER</span></div></h1>
-          <button id="open-portfolio-button">Open Portfolio</button>
+          <button id="open-portfolio-button" onClick={handleOpenPortfolio}>Open Portfolio</button>
+          
         </div>
       </div>
     </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/my-work" element={<MyWork />} />
+          <Route path="/about" element={<div>About Page</div>} />
+          <Route path="/contact" element={<div>Contact Page</div>} />
+        </Routes>
+      </Layout>
+    </Router>
   );
 }
 
