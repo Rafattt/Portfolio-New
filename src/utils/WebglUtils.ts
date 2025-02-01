@@ -8,8 +8,8 @@ canvas.width  = canvas.clientWidth;
 canvas.height = canvas.clientHeight;
 
 var config = {
-    TEXTURE_DOWNSAMPLE: 1,
-    DENSITY_DISSIPATION: 0.98,
+    TEXTURE_DOWNSAMPLE: 1.1,
+    DENSITY_DISSIPATION: 0.97,
     VELOCITY_DISSIPATION: 0.99,
     PRESSURE_DISSIPATION: 0.8,
     PRESSURE_ITERATIONS: 20,
@@ -380,13 +380,14 @@ function resizeCanvas() {
 
 var count    = 0;
 var grey = 0.7 + Math.random() * 0.3; 
-var colorArr = [ Math.random() + 0.2, Math.random() + 0.2, Math.random() + 0.2 ];
+var color2 = 0.71 + Math.random() * 0.3; 
+var colorArr = [ grey , color2, grey ];
 
 canvas.addEventListener( 'mousemove', function ( e ) {
 
     count++;
 
-    ( count > 25 ) && (colorArr = [ Math.random() + 0.2, Math.random() + 0.2, Math.random() + 0.2 ], count = 0);
+    ( count > 25 ) && (colorArr = [ grey , color2, grey ], count = 0);
 
     pointers[ 0 ].down  = true;
     pointers[ 0 ].color = colorArr;
