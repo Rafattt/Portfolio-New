@@ -7,69 +7,96 @@ import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation 
 import MyWork from './pages/MyWork';
 import Header from './components/Header';
 import Layout from './components/Layout';
-
+import {
+  useTransition,
+  useSpring,
+  useChain,
+  config,
+  animated,
+  useSpringRef,
+} from '@react-spring/web';
+import { getWebGLContext } from './utils/WebglContext';
 
 function Home() {
-  const [count, setCount] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const navigate = useNavigate();  
+  const webglContextRef = useRef<any>(null);
+  const programRef = useRef<WebGLProgram | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!canvasRef.current) return;
+    let isDestroyed = false;
 
+    const initGL = () => {
+      if (!canvasRef.current || isDestroyed) return;
+
+      try {
+        const canvas = canvasRef.current;
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+
+        const context = getWebGLContext(canvas);
+        webglContextRef.current = context;
+
+        if (context.gl && !isDestroyed) {
+          programRef.current = initWebGL(
+            canvas,
+            context.gl,
+            context.ext,
+            context.support_linear_float
+          );
+        }
+      } catch (error) {
+        console.error('WebGL initialization failed:', error);
+      }
+    };
+
+    // Initialize elements
     setTimeout(() => {
-      const subtitle : HTMLElement = document.querySelector('.subtitle');
-      subtitle.classList.add('active');
+      if (!isDestroyed) {
+        document.querySelector('.subtitle')?.classList.add('active');
+      }
     }, 100);
+
     setTimeout(() => {
-      const homeButton : HTMLElement = document.getElementById('open-portfolio-button');
-      homeButton.classList.add('active');
-    }, 500);
-      
-    
+      if (!isDestroyed) {
+        document.getElementById('open-portfolio-button')?.classList.add('active');
+      }
+    }, 1000);
 
-    const canvas = canvasRef.current;
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
-
-    const { gl, ext, support_linear_float } = getWebGLContext(canvas);
-
-
-    initWebGL(canvas, gl, ext, support_linear_float);
-
+    // Initialize WebGL
+    initGL();
 
     const handleResize = () => {
-      canvas.width = canvas.clientWidth;
-      canvas.height = canvas.clientHeight;
+      if (canvasRef.current && webglContextRef.current) {
+        canvasRef.current.width = canvasRef.current.clientWidth;
+        canvasRef.current.height = canvasRef.current.clientHeight;
+        initGL();
+      }
     };
+
     window.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      isDestroyed = true;
+      if (webglContextRef.current?.gl && programRef.current) {
+        const gl = webglContextRef.current.gl;
+        gl.deleteProgram(programRef.current);
+        const loseContext = gl.getExtension('WEBGL_lose_context');
+        if (loseContext) {
+          loseContext.loseContext();
+        }
+      }
+      webglContextRef.current = null;
+      programRef.current = null;
     };
   }, []);
 
-  
-
-  function getWebGLContext(canvas: HTMLCanvasElement) {
-    const params = {
-      alpha: false,
-      depth: false,
-      stencil: false,
-      antialias: false
-    };
-    let gl = canvas.getContext('webgl2', params) as WebGL2RenderingContext;
-    if (!gl) {
-      gl = canvas.getContext('webgl', params) || canvas.getContext('experimental-webgl', params) as WebGLRenderingContext;
-    }
-    const support_linear_float = gl.getExtension('OES_texture_half_float_linear');
-    return { gl, ext: {}, support_linear_float };
-  }
-  
   const handleOpenPortfolio = () => {
-    navigate('/my-work');
+    document.querySelector('.home-content')?.classList.add('fade');
+    setTimeout(() => {
+      navigate('/my-work');
+    }, 500);
   };
-
 
   return (
     <>   

@@ -9,7 +9,7 @@ canvas.height = canvas.clientHeight;
 
 var config = {
     TEXTURE_DOWNSAMPLE: 1.1,
-    DENSITY_DISSIPATION: 0.97,
+    DENSITY_DISSIPATION: 0.98,
     VELOCITY_DISSIPATION: 0.99,
     PRESSURE_DISSIPATION: 0.8,
     PRESSURE_ITERATIONS: 20,
@@ -387,7 +387,7 @@ canvas.addEventListener( 'mousemove', function ( e ) {
 
     count++;
 
-    ( count > 25 ) && (colorArr = [ grey , color2, grey ], count = 0);
+    ( count > 25 ) && (colorArr = [ grey , grey, grey ], count = 0);
 
     pointers[ 0 ].down  = true;
     pointers[ 0 ].color = colorArr;
