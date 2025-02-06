@@ -55,7 +55,7 @@ function Home() {
       if (!isDestroyed) {
         document.querySelector('.subtitle')?.classList.add('active');
       }
-    }, 100);
+    }, 1);
 
     setTimeout(() => {
       if (!isDestroyed) {
@@ -95,7 +95,7 @@ function Home() {
     document.querySelector('.home-content')?.classList.add('fade');
     setTimeout(() => {
       navigate('/my-work');
-    }, 500);
+    }, 1);
   };
 
   return (
