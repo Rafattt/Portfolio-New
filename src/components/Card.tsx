@@ -7,9 +7,10 @@ interface CardProps {
   featured?: boolean;
 }
 
-export default function Card({ title, description, technologies, featured }: CardProps) {
+export default function Card({ title, description, technologies, featured, imgSrc, classCard }: CardProps) {
   return (
-    <div className={`card ${featured ? 'featured' : ''}`}>
+    <button className={`card ${classCard}`}>
+       <img src={imgSrc} aria-hidden="true"/>
       <div className="card-content">
         <h3>{title}</h3>
         <p>{description}</p>
@@ -21,6 +22,6 @@ export default function Card({ title, description, technologies, featured }: Car
           </div>
         )}
       </div>
-    </div>
+    </button>
   );
 }

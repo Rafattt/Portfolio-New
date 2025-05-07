@@ -1,32 +1,127 @@
 import Card from '../components/Card';
 
 function MyWork() {
+  const handleOpenCard = () => {
+    
+  };
   const projects = [
     {
       title: "Portfolio Website",
       description: "Modern portfolio with WebGL effects and React",
-      technologies: ["React", "TypeScript", "WebGL", "SCSS"],
-      featured: true
+      technologies: [""],
+      featured: true,
+      imgSrc: 'src/assets/img/ciranda-logo.webp',
+      classCard: 'ciranda',
+      link: 'https://www.ciranda.com/',
     },
     {
-      title: "E-commerce Platform",
+      title: "Huyett",
       description: "Full-featured online store with cart and checkout",
-      technologies: ["Next.js", "Node.js", "MongoDB"],
+      technologies: [""],
+      imgSrc: '',
+      classCard: 'huyett',
+      link: 'https://www.huyett.com/',
     },
     {
-      title: "Weather App",
+      title: "Wastebuilt/MountainTarp",
       description: "Real-time weather data visualization",
-      technologies: ["React", "Weather API", "ChartJS"],
+      technologies: [""],
+      imgSrc: '',
+      classCard: 'wastebuilt',
+      link: 'https://www.wastebuilt.com/',
     },
     {
-      title: "Task Manager",
+      title: "Singer",
       description: "Collaborative project management tool",
-      technologies: ["Vue", "Firebase", "Tailwind"],
+      technologies: [""],
+      imgSrc: '',
+      classCard: 'singer',
+      link: 'https://www.singerequipment.com/',
+    },
+    {
+      title: "Chicago Auto Show",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: '',
+      classCard: 'chicago-auto',
+      link: 'https://www.chicagoautoshow.com',
+    },
+    {
+      title: "Virginia Raylways",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: '',
+      classCard: 'virginia',
+      link: 'https://www.vre.org/',
+    },
+    {
+      title: "Foley Family Wines",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: '',
+      classCard: 'virginia',
+      link: 'https://www.vre.org/',
+    },
+    {
+      title: "Deniimcratic",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: '',
+      classCard: 'foley',
+      link: 'https://ffws.com/',
+    },
+    {
+      title: "Blaupunkt",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: '',
+      classCard: 'blue',
+      link: 'https://blue.bike/',
+    },
+    {
+      title: "MetLife Stadium",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: '',
+      classCard: 'metlife',
+      link: 'https://www.metlifestadium.com/',
+    },
+    {
+      title: "Itron",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: '',
+      classCard: 'itron',
+      link: 'https://na.itron.com/',
+    },
+    {
+      title: "Polacheck's Jewelers:",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: '',
+      classCard: 'polacheck',
+      link: 'https://polachecks.com/',
+    },
+    {
+      title: "Benchmark Community Bank",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: '',
+      classCard: 'benchmark',
+      link: 'https://bcbforlife.bank/',
+    },
+    {
+      title: "Shoshanna",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: '',
+      classCard: 'shoshanna',
+      link: 'https://shoshanna.com/',
     }
   ];
 
   return (
-    <div className="my-work">
+    <div onClick={handleOpenCard} className="my-work">
       <div className="my-work-inner">
         <div className="cards-container">
           {projects.map((project, index) => (

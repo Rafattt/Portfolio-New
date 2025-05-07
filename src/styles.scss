@@ -1,5 +1,4 @@
 html, body {
-    overflow: hidden;
     font: 16px/1.4 'Lato', sans-serif;
     color: #fefeff;
     width: 100vw;
@@ -70,12 +69,11 @@ html, body {
     height:100%;
     
     .my-work-inner {
-        position: absolute;
         width: 80%;
         min-height:80%;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%);
+        margin: 60px auto;
         display:flex;
         justify-content: center;
         align-items: center;
@@ -282,6 +280,8 @@ html, body {
   height:100%;
   justify-content: space-between;
   align-items: center;
+  gap:20px;
+  padding:40px;
 }
 
 .card {
@@ -289,11 +289,17 @@ html, body {
   background: transparent;
   backdrop-filter: blur(5px);
   height: 300px;
-  width:32%;
+  width:504px;
   position: relative;
   overflow: hidden;
   transition: transform 0.3s ease;
   pointer-events: auto;
+  padding:0;
+  max-width:32%;
+  aspect-ratio: 300 / 504;
+  img {
+    max-width:100%;
+  }
 
   &:hover {
     transform: translateY(-5px);
@@ -306,6 +312,7 @@ html, body {
 
   .card-content {
     padding: 1.5rem;
+    display:none;
     h3 {
       margin: 0 0 1rem;
       font-size: 1.5rem;
@@ -339,6 +346,9 @@ html, body {
     &:hover {
       text-decoration: underline;
     }
+  }
+  &.ciranda {
+    background:white;
   }
 }
 
