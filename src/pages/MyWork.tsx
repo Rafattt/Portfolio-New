@@ -18,7 +18,7 @@ function MyWork() {
       title: "Huyett",
       description: "Full-featured online store with cart and checkout",
       technologies: [""],
-      imgSrc: '',
+      imgSrc: 'src/assets/img/huyett-logo.webp',
       classCard: 'huyett',
       link: 'https://www.huyett.com/',
     },
@@ -121,15 +121,19 @@ function MyWork() {
   ];
 
   return (
-    <div onClick={handleOpenCard} className="my-work">
-      <div className="my-work-inner">
-        <div className="cards-container">
-          {projects.map((project, index) => (
-            <Card key={index} {...project} />
-          ))}
+    <div className="background-img">
+      <div className="frosted-overlay"></div>
+      <div onClick={handleOpenCard} className="my-work">
+        <div className="my-work-inner">
+          <div className="cards-container">
+            {projects.map((project, index) => (
+              <Card key={index} {...project} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
+    
   );
 }
 
