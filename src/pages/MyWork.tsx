@@ -13,6 +13,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/ciranda-logo.webp',
       classCard: 'ciranda',
       link: 'https://www.ciranda.com/',
+      highlightColor: 0xff6600, // Orange for Ciranda
     },
     {
       title: "Huyett",
@@ -21,14 +22,16 @@ function MyWork() {
       imgSrc: 'src/assets/img/huyett-logo.webp',
       classCard: 'huyett',
       link: 'https://www.huyett.com/',
+      highlightColor: 0x000066, // Dark blue for Huyett
     },
     {
       title: "Wastebuilt/MountainTarp",
       description: "Real-time weather data visualization",
       technologies: [""],
-      imgSrc: '',
+      imgSrc: 'src/assets/img/wastebuilt-logo.webp',
       classCard: 'wastebuilt',
       link: 'https://www.wastebuilt.com/',
+      highlightColor: 0x00ff00, // Bright green for Wastebuilt
     },
     {
       title: "Singer",
@@ -37,6 +40,7 @@ function MyWork() {
       imgSrc: '',
       classCard: 'singer',
       link: 'https://www.singerequipment.com/',
+      highlightColor: 0xff0000, // Red for Singer
     },
     {
       title: "Chicago Auto Show",
@@ -45,6 +49,7 @@ function MyWork() {
       imgSrc: '',
       classCard: 'chicago-auto',
       link: 'https://www.chicagoautoshow.com',
+      highlightColor: 0x00ffff, // Cyan for Chicago Auto Show
     },
     {
       title: "Virginia Raylways",
@@ -53,6 +58,7 @@ function MyWork() {
       imgSrc: '',
       classCard: 'virginia',
       link: 'https://www.vre.org/',
+      highlightColor: 0xff00ff, // Magenta for Virginia Railways
     },
     {
       title: "Foley Family Wines",
@@ -61,6 +67,7 @@ function MyWork() {
       imgSrc: '',
       classCard: 'virginia',
       link: 'https://www.vre.org/',
+      highlightColor: 0x800080, // Purple for Foley Family Wines
     },
     {
       title: "Deniimcratic",
@@ -69,6 +76,7 @@ function MyWork() {
       imgSrc: '',
       classCard: 'foley',
       link: 'https://ffws.com/',
+      highlightColor: 0xffff00, // Yellow for Deniimcratic
     },
     {
       title: "Blaupunkt",
@@ -77,6 +85,7 @@ function MyWork() {
       imgSrc: '',
       classCard: 'blue',
       link: 'https://blue.bike/',
+      highlightColor: 0x0000ff, // Blue for Blaupunkt
     },
     {
       title: "MetLife Stadium",
@@ -85,6 +94,7 @@ function MyWork() {
       imgSrc: '',
       classCard: 'metlife',
       link: 'https://www.metlifestadium.com/',
+      highlightColor: 0xff1493, // Deep pink for MetLife Stadium
     },
     {
       title: "Itron",
@@ -93,6 +103,7 @@ function MyWork() {
       imgSrc: '',
       classCard: 'itron',
       link: 'https://na.itron.com/',
+      highlightColor: 0x00bfff, // Deep sky blue for Itron
     },
     {
       title: "Polacheck's Jewelers:",
@@ -101,6 +112,7 @@ function MyWork() {
       imgSrc: '',
       classCard: 'polacheck',
       link: 'https://polachecks.com/',
+      highlightColor: 0xff4500, // Orange red for Polacheck's Jewelers
     },
     {
       title: "Benchmark Community Bank",
@@ -109,6 +121,7 @@ function MyWork() {
       imgSrc: '',
       classCard: 'benchmark',
       link: 'https://bcbforlife.bank/',
+      highlightColor: 0x2e8b57, // Sea green for Benchmark Community Bank
     },
     {
       title: "Shoshanna",
@@ -117,6 +130,7 @@ function MyWork() {
       imgSrc: '',
       classCard: 'shoshanna',
       link: 'https://shoshanna.com/',
+      highlightColor: 0x4682b4, // Steel blue for Shoshanna
     }
   ];
 
@@ -127,13 +141,22 @@ function MyWork() {
         <div className="my-work-inner">
           <div className="cards-container">
             {projects.map((project, index) => (
-              <Card key={index} {...project} />
+              <Card 
+                key={index} 
+                {...project} 
+                onMouseEnter={() => {
+                  if (window.VANTA && window.VANTA.current) {
+                    window.VANTA.current.setOptions({
+                      highlightColor: project.highlightColor
+                    });
+                  }
+                }}
+              />
             ))}
           </div>
         </div>
       </div>
     </div>
-    
   );
 }
 

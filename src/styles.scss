@@ -355,14 +355,20 @@ html, body {
   &.ciranda {
     background:white;
   }
+  &.huyett {
+    background:white;
+  }
+  &.wastebuilt {
+    background:white;
+  }
 }
 
 .background-img {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 100vh;
+  min-height: 100%;
   overflow-x:scroll;
    
 
@@ -375,31 +381,41 @@ html, body {
     opacity: 0;
     transition: opacity 2s ease-in-out;
     z-index: -1;
+    transition: 2s;
 
     
   }
 
-  &:has(.ciranda:hover)::after {
-    background-image: url("src/assets/img/ciranda-bg.webp");
-    opacity: 1;
-  }
+  // &:has(.ciranda:hover)::after {
+  //   // background-image: url("src/assets/img/ciranda-bg.webp");
+  //   background:#dd6c1c;
+  //   opacity: .1;
+  // }
 
-  &:has(.huyett:hover)::after {
-    background-image: url("src/assets/img/huyett-bg.webp");
-    opacity: 1;
-  }
-  &:has(.card:hover) {
-    &::after {
-      transition: 2s;
-      filter: grayscale(1);
-    }
-    .frosted-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-  }
+  // &:has(.huyett:hover)::after {
+  //   // background-image: url("src/assets/img/huyett-bg.webp");
+  //   // opacity: 1;
+  //   background:#141487;
+  //   opacity: .1;
+  // }
+  // &:has(.wastebuilt:hover)::after {
+  //   // background-image: url("src/assets/img/huyett-bg.webp");
+  //   // opacity: 1;
+  //   background:green;
+  //   opacity: .1;
+  // }
+  // &:has(.card:hover) {
+  //   &::after {
+  //     transition: 2s;
+  //     // filter: grayscale(1);
+  //   }
+  //   .frosted-overlay {
+  //     // position: absolute;
+  //     // inset: 0;
+  //     // background: rgba(255, 255, 255, 0.2);
+  //     // backdrop-filter: blur(3px);
+  //     // -webkit-backdrop-filter: blur(10px);
+  //   }
+  // }
 }
 

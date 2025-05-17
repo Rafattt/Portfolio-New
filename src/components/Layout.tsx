@@ -6,6 +6,89 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
   const isHome = location.pathname === '/';
   const vantaEffect = useRef<any>(null);
+  const observerRef = useRef<MutationObserver | null>(null);
+  const currentColorRef = useRef(0x0);
+  const animationRef = useRef<number>();
+
+  const lerp = (start: number, end: number, t: number) => {
+    return start * (1 - t) + end * t;
+  };
+
+  const interpolateRGB = (startColor: number, endColor: number, t: number) => {
+    // Extract RGB components
+    const startR = (startColor >> 16) & 0xFF;
+    const startG = (startColor >> 8) & 0xFF;
+    const startB = startColor & 0xFF;
+    
+    const endR = (endColor >> 16) & 0xFF;
+    const endG = (endColor >> 8) & 0xFF;
+    const endB = endColor & 0xFF;
+    
+    // Interpolate each component
+    const r = Math.round(startR + (endR - startR) * t);
+    const g = Math.round(startG + (endG - startG) * t);
+    const b = Math.round(startB + (endB - startB) * t);
+    
+    // Combine back to hex
+    return (r << 16) | (g << 8) | b;
+  };
+
+  const transitionColor = (targetColor: number) => {
+    const startColor = currentColorRef.current;
+    let startTime: number | null = null;
+    const duration = 200; // 0.2 seconds
+
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      const currentColor = interpolateRGB(startColor, targetColor, progress);
+      currentColorRef.current = currentColor;
+
+      if (vantaEffect.current) {
+        vantaEffect.current.setOptions({
+          highlightColor: currentColor
+        });
+      }
+
+      if (progress < 1) {
+        animationRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+    }
+
+    requestAnimationFrame(animate);
+  };
+
+  const setupCardListeners = () => {
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        if (vantaEffect.current) {
+          const cardClass = Array.from(card.classList)
+            .find(className => className !== 'card');
+          
+          let targetColor = 0x0;
+          switch(cardClass) {
+            case 'ciranda': targetColor = 0xff6600; break;
+            case 'huyett': targetColor = 0x000066; break;
+            case 'wastebuilt': targetColor = 0x00ff00; break;
+          }
+          transitionColor(targetColor);
+        }
+      });
+
+      card.addEventListener('mouseleave', () => {
+        if (vantaEffect.current) {
+          transitionColor(0x0);
+        }
+      });
+    });
+  };
 
   useEffect(() => {
     if (!vantaEffect.current) {
@@ -20,18 +103,37 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         midtoneColor: 0x0,
         lowlightColor: 0xf5f5f5,
         baseColor: 0x0,
-        blurFactor: 0.27,
-        speed: 0.30
+        blurFactor: 0.4,
+        speed: 1.0
       });
     }
 
+    setupCardListeners();
+
+    observerRef.current = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.addedNodes.length) {
+          setupCardListeners();
+        }
+      });
+    });
+
+    observerRef.current.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
     return () => {
+      observerRef.current?.disconnect();
       if (vantaEffect.current) {
         vantaEffect.current.destroy();
         vantaEffect.current = null;
       }
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
     };
-  }, [location.pathname]); // Re-run effect when pathname changes
+  }, [location.pathname]);
 
   return (
     <>
