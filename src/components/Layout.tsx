@@ -36,7 +36,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const transitionColor = (targetColor: number) => {
     const startColor = currentColorRef.current;
     let startTime: number | null = null;
-    const duration = 200; // 0.2 seconds
+    const duration = 2200; // 0.2 seconds
 
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
@@ -74,9 +74,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           
           let targetColor = 0x0;
           switch(cardClass) {
-            case 'ciranda': targetColor = 0xff6600; break;
-            case 'huyett': targetColor = 0x000066; break;
-            case 'wastebuilt': targetColor = 0x00ff00; break;
+            case 'ciranda': targetColor = 0xdc431c; break;
+            case 'huyett': targetColor = 0x17305a; break;
+            case 'wastebuilt': targetColor = 0x097a40; break;
           }
           transitionColor(targetColor);
         }

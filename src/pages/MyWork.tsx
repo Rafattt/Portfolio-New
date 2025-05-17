@@ -147,7 +147,7 @@ function MyWork() {
                 onMouseEnter={() => {
                   if (window.VANTA && window.VANTA.current) {
                     window.VANTA.current.setOptions({
-                      highlightColor: project.highlightColor
+                      //highlightColor: project.highlightColor
                     });
                   }
                 }}
