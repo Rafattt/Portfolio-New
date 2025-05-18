@@ -85,6 +85,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             case 'blue': targetColor = 0x009ee0; break;
             case 'metlife': targetColor = 0x103669; break;
             case 'itron': targetColor = 0xd22930; break;
+            case 'anderson': targetColor = 0x39b54a; break;
           }
           transitionColor(targetColor);
         }

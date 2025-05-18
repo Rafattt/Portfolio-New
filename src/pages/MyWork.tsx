@@ -70,6 +70,15 @@ function MyWork() {
       highlightColor: 0x800080, // Purple for Foley Family Wines
     },
     {
+      title: "Anderson-Negele",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: 'src/assets/img/anderson-logo.webp',
+      classCard: 'anderson',
+      link: 'https://www.anderson-negele.com/us/',
+      highlightColor: 0x39b54a, // Purple for Foley Family Wines
+    },
+    {
       title: "Deniimcratic",
       description: "Collaborative project management tool",
       technologies: [""],
