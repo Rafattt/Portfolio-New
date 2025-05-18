@@ -37,7 +37,7 @@ function MyWork() {
       title: "Singer",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: '',
+      imgSrc: 'src/assets/img/singer-logo.webp',
       classCard: 'singer',
       link: 'https://www.singerequipment.com/',
       highlightColor: 0xff0000, // Red for Singer
@@ -46,7 +46,7 @@ function MyWork() {
       title: "Chicago Auto Show",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: '',
+      imgSrc: 'src/assets/img/chicago-logo.webp',
       classCard: 'chicago-auto',
       link: 'https://www.chicagoautoshow.com',
       highlightColor: 0x00ffff, // Cyan for Chicago Auto Show
@@ -55,7 +55,7 @@ function MyWork() {
       title: "Virginia Raylways",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: '',
+      imgSrc: 'src/assets/img/virginia-logo.webp',
       classCard: 'virginia',
       link: 'https://www.vre.org/',
       highlightColor: 0xff00ff, // Magenta for Virginia Railways
@@ -64,8 +64,8 @@ function MyWork() {
       title: "Foley Family Wines",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: '',
-      classCard: 'virginia',
+      imgSrc: 'src/assets/img/foley-logo.webp',
+      classCard: 'foley',
       link: 'https://www.vre.org/',
       highlightColor: 0x800080, // Purple for Foley Family Wines
     },
@@ -73,8 +73,8 @@ function MyWork() {
       title: "Deniimcratic",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: '',
-      classCard: 'foley',
+      imgSrc: 'src/assets/img/denimcratic-logo.webp',
+      classCard: 'denimcratic',
       link: 'https://ffws.com/',
       highlightColor: 0xffff00, // Yellow for Deniimcratic
     },
@@ -82,7 +82,7 @@ function MyWork() {
       title: "Blaupunkt",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: '',
+      imgSrc: 'src/assets/img/blaupunkt-logo.webp',
       classCard: 'blue',
       link: 'https://blue.bike/',
       highlightColor: 0x0000ff, // Blue for Blaupunkt
@@ -91,7 +91,7 @@ function MyWork() {
       title: "MetLife Stadium",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: '',
+      imgSrc: 'src/assets/img/metlife-logo.webp',
       classCard: 'metlife',
       link: 'https://www.metlifestadium.com/',
       highlightColor: 0xff1493, // Deep pink for MetLife Stadium
@@ -100,7 +100,7 @@ function MyWork() {
       title: "Itron",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: '',
+      imgSrc: 'src/assets/img/itron-logo.webp',
       classCard: 'itron',
       link: 'https://na.itron.com/',
       highlightColor: 0x00bfff, // Deep sky blue for Itron

@@ -77,6 +77,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             case 'ciranda': targetColor = 0xdc431c; break;
             case 'huyett': targetColor = 0x17305a; break;
             case 'wastebuilt': targetColor = 0x097a40; break;
+            case 'singer': targetColor = 0x4091C9; break;
+            case 'chicago-auto': targetColor = 0x009edd; break;
+            case 'virginia': targetColor = 0xee3e42; break;
+            case 'foley': targetColor = 0xad9863; break;
+            case 'denimcratic': targetColor = 0x31589f; break; 
+            case 'blue': targetColor = 0x009ee0; break;
+            case 'metlife': targetColor = 0x103669; break;
+            case 'itron': targetColor = 0xd22930; break;
           }
           transitionColor(targetColor);
         }
