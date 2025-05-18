@@ -86,6 +86,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             case 'metlife': targetColor = 0x103669; break;
             case 'itron': targetColor = 0xd22930; break;
             case 'anderson': targetColor = 0x39b54a; break;
+            case 'polacheck': targetColor = 0xFFD700; break;
+            case 'benchmark': targetColor = 0x551226; break;
+            case 'shoshanna': targetColor = 0xF88379; break;
+            case 'mountain': targetColor = 0x0c4e83; break;
+            case 'society': targetColor = 0x8a84d6; break;
+            case 'land': targetColor = 0x115A31; break;
+            case 'procon': targetColor = 0xd12428; break;
+            case 'darpet': targetColor = 0x831e0a; break;
+            case 'pure': targetColor = 0xf8f7f4; break;
           }
           transitionColor(targetColor);
         }

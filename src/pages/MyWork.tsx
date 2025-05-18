@@ -25,12 +25,21 @@ function MyWork() {
       highlightColor: 0x000066, // Dark blue for Huyett
     },
     {
-      title: "Wastebuilt/MountainTarp",
+      title: "Wastebuilt",
       description: "Real-time weather data visualization",
       technologies: [""],
       imgSrc: 'src/assets/img/wastebuilt-logo.webp',
       classCard: 'wastebuilt',
       link: 'https://www.wastebuilt.com/',
+      highlightColor: 0x00ff00, // Bright green for Wastebuilt
+    },
+    {
+      title: "Mountain Tarp",
+      description: "Real-time weather data visualization",
+      technologies: [""],
+      imgSrc: 'src/assets/img/mountain-logo.webp',
+      classCard: 'mountain',
+      link: 'https://mountaintarp.com/',
       highlightColor: 0x00ff00, // Bright green for Wastebuilt
     },
     {
@@ -118,7 +127,7 @@ function MyWork() {
       title: "Polacheck's Jewelers:",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: '',
+      imgSrc: 'src/assets/img/polacheck-logo.webp',
       classCard: 'polacheck',
       link: 'https://polachecks.com/',
       highlightColor: 0xff4500, // Orange red for Polacheck's Jewelers
@@ -127,7 +136,7 @@ function MyWork() {
       title: "Benchmark Community Bank",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: '',
+      imgSrc: 'src/assets/img/benchmark-logo.webp',
       classCard: 'benchmark',
       link: 'https://bcbforlife.bank/',
       highlightColor: 0x2e8b57, // Sea green for Benchmark Community Bank
@@ -136,9 +145,54 @@ function MyWork() {
       title: "Shoshanna",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: '',
+      imgSrc: 'src/assets/img/shoshana-logo.webp',
       classCard: 'shoshanna',
       link: 'https://shoshanna.com/',
+      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+    },
+    {
+      title: "American Society of Anesthesiologists",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: 'src/assets/img/society-logo.webp',
+      classCard: 'society',
+      link: 'https://www.asahq.org/',
+      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+    },
+    {
+      title: "Land and Coates",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: 'src/assets/img/land-logo.webp',
+      classCard: 'land',
+      link: 'https://www.landandcoates.net/',
+      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+    },
+    {
+      title: "Procon Pump",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: 'src/assets/img/procon-logo.webp',
+      classCard: 'procon',
+      link: 'https://www.proconpumps.com/',
+      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+    },
+    {
+      title: "Darpet",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: 'src/assets/img/darpet-logo.webp',
+      classCard: 'darpet',
+      link: 'https://www.darpet.com/',
+      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+    },
+    {
+      title: "PureOrder",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: 'src/assets/img/pure-logo.webp',
+      classCard: 'pure',
+      link: 'https://pureorder.org',
       highlightColor: 0x4682b4, // Steel blue for Shoshanna
     }
   ];
