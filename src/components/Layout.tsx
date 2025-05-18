@@ -67,7 +67,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const setupCardListeners = () => {
     const cards = document.querySelectorAll('.card');
     cards.forEach(card => {
-      card.addEventListener('mouseenter', () => {
+      const handleColorChange = () => {
         if (vantaEffect.current) {
           const cardClass = Array.from(card.classList)
             .find(className => className !== 'card');
@@ -88,13 +88,18 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           }
           transitionColor(targetColor);
         }
-      });
+      };
 
-      card.addEventListener('mouseleave', () => {
+      const resetColor = () => {
         if (vantaEffect.current) {
           transitionColor(0x0);
         }
-      });
+      };
+
+      card.addEventListener('mouseenter', handleColorChange);
+      card.addEventListener('mouseleave', resetColor);
+      card.addEventListener('focusin', handleColorChange);
+      card.addEventListener('focusout', resetColor);
     });
   };
 
