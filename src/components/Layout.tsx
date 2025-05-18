@@ -131,6 +131,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       });
     }
 
+    setTimeout(() => {
+      document.querySelector('.my-work')?.classList.add('fade-in');
+    }, 1000);
+
     setupCardListeners();
 
     observerRef.current = new MutationObserver((mutations) => {

@@ -95,7 +95,7 @@ function Home() {
     document.querySelector('.home-content')?.classList.add('fade');
     setTimeout(() => {
       navigate('/my-work');
-    }, 1);
+    }, 700);
   };
 
   return (
