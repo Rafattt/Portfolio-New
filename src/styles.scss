@@ -131,6 +131,9 @@ html, body {
       opacity:1;
       transition:1s;
     }
+    &.project-open {
+      opacity:1;
+    }
   }
 
 .home-content-inner {
@@ -276,6 +279,12 @@ html, body {
   background: transparent;
   z-index:9999;
   padding-top:45px;
+  transition: opacity 0.3s ease;
+  
+  &.header-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
   
   nav {
     padding: 1rem 2rem;
@@ -378,9 +387,11 @@ html, body {
   box-sizing: border-box;
   border: 2px solid silver;
   backdrop-filter: blur(5px);
-  transition: 0.3s;
+  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: auto;
   overflow: hidden;
+  cursor: pointer;
+  outline: none; // Remove default focus outline
   img {
     max-height: 80%;
     max-width: 90%;
@@ -402,6 +413,67 @@ html, body {
     grid-row: span 2;
   }
 
+  &.selected {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    min-height: 70%;
+    height: auto;
+    max-width: 1200px;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.1)!important;
+    backdrop-filter: blur(30px);
+    display:flex;
+    flex-direction: column;
+    max-height:100%;
+    overflow-y:scroll;
+    &:hover {
+      scale:1;
+    }
+    
+    .card-logo {
+      position: relative;
+      top: 0;
+      left: 0;
+      width: 200px;
+      height: auto;
+      object-fit: contain;
+      margin: 20px;
+      margin-right:auto;
+    }
+
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      margin-top: 20px;
+    }
+  }
+
+  &.hidden {
+    opacity: 0;
+    transform: scale(0.8);
+    pointer-events: none;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
   .card-content {
     padding: 1.5rem;
     display:none;
@@ -412,6 +484,12 @@ html, body {
     p {
       margin: 0 0 1rem;
       opacity: 0.8;
+    }
+    .desktop-image {
+      width:400px;
+    }
+    .mobile-image {
+      width:200px;
     }
   }
 
@@ -452,6 +530,17 @@ html, body {
   &:focus-visible {
     scale:1.1;
       transition:.2s;
+  }
+
+  .desktop-image, .mobile-image {
+    width: 100%;
+    margin: 20px 0;
+    
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
   }
 }
 

@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Header from './Header';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -9,6 +9,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const observerRef = useRef<MutationObserver | null>(null);
   const currentColorRef = useRef(0x0);
   const animationRef = useRef<number>();
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   const lerp = (start: number, end: number, t: number) => {
     return start * (1 - t) + end * t;
@@ -33,7 +34,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     return (r << 16) | (g << 8) | b;
   };
 
-  const transitionColor = (targetColor: number) => {
+  const transitionColor = (targetColor: number, isCardSelected: boolean = false) => {
     const startColor = currentColorRef.current;
     let startTime: number | null = null;
     const duration = 2200; // 0.2 seconds
@@ -52,12 +53,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         });
       }
 
-      if (progress < 1) {
+      // Kontynuuj animację jeśli nie jest zakończona i karta jest otwarta
+      const selectedCard = document.querySelector('.card.selected');
+      if (progress < 1 || (isCardSelected && selectedCard)) {
         animationRef.current = requestAnimationFrame(animate);
       }
     };
 
-    if (animationRef.current) {
+    if (animationRef.current && !isCardSelected) {
       cancelAnimationFrame(animationRef.current);
     }
 
@@ -70,39 +73,46 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       const handleColorChange = () => {
         if (vantaEffect.current) {
           const cardClass = Array.from(card.classList)
-            .find(className => className !== 'card');
+            .find(className => className !== 'card' && className !== 'selected' && className !== 'hidden');
           
-          let targetColor = 0x0;
-          switch(cardClass) {
-            case 'ciranda': targetColor = 0xdc431c; break;
-            case 'huyett': targetColor = 0x17305a; break;
-            case 'wastebuilt': targetColor = 0x097a40; break;
-            case 'singer': targetColor = 0x4091C9; break;
-            case 'chicago-auto': targetColor = 0x009edd; break;
-            case 'virginia': targetColor = 0xee3e42; break;
-            case 'foley': targetColor = 0xad9863; break;
-            case 'denimcratic': targetColor = 0x31589f; break; 
-            case 'blue': targetColor = 0x009ee0; break;
-            case 'metlife': targetColor = 0x103669; break;
-            case 'itron': targetColor = 0xd22930; break;
-            case 'anderson': targetColor = 0x39b54a; break;
-            case 'polacheck': targetColor = 0xFFD700; break;
-            case 'benchmark': targetColor = 0x551226; break;
-            case 'shoshanna': targetColor = 0xF88379; break;
-            case 'mountain': targetColor = 0x0c4e83; break;
-            case 'society': targetColor = 0x8a84d6; break;
-            case 'land': targetColor = 0x115A31; break;
-            case 'procon': targetColor = 0xd12428; break;
-            case 'darpet': targetColor = 0x831e0a; break;
-            case 'pure': targetColor = 0xf8f7f4; break;
+          if (cardClass) {
+            setHoveredCard(cardClass);
+            let targetColor = 0x0;
+            switch(cardClass) {
+              case 'ciranda': targetColor = 0xdc431c; break;
+              case 'huyett': targetColor = 0x17305a; break;
+              case 'wastebuilt': targetColor = 0x097a40; break;
+              case 'singer': targetColor = 0x4091C9; break;
+              case 'chicago-auto': targetColor = 0x009edd; break;
+              case 'virginia': targetColor = 0xee3e42; break;
+              case 'foley': targetColor = 0xad9863; break;
+              case 'denimcratic': targetColor = 0x31589f; break; 
+              case 'blue': targetColor = 0x009ee0; break;
+              case 'metlife': targetColor = 0x103669; break;
+              case 'itron': targetColor = 0xd22930; break;
+              case 'anderson': targetColor = 0x39b54a; break;
+              case 'polacheck': targetColor = 0xFFD700; break;
+              case 'benchmark': targetColor = 0x551226; break;
+              case 'shoshanna': targetColor = 0xF88379; break;
+              case 'mountain': targetColor = 0x0c4e83; break;
+              case 'society': targetColor = 0x8a84d6; break;
+              case 'land': targetColor = 0x115A31; break;
+              case 'procon': targetColor = 0xd12428; break;
+              case 'darpet': targetColor = 0x831e0a; break;
+              case 'pure': targetColor = 0xf8f7f4; break;
+            }
+            const isSelected = card.classList.contains('selected');
+            transitionColor(targetColor, isSelected);
           }
-          transitionColor(targetColor);
         }
       };
 
       const resetColor = () => {
-        if (vantaEffect.current) {
-          transitionColor(0x0);
+        setHoveredCard(null);
+        if (!card.classList.contains('selected')) {
+          if (vantaEffect.current) {
+            transitionColor(0x0, false);
+          }
         }
       };
 
@@ -111,6 +121,27 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       card.addEventListener('focusin', handleColorChange);
       card.addEventListener('focusout', resetColor);
     });
+
+    // Obserwuj zmiany klasy 'selected' na kartach
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        const target = mutation.target as HTMLElement;
+        if (target.classList.contains('card')) {
+          if (!target.classList.contains('selected') && !hoveredCard) {
+            transitionColor(0x0);
+          }
+        }
+      });
+    });
+
+    cards.forEach(card => {
+      observer.observe(card, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+    });
+
+    return observer;
   };
 
   useEffect(() => {
@@ -135,7 +166,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       document.querySelector('.my-work')?.classList.add('fade-in');
     }, 1000);
 
-    setupCardListeners();
+    const observer = setupCardListeners();
 
     observerRef.current = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
@@ -159,6 +190,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
+      observer.disconnect();
     };
   }, [location.pathname]);
 
