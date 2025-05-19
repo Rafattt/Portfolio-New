@@ -32,42 +32,61 @@ function MyWork() {
 
   const projects = [
     {
-      title: "Portfolio Website",
-      description: "Modern portfolio with WebGL effects and React",
-      technologies: [""],
+      title: " Ciranda – Custom OroCommerce Frontend & Interactive Content Architecture",
+      description: "I was the sole front-end developer on Ciranda’s OroCommerce storefront, responsible for shaping the front-end architecture and implementing the full user interface across the site. This included defining rendering flows, integrating Oro’s APIs, and building custom logic on top of Oro’s templating system. The Resources page is a key example: articles are fetched from Oro’s backend and rendered client-side with category-based filtering using JavaScript. The structure supports future expansion and dynamic behavior without full page reloads. On product detail pages, related content modules fetch and display both featured and contextual articles (e.g. Grower Stories) via API. All rendering and fallback logic is handled on the frontend, based on data set in the Oro admin. I also implemented conditional UI logic based on customer group and login status — determining whether users can place an order or only request a sample. The sourcing map combines SVG overlays and positioned clickable regions, triggering popups and in-page anchors. The alternate warehouse map uses a different data layer (static pins, no API), toggled through frontend state management. Most of the front-end interface was custom-built beyond Oro’s defaults. This included replacing native layout structures, overriding Oro widgets, and implementing brand-aligned templates with full design control. The homepage features a full-screen video header integrated through a customized CMS block. All visual layers — from typography to spacing systems — were developed to reflect the client’s branding, moving far beyond Oro’s native UI framework.",
+      technologies: [
+        "OroCommerce",
+        "JavaScript",
+        "jQuery",
+        "HTML",
+        "SCSS",
+        "REST API (Oro)"
+      ],
+      platformSpecific: [
+        "Twig templating",
+        "layout.yml",
+        "SVG interaction",
+        "Dynamic DOM rendering",
+        "User group–based logic",
+        "Frontend article filtering",
+        "Hardcoded location map logic",
+        "Custom CMS block logic",
+        "Oro widget override",
+        "Session-aware rendering"
+      ],
       featured: true,
       imgSrc: 'src/assets/img/ciranda-logo.webp',
       classCard: 'ciranda',
       link: 'https://www.ciranda.com/',
       highlightColor: 0xff6600, // Orange for Ciranda
-      desktopImage: '', // Add path when ready
+      desktopImage: 'src/assets/img/mockup-ciranda.webp', // Add path when ready
       mobileImage: '', // Add path when ready
     },
     {
       title: "Huyett – Custom OroCommerce Frontend & Searchspring Integration",
-      description: "I led the front-end integration of Searchspring into Huyett’s OroCommerce-based storefront, covering PLP (product listing), SRP (search results), and PDP (product detail pages).Since no documentation was provided, I designed the architecture from scratch: when users typed a query or entered a category, Searchspring returned a set of product IDs. I used those IDs to query Oro’s backend and dynamically assembled a product dataset via custom JavaScript logic.The rendered UI was fully customized — including additional dynamic elements like certificate selectors, filter controls, and conditional UI based on product metadata. This hybrid architecture allowed Searchspring to handle relevance and speed, while Oro remained the source of truth for structured product data.",
+      description: "I was responsible for the front-end integration of Searchspring into Huyett’s OroCommerce-based storefront, covering product listing pages (PLP), search results (SRP), and product detail pages (PDP). Since no documentation was available, I designed the communication flow from scratch. When a user typed a query or visited a category, Searchspring returned a list of product IDs. I used those IDs to query Oro’s backend and dynamically built the product dataset using custom JavaScript logic. The rendered UI was fully customized — including dynamic fields like certificate selectors, filter toggles, and conditional UI based on product metadata. All rendering and fallback logic was handled on the frontend. This hybrid approach allowed Searchspring to provide relevance and speed, while Oro remained the authoritative source of structured product data. The implementation also included deeper customization of Oro’s UI: I modified layout structure, extended widgets, and added dynamic binding between Oro’s backend data and JS-based frontend rendering.",
       examples: ['https://www.huyett.com/product/search?search=bolts', 'https://www.huyett.com/product/search?search=bolts'],
       technologies: [
-        "OroCommerce",
-        "JavaScript",
-        "Vue.js (SDK)",
-        "HTML",
-        "SCSS/CSS",
-        "Searchspring API"
-      ],
+  "OroCommerce",
+  "JavaScript",
+  "Vue.js (SDK)",
+  "HTML",
+  "SCSS/CSS",
+  "Searchspring API"
+],
       platformSpecific: [
-        "Twig templating",
-        "Oro layout.yml",
-        "Oro UI customization",
-        "Dynamic DOM rendering",
-        "Custom JS-DB binding"
-      ],
+  "Twig templating",
+  "Oro layout.yml",
+  "Oro UI customization",
+  "Dynamic DOM rendering",
+  "Custom JS↔DB binding"
+],
       imgSrc: 'src/assets/img/huyett-logo.webp',
       classCard: 'huyett',
       link: 'https://www.huyett.com/',
       highlightColor: 0x000066, // Dark blue for Huyett
-      desktopImage: 'src/assets/img/huyet-desktop.jpg', // Add path when ready
-      mobileImage: 'src/assets/img/huyet-mobile.jpg', // Add path when ready
+      desktopImage: 'src/assets/img/mockup-huyett.webp', // Add path when ready
+      mobileImage: '', // Add path when ready
     },
     {
       title: "Wastebuilt",

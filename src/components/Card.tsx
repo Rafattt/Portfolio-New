@@ -46,13 +46,19 @@ export default function Card({
     >
       <img className="card-logo" src={imgSrc} alt="" aria-hidden="true"/>
       <div className="card-content">
-        {desktopImage && (
+        
+        <div className="card-content-top">
+          {desktopImage && (
           <div className="desktop-image">
             <img src={desktopImage} alt="Desktop view" />
           </div>
         )}
-        <h3>{title}</h3>
-        <p>{description}</p>
+        <h2 className="card-title">{title}</h2>
+        </div>
+          <p className="project-desc">{description}</p>
+         <div className="card-content-bottom">
+          <div className="content-bottom-text">
+          
         {mobileImage && (
           <div className="mobile-image">
             <img src={mobileImage} alt="Mobile view" />
@@ -74,6 +80,15 @@ export default function Card({
             ))}
           </div>
         )}
+          </div>
+          <div className="content-bottom-logo">
+            <img className="card-logo-content" src={imgSrc} alt="" aria-hidden="true"/>
+          </div>
+          
+        
+         </div>
+        
+        
         <a target="_blank" className="project-link" href={link}>Visit Website</a>
       </div>
       {isSelected && (

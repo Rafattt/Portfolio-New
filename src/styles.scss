@@ -428,7 +428,21 @@ html, body {
     display:flex;
     flex-direction: column;
     max-height:100%;
-    overflow-y:scroll;
+    overflow-y:auto;
+    .card-content-top {
+
+    }
+    .card-content-bottom {
+      display:flex;
+      flex-direction: row;
+      align-items: center;
+    }
+    .card-logo {
+      display:none;
+    }
+    .card-logo-content {
+      display:block!important;
+    }
     &:hover {
       scale:1;
     }
@@ -474,19 +488,33 @@ html, body {
     }
   }
 
+  .card-content-top {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .card-content-bottom {
+    .card-logo-content {
+      display:none;
+    }
+  }
+
   .card-content {
     padding: 1.5rem;
     display:none;
-    h3 {
+    .card-title {
       margin: 0 0 1rem;
-      font-size: 1.5rem;
+      font-size: 1.7rem;
+      width:60%;
     }
-    p {
+    .project-desc {
       margin: 0 0 1rem;
       opacity: 0.8;
+      font-size:1.4rem;
+      color:white;
     }
     .desktop-image {
-      width:400px;
+      width:80%;
     }
     .mobile-image {
       width:200px;
