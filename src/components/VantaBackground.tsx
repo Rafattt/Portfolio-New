@@ -1,12 +1,16 @@
 import { useEffect, useRef } from 'react';
 
-// Global variable for VANTA effect
-let vantaInstance: any = null;
+// Global reference to track if VANTA is initialized
+let vantaEffect: any = null;
 
-// Function to update VANTA color
+// Function to update color
 export function updateVantaHighlightColor(color: number) {
-  if (vantaInstance && typeof vantaInstance.setOptions === 'function') {
-    vantaInstance.setOptions({ highlightColor: color });
+  if (vantaEffect && typeof vantaEffect.setOptions === 'function') {
+    try {
+      vantaEffect.setOptions({ highlightColor: color });
+    } catch (e) {
+      console.error("Error updating VANTA color:", e);
+    }
   }
 }
 
@@ -14,38 +18,57 @@ const VantaBackground = () => {
   const initialized = useRef(false);
 
   useEffect(() => {
-    if (initialized.current || !window.VANTA) return;
+    // Only initialize once
+    if (initialized.current) return;
     
-    const rootElement = document.getElementById('root');
-    if (!rootElement) return;
-    
-    try {
-      vantaInstance = window.VANTA.FOG({
-        el: rootElement,
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.00,
-        minWidth: 200.00,
-        highlightColor: 0x0,
-        midtoneColor: 0x0,
-        lowlightColor: 0xf5f5f5,
-        baseColor: 0x0,
-        blurFactor: 0.4,
-        speed: 1.0
-      });
-      initialized.current = true;
+    const initVanta = () => {
+      if (!window.VANTA || !window.VANTA.FOG) return;
       
-      // Make function available globally
-      window.setVantaColor = updateVantaHighlightColor;
-    } catch (error) {
-      console.error('VANTA initialization failed:', error);
-    }
+      try {
+        // Clean up any existing effect
+        if (vantaEffect && typeof vantaEffect.destroy === 'function') {
+          vantaEffect.destroy();
+        }
+        
+        // Create new effect
+        vantaEffect = window.VANTA.FOG({
+          el: "#root",
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          highlightColor: 0x0,
+          midtoneColor: 0x0,
+          lowlightColor: 0xf5f5f5,
+          baseColor: 0x0,
+          blurFactor: 0.4,
+          speed: 1.0
+        });
+        
+        // Make the color updater available
+        window.setVantaColor = updateVantaHighlightColor;
+        
+        initialized.current = true;
+      } catch (e) {
+        console.error("Error initializing VANTA:", e);
+      }
+    };
     
-    // No cleanup - we want VANTA to persist
+    // Try to initialize immediately
+    initVanta();
+    
+    // Expose reinitialize function globally
+    window.reinitializeVanta = () => {
+      initialized.current = false;
+      initVanta();
+    };
+    
+    // This component doesn't need to cleanup on unmount
+    // We want the effect to persist across the app
     return () => {};
   }, []);
-
+  
   return null;
 };
 

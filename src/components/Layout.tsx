@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import Header from './Header';
 import { updateVantaHighlightColor } from './VantaBackground';
 
@@ -64,9 +64,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     requestAnimationFrame(animate);
   };
 
-  const setupCardListeners = () => {
+  // Use memo or stable refs for event handlers to avoid recreation on rerenders
+  const setupCardListeners = useCallback(() => {
     const cards = document.querySelectorAll('.card');
     cards.forEach(card => {
+      const existingHandlers = card.getAttribute('data-has-listeners') === 'true';
+      if (existingHandlers) {
+        return; // Skip if already has listeners
+      }
+      
       const handleColorChange = () => {
         const cardClass = Array.from(card.classList)
           .find(className => className !== 'card' && className !== 'selected' && className !== 'hidden');
@@ -124,6 +130,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       card.addEventListener('mouseleave', resetColor);
       card.addEventListener('focusin', handleColorChange);
       card.addEventListener('focusout', resetColor);
+
+      // Mark as having listeners
+      card.setAttribute('data-has-listeners', 'true');
     });
 
     // Obserwuj zmiany klasy 'selected' na kartach
@@ -146,7 +155,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     });
 
     return observer;
-  };
+  }, [hoveredCard]); // Only depend on state that affects the handlers
 
   useEffect(() => {
     console.log('[Layout] useEffect triggered, setting up card listeners...');
@@ -155,33 +164,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       document.querySelector('.my-work')?.classList.add('fade-in');
     }, 1000);
 
-    // Set a small delay to ensure DOM is ready and cards exist
-    setTimeout(() => {
-      const observer = setupCardListeners();
-      
-      const dynamicContentObserver = new MutationObserver((mutations) => { // Renamed for clarity
-        mutations.forEach((mutation) => {
-          if (mutation.addedNodes.length) {
-            setupCardListeners(); 
-          }
-        });
-      });
-
-      dynamicContentObserver.observe(document.body, {
-        childList: true,
-        subtree: true
-      });
-
-      return () => {
-        dynamicContentObserver.disconnect();
-        if (animationRef.current) {
-          cancelAnimationFrame(animationRef.current);
-        }
-        observer.disconnect();
-      };
-    }, 500);
+    // Use a small delay to make sure DOM is ready
+    const setupTimeout = setTimeout(setupCardListeners, 500);
     
-  }, [location.pathname]);
+    return () => {
+      clearTimeout(setupTimeout);
+      // ...existing cleanup code...
+    };
+  }, [location.pathname, setupCardListeners]);
 
   return (
     <>

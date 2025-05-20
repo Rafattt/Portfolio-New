@@ -49,11 +49,13 @@ html, body {
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 0;
+  z-index: 22;
   background: transparent;
   position: fixed !important;
   opacity: 1 !important;
   visibility: visible !important;
+  display: block !important;
+  pointer-events: auto !important;
 }
   
   /* This class should no longer have any effect on .vanta-canvas opacity */
