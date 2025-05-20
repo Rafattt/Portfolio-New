@@ -73,3 +73,30 @@ const VantaBackground = () => {
 };
 
 export default VantaBackground;
+
+// Problemem było kilka nakładających się kwestii:
+
+// 1. Zbyt skomplikowane zarządzanie cyklem życia komponentu
+//    - Wiele zagnieżdżonych efektów i timerów
+//    - Złożone mechanizmy inicjalizacji i przełączania
+//    - Nadmiarowe śledzenie stanu poprzez wiele zmiennych
+
+// 2. Konflikt zarządzania kontekstem WebGL
+//    - VANTA tworzy własny kontekst WebGL
+//    - Jednocześnie Home component tworzył drugi kontekst WebGL
+//    - Przeglądarka ma ograniczoną liczbę kontekstów WebGL per strona
+
+// 3. Próba manipulacji DOM poza kontrolą React
+//    - Bezpośrednia manipulacja elementami canvas
+//    - Modyfikacja stylów i klas elementów kontrolowanych przez React
+//    - Próby usuwania i dodawania elementów canvas
+
+// 4. Niepotrzebne efekty przy nawigacji
+//    - Niszczenie i odtwarzanie efektu VANTA przy każdej zmianie
+//    - Wielokrotne nakładanie efektów i kolorów
+
+// Rozwiązaniem było:
+// 1. Jedno globalne miejsce zarządzania efektem VANTA
+// 2. Prostszy model inicjalizacji bez nadmiarowych timerów
+// 3. Unikanie konfliktów WebGL context
+// 4. Utrzymanie efektu między zmianami stron

@@ -126,10 +126,15 @@ html, body {
   }
 
   .my-work {
-    position:relative;
-    height:100%;
-    opacity:0;
-    
+  position: relative;
+  height: 100%;
+  opacity: 0; // Ustaw początkową opacity na 0
+  transition: opacity .5s ease; // Dodaj transition na 2 sekundy
+  .card {
+    pointer-events: none; // Wyłącz pointer-events na start
+  }
+  
+  
     .my-work-inner {
         width: 100%;
         max-width:1920px;
@@ -138,6 +143,7 @@ html, body {
         left: 50%;
         margin: 60px auto;
         display:flex;
+        
         justify-content: center;
         align-items: center;
         flex-direction: column;
@@ -157,10 +163,21 @@ html, body {
     }
     &.fade-in {
       opacity:1;
-      transition:2s;
+      pointer-events: auto; // Włącz pointer-events po zakończeniu animacji
+      transition:.5s;
+      
+      .card {
+        // Karty będą reagować na hover dopiero po zakończeniu animacji
+        pointer-events: auto;
+        &:hover, &:focus-visible {
+          scale: 1.1;
+          transition: .2s;
+        }
+      }
     }
     &.project-open {
       opacity:1;
+      pointer-events: auto;
     }
   }
 

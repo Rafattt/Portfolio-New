@@ -3,13 +3,13 @@ import Card from '../components/Card';
 
 function MyWork() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false); // Zmieniono na false, by zaczynać od niewidocznego stanu
 
   useEffect(() => {
-    // Add fade-in class after 1 second
+    // Ustawiamy timer na 2 sekundy zamiast 1 sekundy
     const timer = setTimeout(() => {
       setIsVisible(true);
-    }, 1000);
+    }, 2000); // Zmieniono na 2000ms (2 sekundy)
     
     return () => clearTimeout(timer);
   }, []);
