@@ -18,11 +18,12 @@
 html, body {
     font: 16px/1.4 'Lato', sans-serif;
     color: #fefeff;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     overflow-y: auto;
     height: 100vh;
     overflow-x: hidden;
+    background:black;
   }
   body {
     margin: 0;
@@ -30,15 +31,39 @@ html, body {
     width: 100%;
     height: 100%;
   }
-  canvas {
-    width: 100%;
-    height: 100%;
-    top:0;
-    left:0;
-    z-index:22;
-    background: transparent;
-    opacity:.6;
-    position: fixed!important;
+  .home-content {
+    canvas {
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 22;
+      background: transparent;
+      opacity: 0;
+      position: fixed!important;
+      animation: fadeInCanvasHome 2s ease forwards;
+    }
+  }
+  .vanta-canvas {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 22;
+  background: transparent;
+  position: fixed !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  pointer-events: auto !important;
+}
+  
+  /* This class should no longer have any effect on .vanta-canvas opacity */
+  .vanta-canvas.fade-out {
+    opacity: 1 !important; 
+  }
+  canvas.fade-out {
+    animation: fadeOutCanvas 1s ease forwards !important;
   }
   #root {
     width:100%;
@@ -47,9 +72,11 @@ html, body {
     line-height: 1.5;
     font-weight: 400;
 
+
     color-scheme: light dark;
     color: rgba(255, 255, 255, 0.87);
     background-color: #242424;
+    background:black;
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -85,6 +112,7 @@ html, body {
     position:relative;
     height:80vh;
     border:2px solid silver;
+    background:transparent;
     border-image:linear-gradient(
       45deg,
       #999 5%,
@@ -98,10 +126,15 @@ html, body {
   }
 
   .my-work {
-    position:relative;
-    height:100%;
-    opacity:0;
-    
+  position: relative;
+  height: 100%;
+  opacity: 0; 
+  transition: opacity .5s ease; 
+  .card {
+    pointer-events: none; 
+  }
+  
+  
     .my-work-inner {
         width: 100%;
         max-width:1920px;
@@ -110,6 +143,7 @@ html, body {
         left: 50%;
         margin: 60px auto;
         display:flex;
+        
         justify-content: center;
         align-items: center;
         flex-direction: column;
@@ -129,7 +163,23 @@ html, body {
     }
     &.fade-in {
       opacity:1;
-      transition:1s;
+      pointer-events: auto;
+      transition:.5s;
+      
+      .card {
+        pointer-events: auto;
+        &:not(.selected) {
+          &:hover, 
+          &:focus-visible {
+            scale: 1.1;
+            transition: .2s;
+          }
+        }
+      }
+    }
+    &.project-open {
+      opacity:1;
+      pointer-events: auto;
     }
   }
 
@@ -276,6 +326,12 @@ html, body {
   background: transparent;
   z-index:9999;
   padding-top:45px;
+  transition: opacity 0.3s ease;
+  
+  &.header-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
   
   nav {
     padding: 1rem 2rem;
@@ -298,10 +354,6 @@ html, body {
           background: linear-gradient(90deg, #ccc, #eee, #aaa);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
-          // text-shadow:
-          //   0 0 1px #fff,
-          //   0 0 6px rgba(100, 153, 190, 0.6),
-          //   0 0 12px rgba(140, 208, 255, 0.8);
           text-decoration: none;
           transition: all 0.3s ease;
           position: relative;
@@ -312,18 +364,6 @@ html, body {
             0 0 12px rgba(100, 153, 190, 0.6),
             0 0 22px rgba(140, 208, 255, 0.8);
     text-shadow: [x-offset] [y-offset] [blur-radius] [color];
-          &:after {
-            // content: "";
-            // position: absolute;
-            // top: 0;
-            // left: 50%;
-            // transform: translateX(-50%);
-            // width: 1px;
-            // height: 30px;
-            // background: linear-gradient(to bottom, rgba(200, 255, 255, 0.5), transparent);
-            // opacity: 0.7;
-            // transition: opacity 0.3s ease;
-          }
           &:hover {
 
             text-shadow:
@@ -338,18 +378,6 @@ html, body {
             transition: all 0.3s ease;
             cursor:pointer;
           }
-          
-          &.active {
-            
-            &::after {
-              // content: '';
-              // position: absolute;
-              // bottom: -5px;
-              // left: 0;
-              // width: 100%;
-              // height: 2px;
-            }
-          }
         }
       }
     }
@@ -361,7 +389,7 @@ html, body {
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   gap: 40px;
   padding: 40px;
-  max-width: 100%; /* OGRANICZAMY szerokość siatki */
+  max-width: 100%;
   margin: 0 auto; 
   
 }
@@ -378,9 +406,11 @@ html, body {
   box-sizing: border-box;
   border: 2px solid silver;
   backdrop-filter: blur(5px);
-  transition: 0.3s;
+  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: auto;
   overflow: hidden;
+  cursor: pointer;
+  outline: none;
   img {
     max-height: 80%;
     max-width: 90%;
@@ -402,16 +432,113 @@ html, body {
     grid-row: span 2;
   }
 
+  &.selected {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    min-height: 70%;
+    height: auto;
+    max-width: 1200px;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.1)!important;
+    backdrop-filter: blur(30px);
+    display:flex;
+    flex-direction: column;
+    max-height:100%;
+    overflow-y:auto;
+    .card-content-top {
+
+    }
+    .card-content-bottom {
+      display:flex;
+      flex-direction: row;
+      align-items: center;
+    }
+    .card-logo {
+      display:none;
+    }
+    .card-logo-content {
+      display:block!important;
+    }
+    &:hover {
+      scale:1;
+    }
+    
+    .card-logo {
+      position: relative;
+      top: 0;
+      left: 0;
+      width: 200px;
+      height: auto;
+      object-fit: contain;
+      margin: 20px;
+      margin-right:auto;
+    }
+
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      margin-top: 20px;
+    }
+  }
+
+  &.hidden {
+    opacity: 0;
+    transform: scale(0.8);
+    pointer-events: none;
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), 
+                transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .card-content-top {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .card-content-bottom {
+    .card-logo-content {
+      display:none;
+    }
+  }
+
   .card-content {
     padding: 1.5rem;
     display:none;
-    h3 {
+    .card-title {
       margin: 0 0 1rem;
-      font-size: 1.5rem;
+      font-size: 1.7rem;
+      width:60%;
     }
-    p {
+    .project-desc {
       margin: 0 0 1rem;
       opacity: 0.8;
+      font-size:1.4rem;
+      color:white;
+    }
+    .desktop-image {
+      width:80%;
+    }
+    .mobile-image {
+      width:200px;
     }
   }
 
@@ -448,10 +575,16 @@ html, body {
   &.wastebuilt {
     background:white;
   }
-  &:hover,
-  &:focus-visible {
-    scale:1.1;
-      transition:.2s;
+
+  .desktop-image, .mobile-image {
+    width: 100%;
+    margin: 20px 0;
+    
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
   }
 }
 
@@ -477,37 +610,26 @@ html, body {
 
     
   }
+}
 
-  // &:has(.ciranda:hover)::after {
-  //   // background-image: url("src/assets/img/ciranda-bg.webp");
-  //   background:#dd6c1c;
-  //   opacity: .1;
-  // }
+@keyframes fadeInCanvas {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
 
-  // &:has(.huyett:hover)::after {
-  //   // background-image: url("src/assets/img/huyett-bg.webp");
-  //   // opacity: 1;
-  //   background:#141487;
-  //   opacity: .1;
-  // }
-  // &:has(.wastebuilt:hover)::after {
-  //   // background-image: url("src/assets/img/huyett-bg.webp");
-  //   // opacity: 1;
-  //   background:green;
-  //   opacity: .1;
-  // }
-  // &:has(.card:hover) {
-  //   &::after {
-  //     transition: 2s;
-  //     // filter: grayscale(1);
-  //   }
-  //   .frosted-overlay {
-  //     // position: absolute;
-  //     // inset: 0;
-  //     // background: rgba(255, 255, 255, 0.2);
-  //     // backdrop-filter: blur(3px);
-  //     // -webkit-backdrop-filter: blur(10px);
-  //   }
-  // }
+@keyframes fadeOutCanvas {
+  from { opacity: 1; }
+  to { opacity: 0.3; }
+}
+
+@keyframes fadeInCanvasHome {
+  from { opacity: 0; }
+  to { opacity: 0.6
+    ; }
+}
+
+@keyframes fadeOutCanvasHome {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 

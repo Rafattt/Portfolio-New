@@ -1,21 +1,22 @@
 import { useLocation } from 'react-router-dom';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import Header from './Header';
+import { updateVantaHighlightColor } from './VantaBackground';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
   const isHome = location.pathname === '/';
-  const vantaEffect = useRef<any>(null);
   const observerRef = useRef<MutationObserver | null>(null);
   const currentColorRef = useRef(0x0);
   const animationRef = useRef<number>();
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   const lerp = (start: number, end: number, t: number) => {
     return start * (1 - t) + end * t;
   };
 
   const interpolateRGB = (startColor: number, endColor: number, t: number) => {
-    // Extract RGB components
+    // Extract RGB components correctly
     const startR = (startColor >> 16) & 0xFF;
     const startG = (startColor >> 8) & 0xFF;
     const startB = startColor & 0xFF;
@@ -33,7 +34,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     return (r << 16) | (g << 8) | b;
   };
 
-  const transitionColor = (targetColor: number) => {
+  const transitionColor = (targetColor: number, isCardSelected: boolean = false) => {
     const startColor = currentColorRef.current;
     let startTime: number | null = null;
     const duration = 2200; // 0.2 seconds
@@ -43,36 +44,43 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       const elapsed = timestamp - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
-      const currentColor = interpolateRGB(startColor, targetColor, progress);
-      currentColorRef.current = currentColor;
+      const currentColorVal = interpolateRGB(startColor, targetColor, progress);
+      currentColorRef.current = currentColorVal;
 
-      if (vantaEffect.current) {
-        vantaEffect.current.setOptions({
-          highlightColor: currentColor
-        });
-      }
+      // Try using the imported function directly, which should also update window.setVantaColor
+      updateVantaHighlightColor(currentColorVal);
 
-      if (progress < 1) {
+      // Continue animation if not complete and card is open
+      const selectedCard = document.querySelector('.card.selected');
+      if (progress < 1 || (isCardSelected && selectedCard)) {
         animationRef.current = requestAnimationFrame(animate);
       }
     };
 
-    if (animationRef.current) {
+    if (animationRef.current && !isCardSelected) {
       cancelAnimationFrame(animationRef.current);
     }
 
     requestAnimationFrame(animate);
   };
 
-  const setupCardListeners = () => {
+  // Use memo or stable refs for event handlers to avoid recreation on rerenders
+  const setupCardListeners = useCallback(() => {
     const cards = document.querySelectorAll('.card');
     cards.forEach(card => {
+      const existingHandlers = card.getAttribute('data-has-listeners') === 'true';
+      if (existingHandlers) {
+        return; // Skip if already has listeners
+      }
+      
       const handleColorChange = () => {
-        if (vantaEffect.current) {
-          const cardClass = Array.from(card.classList)
-            .find(className => className !== 'card');
-          
+        const cardClass = Array.from(card.classList)
+          .find(className => className !== 'card' && className !== 'selected' && className !== 'hidden');
+        
+        if (cardClass) {
+          setHoveredCard(cardClass);
           let targetColor = 0x0;
+          
           switch(cardClass) {
             case 'ciranda': targetColor = 0xdc431c; break;
             case 'huyett': targetColor = 0x17305a; break;
@@ -96,71 +104,69 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             case 'darpet': targetColor = 0x831e0a; break;
             case 'pure': targetColor = 0xf8f7f4; break;
           }
-          transitionColor(targetColor);
+          const isSelected = card.classList.contains('selected');
+          transitionColor(targetColor, isSelected);
         }
       };
 
       const resetColor = () => {
-        if (vantaEffect.current) {
-          transitionColor(0x0);
+        setHoveredCard(null);
+        if (!card.classList.contains('selected')) {
+          transitionColor(0x0, false);
         }
       };
 
+      // First remove any existing listeners to prevent duplicates
+      card.removeEventListener('mouseenter', handleColorChange);
+      card.removeEventListener('mouseleave', resetColor);
+      card.removeEventListener('focusin', handleColorChange);
+      card.removeEventListener('focusout', resetColor);
+      
+      // Then add the listeners
       card.addEventListener('mouseenter', handleColorChange);
       card.addEventListener('mouseleave', resetColor);
       card.addEventListener('focusin', handleColorChange);
       card.addEventListener('focusout', resetColor);
+
+      // Mark as having listeners
+      card.setAttribute('data-has-listeners', 'true');
     });
-  };
 
-  useEffect(() => {
-    if (!vantaEffect.current) {
-      vantaEffect.current = VANTA.FOG({
-        el: "#root",
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.00,
-        minWidth: 200.00,
-        highlightColor: 0x0,
-        midtoneColor: 0x0,
-        lowlightColor: 0xf5f5f5,
-        baseColor: 0x0,
-        blurFactor: 0.4,
-        speed: 1.0
-      });
-    }
-
-    setTimeout(() => {
-      document.querySelector('.my-work')?.classList.add('fade-in');
-    }, 1000);
-
-    setupCardListeners();
-
-    observerRef.current = new MutationObserver((mutations) => {
+    // Obserwuj zmiany klasy 'selected' na kartach
+    const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
-        if (mutation.addedNodes.length) {
-          setupCardListeners();
+        const target = mutation.target as HTMLElement;
+        if (target.classList.contains('card')) {
+          if (!target.classList.contains('selected') && !hoveredCard) {
+            transitionColor(0x0);
+          }
         }
       });
     });
 
-    observerRef.current.observe(document.body, {
-      childList: true,
-      subtree: true
+    cards.forEach(card => {
+      observer.observe(card, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
     });
 
+    return observer;
+  }, [hoveredCard]); // Only depend on state that affects the handlers
+
+  useEffect(() => {
+    
+    setTimeout(() => {
+      document.querySelector('.my-work')?.classList.add('fade-in');
+    }, 1000);
+
+    // Use a small delay to make sure DOM is ready
+    const setupTimeout = setTimeout(setupCardListeners, 500);
+    
     return () => {
-      observerRef.current?.disconnect();
-      if (vantaEffect.current) {
-        vantaEffect.current.destroy();
-        vantaEffect.current = null;
-      }
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
+      clearTimeout(setupTimeout);
     };
-  }, [location.pathname]);
+  }, [location.pathname, setupCardListeners]);
 
   return (
     <>
