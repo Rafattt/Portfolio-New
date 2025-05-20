@@ -18,7 +18,7 @@
 html, body {
     font: 16px/1.4 'Lato', sans-serif;
     color: #fefeff;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     overflow-y: auto;
     height: 100vh;
@@ -31,7 +31,20 @@ html, body {
     width: 100%;
     height: 100%;
   }
-  canvas {
+  .home-content {
+    canvas {
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 22;
+      background: transparent;
+      opacity: 0;
+      position: fixed!important;
+      animation: fadeInCanvasHome 2s ease forwards;
+    }
+  }
+  .vanta-canvas {
     width: 100%;
     height: 100%;
     top: 0;
@@ -43,7 +56,7 @@ html, body {
     animation: fadeInCanvas 2s ease forwards;
   }
   canvas.fade-out {
-    animation: fadeOutCanvas 0.7s ease forwards !important;
+    animation: fadeOutCanvas 1s ease forwards !important;
   }
   #root {
     width:100%;
@@ -137,7 +150,7 @@ html, body {
     }
     &.fade-in {
       opacity:1;
-      transition:1s;
+      transition:2s;
     }
     &.project-open {
       opacity:1;
@@ -637,12 +650,23 @@ html, body {
 }
 
 @keyframes fadeInCanvas {
-  from { opacity: 0; }
-  to { opacity: 0.6; }
+  from { opacity: 0.3; }
+  to { opacity: 1; }
 }
 
 @keyframes fadeOutCanvas {
-  from { opacity: 0.6; }
+  from { opacity: 1; }
+  to { opacity: 0.3; }
+}
+
+@keyframes fadeInCanvasHome {
+  from { opacity: 0; }
+  to { opacity: 0.6
+    ; }
+}
+
+@keyframes fadeOutCanvasHome {
+  from { opacity: 1; }
   to { opacity: 0; }
 }
 

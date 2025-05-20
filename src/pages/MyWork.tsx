@@ -3,10 +3,16 @@ import Card from '../components/Card';
 
 function MyWork() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false); // Start with false
 
   useEffect(() => {
-    setIsVisible(true);
+    // Add a 1-second delay before setting isVisible to true
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 1000);
+    
+    // Clean up the timer if the component unmounts
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {

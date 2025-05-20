@@ -166,6 +166,17 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       document.querySelector('.my-work')?.classList.add('fade-in');
     }, 1000);
 
+    // Add event listener for the "Open Portfolio" button
+    const openPortfolioButton = document.getElementById('open-portfolio-button');
+    if (openPortfolioButton) {
+      openPortfolioButton.addEventListener('click', () => {
+        const vantaCanvas = document.querySelector('.vanta-canvas');
+        if (vantaCanvas) {
+          vantaCanvas.classList.add('fade-out');
+        }
+      });
+    }
+
     const observer = setupCardListeners();
 
     observerRef.current = new MutationObserver((mutations) => {
@@ -191,6 +202,17 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         cancelAnimationFrame(animationRef.current);
       }
       observer.disconnect();
+
+      // Remove event listener when component unmounts
+      const openPortfolioButton = document.getElementById('open-portfolio-button');
+      if (openPortfolioButton) {
+        openPortfolioButton.removeEventListener('click', () => {
+          const vantaCanvas = document.querySelector('.vanta-canvas');
+          if (vantaCanvas) {
+            vantaCanvas.classList.add('fade-out');
+          }
+        });
+      }
     };
   }, [location.pathname]);
 
