@@ -1,11 +1,13 @@
-
 export function initWebGL(canvas: HTMLCanvasElement, gl: WebGLRenderingContext, ext: any, support_linear_float: boolean) {
     'use strict';
 
-var canvas = document.getElementsByTagName( 'canvas' )[ 0 ];
+  // Zamiast ponownej deklaracji canvas, użyjmy istniejącego parametru
+  // Komentarz zamiast ponownej deklaracji
+  // var canvas = document.getElementsByTagName('canvas')[0];
 
-canvas.width  = canvas.clientWidth;
-canvas.height = canvas.clientHeight;
+  // Ustawienie poprawnych wymiarów
+  canvas.width = canvas.clientWidth;
+  canvas.height = canvas.clientHeight;
 
 var config = {
     TEXTURE_DOWNSAMPLE: 1.1,
@@ -33,7 +35,7 @@ function getWebGLContext(canvas) {
         antialias: true
     };
 
-    var gl = canvas.getContext('webgl2', params) || canvas.getContext('webgl', params) || canvas.getContext('experimental-webgl', params);
+    var gl = canvas.getContext('webgl2', params) || canvas.getContext('webgl', params) || canvas.getContext('experimental-web-gl', params);
     if (!gl) {
         console.error("WebGL not supported");
         return null;
