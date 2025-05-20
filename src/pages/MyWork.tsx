@@ -3,26 +3,16 @@ import Card from '../components/Card';
 
 function MyWork() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
-  const [isVisible, setIsVisible] = useState(false); // Start with false
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Add a 1-second delay before setting isVisible to true
+    // Add fade-in class after 1 second
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, 1000);
     
-    // Clean up the timer if the component unmounts
     return () => clearTimeout(timer);
   }, []);
-
-  useEffect(() => {
-    const header = document.querySelector('.main-header');
-    if (selectedProject !== null) {
-      header?.classList.add('header-hidden');
-    } else {
-      header?.classList.remove('header-hidden');
-    }
-  }, [selectedProject]);
 
   const handleOpenCard = (index: number) => {
     setSelectedProject(index);
@@ -30,16 +20,12 @@ function MyWork() {
 
   const handleCloseCard = () => {
     setSelectedProject(null);
-    setIsVisible(false);
-    setTimeout(() => {
-      setIsVisible(true);
-    }, 50);
   };
 
   const projects = [
     {
       title: " Ciranda – Custom OroCommerce Frontend & Interactive Content Architecture",
-      description: "I was the sole front-end developer on Ciranda’s OroCommerce storefront, responsible for shaping the front-end architecture and implementing the full user interface across the site. This included defining rendering flows, integrating Oro’s APIs, and building custom logic on top of Oro’s templating system. The Resources page is a key example: articles are fetched from Oro’s backend and rendered client-side with category-based filtering using JavaScript. The structure supports future expansion and dynamic behavior without full page reloads. On product detail pages, related content modules fetch and display both featured and contextual articles (e.g. Grower Stories) via API. All rendering and fallback logic is handled on the frontend, based on data set in the Oro admin. I also implemented conditional UI logic based on customer group and login status — determining whether users can place an order or only request a sample. The sourcing map combines SVG overlays and positioned clickable regions, triggering popups and in-page anchors. The alternate warehouse map uses a different data layer (static pins, no API), toggled through frontend state management. Most of the front-end interface was custom-built beyond Oro’s defaults. This included replacing native layout structures, overriding Oro widgets, and implementing brand-aligned templates with full design control. The homepage features a full-screen video header integrated through a customized CMS block. All visual layers — from typography to spacing systems — were developed to reflect the client’s branding, moving far beyond Oro’s native UI framework.",
+      description: "I was the sole front-end developer on Ciranda's OroCommerce storefront, responsible for shaping the front-end architecture and implementing the full user interface across the site. This included defining rendering flows, integrating Oro's APIs, and building custom logic on top of Oro's templating system. The Resources page is a key example: articles are fetched from Oro's backend and rendered client-side with category-based filtering using JavaScript. The structure supports future expansion and dynamic behavior without full page reloads. On product detail pages, related content modules fetch and display both featured and contextual articles (e.g. Grower Stories) via API. All rendering and fallback logic is handled on the frontend, based on data set in the Oro admin. I also implemented conditional UI logic based on customer group and login status — determining whether users can place an order or only request a sample. The sourcing map combines SVG overlays and positioned clickable regions, triggering popups and in-page anchors. The alternate warehouse map uses a different data layer (static pins, no API), toggled through frontend state management. Most of the front-end interface was custom-built beyond Oro's defaults. This included replacing native layout structures, overriding Oro widgets, and implementing brand-aligned templates with full design control. The homepage features a full-screen video header integrated through a customized CMS block. All visual layers — from typography to spacing systems — were developed to reflect the client's branding, moving far beyond Oro's native UI framework.",
       technologies: [
         "OroCommerce",
         "JavaScript",

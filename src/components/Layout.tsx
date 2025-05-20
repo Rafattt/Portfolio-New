@@ -1,11 +1,11 @@
 import { useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import Header from './Header';
+import { updateVantaHighlightColor } from './VantaBackground';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
   const isHome = location.pathname === '/';
-  const vantaEffect = useRef<any>(null);
   const observerRef = useRef<MutationObserver | null>(null);
   const currentColorRef = useRef(0x0);
   const animationRef = useRef<number>();
@@ -16,7 +16,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   };
 
   const interpolateRGB = (startColor: number, endColor: number, t: number) => {
-    // Extract RGB components
+    // Extract RGB components correctly
     const startR = (startColor >> 16) & 0xFF;
     const startG = (startColor >> 8) & 0xFF;
     const startB = startColor & 0xFF;
@@ -44,16 +44,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       const elapsed = timestamp - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
-      const currentColor = interpolateRGB(startColor, targetColor, progress);
-      currentColorRef.current = currentColor;
+      const currentColorVal = interpolateRGB(startColor, targetColor, progress);
+      currentColorRef.current = currentColorVal;
 
-      if (vantaEffect.current) {
-        vantaEffect.current.setOptions({
-          highlightColor: currentColor
-        });
-      }
+      // Try using the imported function directly, which should also update window.setVantaColor
+      updateVantaHighlightColor(currentColorVal);
 
-      // Kontynuuj animację jeśli nie jest zakończona i karta jest otwarta
+      // Continue animation if not complete and card is open
       const selectedCard = document.querySelector('.card.selected');
       if (progress < 1 || (isCardSelected && selectedCard)) {
         animationRef.current = requestAnimationFrame(animate);
@@ -71,51 +68,58 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     const cards = document.querySelectorAll('.card');
     cards.forEach(card => {
       const handleColorChange = () => {
-        if (vantaEffect.current) {
-          const cardClass = Array.from(card.classList)
-            .find(className => className !== 'card' && className !== 'selected' && className !== 'hidden');
+        const cardClass = Array.from(card.classList)
+          .find(className => className !== 'card' && className !== 'selected' && className !== 'hidden');
+        
+        if (cardClass) {
+          setHoveredCard(cardClass);
+          let targetColor = 0x0;
           
-          if (cardClass) {
-            setHoveredCard(cardClass);
-            let targetColor = 0x0;
-            switch(cardClass) {
-              case 'ciranda': targetColor = 0xdc431c; break;
-              case 'huyett': targetColor = 0x17305a; break;
-              case 'wastebuilt': targetColor = 0x097a40; break;
-              case 'singer': targetColor = 0x4091C9; break;
-              case 'chicago-auto': targetColor = 0x009edd; break;
-              case 'virginia': targetColor = 0xee3e42; break;
-              case 'foley': targetColor = 0xad9863; break;
-              case 'denimcratic': targetColor = 0x31589f; break; 
-              case 'blue': targetColor = 0x009ee0; break;
-              case 'metlife': targetColor = 0x103669; break;
-              case 'itron': targetColor = 0xd22930; break;
-              case 'anderson': targetColor = 0x39b54a; break;
-              case 'polacheck': targetColor = 0xFFD700; break;
-              case 'benchmark': targetColor = 0x551226; break;
-              case 'shoshanna': targetColor = 0xF88379; break;
-              case 'mountain': targetColor = 0x0c4e83; break;
-              case 'society': targetColor = 0x8a84d6; break;
-              case 'land': targetColor = 0x115A31; break;
-              case 'procon': targetColor = 0xd12428; break;
-              case 'darpet': targetColor = 0x831e0a; break;
-              case 'pure': targetColor = 0xf8f7f4; break;
-            }
-            const isSelected = card.classList.contains('selected');
-            transitionColor(targetColor, isSelected);
+          // Debug log to confirm handler is working
+          console.log('[Layout] Card color change for:', cardClass);
+          
+          switch(cardClass) {
+            case 'ciranda': targetColor = 0xdc431c; break;
+            case 'huyett': targetColor = 0x17305a; break;
+            case 'wastebuilt': targetColor = 0x097a40; break;
+            case 'singer': targetColor = 0x4091C9; break;
+            case 'chicago-auto': targetColor = 0x009edd; break;
+            case 'virginia': targetColor = 0xee3e42; break;
+            case 'foley': targetColor = 0xad9863; break;
+            case 'denimcratic': targetColor = 0x31589f; break; 
+            case 'blue': targetColor = 0x009ee0; break;
+            case 'metlife': targetColor = 0x103669; break;
+            case 'itron': targetColor = 0xd22930; break;
+            case 'anderson': targetColor = 0x39b54a; break;
+            case 'polacheck': targetColor = 0xFFD700; break;
+            case 'benchmark': targetColor = 0x551226; break;
+            case 'shoshanna': targetColor = 0xF88379; break;
+            case 'mountain': targetColor = 0x0c4e83; break;
+            case 'society': targetColor = 0x8a84d6; break;
+            case 'land': targetColor = 0x115A31; break;
+            case 'procon': targetColor = 0xd12428; break;
+            case 'darpet': targetColor = 0x831e0a; break;
+            case 'pure': targetColor = 0xf8f7f4; break;
           }
+          const isSelected = card.classList.contains('selected');
+          transitionColor(targetColor, isSelected);
         }
       };
 
       const resetColor = () => {
         setHoveredCard(null);
         if (!card.classList.contains('selected')) {
-          if (vantaEffect.current) {
-            transitionColor(0x0, false);
-          }
+          transitionColor(0x0, false);
         }
       };
 
+      // First remove any existing listeners to prevent duplicates
+      card.removeEventListener('mouseenter', handleColorChange);
+      card.removeEventListener('mouseleave', resetColor);
+      card.removeEventListener('focusin', handleColorChange);
+      card.removeEventListener('focusout', resetColor);
+      
+      // Then add the listeners
       card.addEventListener('mouseenter', handleColorChange);
       card.addEventListener('mouseleave', resetColor);
       card.addEventListener('focusin', handleColorChange);
@@ -145,75 +149,38 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    if (!vantaEffect.current) {
-      vantaEffect.current = VANTA.FOG({
-        el: "#root",
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.00,
-        minWidth: 200.00,
-        highlightColor: 0x0,
-        midtoneColor: 0x0,
-        lowlightColor: 0xf5f5f5,
-        baseColor: 0x0,
-        blurFactor: 0.4,
-        speed: 1.0
-      });
-    }
-
+    console.log('[Layout] useEffect triggered, setting up card listeners...');
+    
     setTimeout(() => {
       document.querySelector('.my-work')?.classList.add('fade-in');
     }, 1000);
 
-    // Add event listener for the "Open Portfolio" button
-    const openPortfolioButton = document.getElementById('open-portfolio-button');
-    if (openPortfolioButton) {
-      openPortfolioButton.addEventListener('click', () => {
-        const vantaCanvas = document.querySelector('.vanta-canvas');
-        if (vantaCanvas) {
-          vantaCanvas.classList.add('fade-out');
-        }
-      });
-    }
-
-    const observer = setupCardListeners();
-
-    observerRef.current = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.addedNodes.length) {
-          setupCardListeners();
-        }
-      });
-    });
-
-    observerRef.current.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
-
-    return () => {
-      observerRef.current?.disconnect();
-      if (vantaEffect.current) {
-        vantaEffect.current.destroy();
-        vantaEffect.current = null;
-      }
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-      observer.disconnect();
-
-      // Remove event listener when component unmounts
-      const openPortfolioButton = document.getElementById('open-portfolio-button');
-      if (openPortfolioButton) {
-        openPortfolioButton.removeEventListener('click', () => {
-          const vantaCanvas = document.querySelector('.vanta-canvas');
-          if (vantaCanvas) {
-            vantaCanvas.classList.add('fade-out');
+    // Set a small delay to ensure DOM is ready and cards exist
+    setTimeout(() => {
+      const observer = setupCardListeners();
+      
+      const dynamicContentObserver = new MutationObserver((mutations) => { // Renamed for clarity
+        mutations.forEach((mutation) => {
+          if (mutation.addedNodes.length) {
+            setupCardListeners(); 
           }
         });
-      }
-    };
+      });
+
+      dynamicContentObserver.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+
+      return () => {
+        dynamicContentObserver.disconnect();
+        if (animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+        }
+        observer.disconnect();
+      };
+    }, 500);
+    
   }, [location.pathname]);
 
   return (

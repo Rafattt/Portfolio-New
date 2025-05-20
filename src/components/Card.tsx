@@ -3,43 +3,43 @@ import React from 'react';
 interface CardProps {
   title: string;
   description: string;
-  technologies?: string[];
-  platformSpecific?: string[];
-  featured?: boolean;
-  imgSrc?: string;
-  link?: string;
-  classCard?: string;
-  onMouseEnter?: () => void;
-  isSelected: boolean;
-  isHidden: boolean;
-  onClick: () => void;
-  onClose: () => void;
+  technologies: string[];
+  imgSrc: string;
+  classCard: string;
+  link: string;
+  isSelected?: boolean;
+  isHidden?: boolean;
+  onClick?: () => void;
+  onClose?: () => void;
+  featured?: boolean; // Make sure this is typed as boolean
+  highlightColor?: number; // Add prop type for highlightColor
   desktopImage?: string;
   mobileImage?: string;
+  platformSpecific?: string[];
 }
 
-export default function Card({ 
+const Card: React.FC<CardProps> = ({ 
   title, 
   description, 
   technologies, 
-  platformSpecific,
   imgSrc, 
-  link,
-  classCard,
-  onMouseEnter,
-  isSelected,
-  isHidden,
-  onClick,
-  onClose,
-  desktopImage,
-  mobileImage,
+  classCard, 
+  link, 
+  isSelected = false, 
+  isHidden = false, 
+  onClick, 
+  onClose, 
+  featured = false, // Default to false
+  highlightColor, 
+  desktopImage, 
+  mobileImage, 
+  platformSpecific,
   ...props 
-}: CardProps) {
+}) => {
   return (
     <div 
-      className={`card ${classCard} ${isSelected ? 'selected' : ''} ${isHidden ? 'hidden' : ''}`}
+      className={`card ${classCard} ${isSelected ? 'selected' : ''} ${isHidden ? 'hidden' : ''} `}
       onClick={onClick}
-      onMouseEnter={onMouseEnter}
       role="button"
       tabIndex={0}
       {...props}
@@ -105,4 +105,6 @@ export default function Card({
       )}
     </div>
   );
-}
+};
+
+export default Card;
