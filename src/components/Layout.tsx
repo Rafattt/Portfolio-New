@@ -103,6 +103,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             case 'procon': targetColor = 0xd12428; break;
             case 'darpet': targetColor = 0x831e0a; break;
             case 'pure': targetColor = 0xf8f7f4; break;
+            case 'armor': targetColor = 0x015cff; break;
+            case 'chicago-coffee': targetColor = 0x65497c; break;
+            case 'anchor': targetColor = 0x2e7ebf; break;
           }
           const isSelected = card.classList.contains('selected');
           transitionColor(targetColor, isSelected);

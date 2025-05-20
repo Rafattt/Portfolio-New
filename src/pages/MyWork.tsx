@@ -235,6 +235,39 @@ function MyWork() {
       mobileImage: '', // Add path when ready
     },
     {
+      title: "ArmorPoxy",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: 'src/assets/img/armor-logo.webp',
+      classCard: 'armor',
+      link: 'https://armorpoxy.com/',
+      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      desktopImage: '', // Add path when ready
+      mobileImage: '', // Add path when ready
+    },
+    {
+      title: "Anchor-Paper",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: 'src/assets/img/anchor-logo.webp',
+      classCard: 'anchor',
+      link: 'https://www.anchorpaper.com/',
+      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      desktopImage: '', // Add path when ready
+      mobileImage: '', // Add path when ready
+    },
+    {
+      title: "Chicago Coffee",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: 'src/assets/img/chicago-logo.webp',
+      classCard: 'chicago-coffee',
+      link: 'https://www.coffeemasters.com/',
+      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      desktopImage: '', // Add path when ready
+      mobileImage: '', // Add path when ready
+    },
+    {
       title: "American Society of Anesthesiologists",
       description: "Collaborative project management tool",
       technologies: [""],
