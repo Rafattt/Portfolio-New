@@ -65,11 +65,11 @@ html, body {
     animation: fadeOutCanvas 1s ease forwards !important;
   }
   #background-image {
-    background-image: url("src/assets/img/bg3.png");
+    background-image: url("src/assets/img/bg2.png");
     background-repeat: repeat;
     width:100%;
     height:100vh;
-    opacity:0.2;
+    opacity:0.4;
     position:fixed;
     top:0;
   }
@@ -420,7 +420,6 @@ html, body {
   overflow: hidden;
   cursor: pointer;
   outline: none;
-  filter: url(#combined);
   img {
     max-height: 80%;
     max-width: 90%;
