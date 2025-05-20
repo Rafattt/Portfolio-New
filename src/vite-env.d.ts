@@ -4,5 +4,4 @@ interface Window {
   VANTA?: any;
   setVantaColor?: (color: number) => void;
   reinitializeVanta?: () => void;
-  _vantaProtectionInterval?: number;
 }

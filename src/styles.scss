@@ -128,10 +128,10 @@ html, body {
   .my-work {
   position: relative;
   height: 100%;
-  opacity: 0; // Ustaw początkową opacity na 0
-  transition: opacity .5s ease; // Dodaj transition na 2 sekundy
+  opacity: 0; 
+  transition: opacity .5s ease; 
   .card {
-    pointer-events: none; // Wyłącz pointer-events na start
+    pointer-events: none; 
   }
   
   
@@ -163,15 +163,17 @@ html, body {
     }
     &.fade-in {
       opacity:1;
-      pointer-events: auto; // Włącz pointer-events po zakończeniu animacji
+      pointer-events: auto;
       transition:.5s;
       
       .card {
-        // Karty będą reagować na hover dopiero po zakończeniu animacji
         pointer-events: auto;
-        &:hover, &:focus-visible {
-          scale: 1.1;
-          transition: .2s;
+        &:not(.selected) {
+          &:hover, 
+          &:focus-visible {
+            scale: 1.1;
+            transition: .2s;
+          }
         }
       }
     }
@@ -352,10 +354,6 @@ html, body {
           background: linear-gradient(90deg, #ccc, #eee, #aaa);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
-          // text-shadow:
-          //   0 0 1px #fff,
-          //   0 0 6px rgba(100, 153, 190, 0.6),
-          //   0 0 12px rgba(140, 208, 255, 0.8);
           text-decoration: none;
           transition: all 0.3s ease;
           position: relative;
@@ -366,18 +364,6 @@ html, body {
             0 0 12px rgba(100, 153, 190, 0.6),
             0 0 22px rgba(140, 208, 255, 0.8);
     text-shadow: [x-offset] [y-offset] [blur-radius] [color];
-          &:after {
-            // content: "";
-            // position: absolute;
-            // top: 0;
-            // left: 50%;
-            // transform: translateX(-50%);
-            // width: 1px;
-            // height: 30px;
-            // background: linear-gradient(to bottom, rgba(200, 255, 255, 0.5), transparent);
-            // opacity: 0.7;
-            // transition: opacity 0.3s ease;
-          }
           &:hover {
 
             text-shadow:
@@ -392,18 +378,6 @@ html, body {
             transition: all 0.3s ease;
             cursor:pointer;
           }
-          
-          &.active {
-            
-            &::after {
-              // content: '';
-              // position: absolute;
-              // bottom: -5px;
-              // left: 0;
-              // width: 100%;
-              // height: 2px;
-            }
-          }
         }
       }
     }
@@ -415,7 +389,7 @@ html, body {
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   gap: 40px;
   padding: 40px;
-  max-width: 100%; /* OGRANICZAMY szerokość siatki */
+  max-width: 100%;
   margin: 0 auto; 
   
 }
@@ -436,7 +410,7 @@ html, body {
   pointer-events: auto;
   overflow: hidden;
   cursor: pointer;
-  outline: none; // Remove default focus outline
+  outline: none;
   img {
     max-height: 80%;
     max-width: 90%;
@@ -601,11 +575,6 @@ html, body {
   &.wastebuilt {
     background:white;
   }
-  &:hover,
-  &:focus-visible {
-    scale:1.1;
-      transition:.2s;
-  }
 
   .desktop-image, .mobile-image {
     width: 100%;
@@ -641,38 +610,6 @@ html, body {
 
     
   }
-
-  // &:has(.ciranda:hover)::after {
-  //   // background-image: url("src/assets/img/ciranda-bg.webp");
-  //   background:#dd6c1c;
-  //   opacity: .1;
-  // }
-
-  // &:has(.huyett:hover)::after {
-  //   // background-image: url("src/assets/img/huyett-bg.webp");
-  //   // opacity: 1;
-  //   background:#141487;
-  //   opacity: .1;
-  // }
-  // &:has(.wastebuilt:hover)::after {
-  //   // background-image: url("src/assets/img/huyett-bg.webp");
-  //   // opacity: 1;
-  //   background:green;
-  //   opacity: .1;
-  // }
-  // &:has(.card:hover) {
-  //   &::after {
-  //     transition: 2s;
-  //     // filter: grayscale(1);
-  //   }
-  //   .frosted-overlay {
-  //     // position: absolute;
-  //     // inset: 0;
-  //     // background: rgba(255, 255, 255, 0.2);
-  //     // backdrop-filter: blur(3px);
-  //     // -webkit-backdrop-filter: blur(10px);
-  //   }
-  // }
 }
 
 @keyframes fadeInCanvas {

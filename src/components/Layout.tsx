@@ -81,9 +81,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           setHoveredCard(cardClass);
           let targetColor = 0x0;
           
-          // Debug log to confirm handler is working
-          console.log('[Layout] Card color change for:', cardClass);
-          
           switch(cardClass) {
             case 'ciranda': targetColor = 0xdc431c; break;
             case 'huyett': targetColor = 0x17305a; break;
@@ -158,7 +155,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   }, [hoveredCard]); // Only depend on state that affects the handlers
 
   useEffect(() => {
-    console.log('[Layout] useEffect triggered, setting up card listeners...');
     
     setTimeout(() => {
       document.querySelector('.my-work')?.classList.add('fade-in');
@@ -169,7 +165,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     
     return () => {
       clearTimeout(setupTimeout);
-      // ...existing cleanup code...
     };
   }, [location.pathname, setupCardListeners]);
 
