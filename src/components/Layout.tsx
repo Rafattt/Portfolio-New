@@ -161,7 +161,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     
     setTimeout(() => {
       document.querySelector('.my-work')?.classList.add('fade-in');
-    }, 1000);
+    }, 300);
 
     // Use a small delay to make sure DOM is ready
     const setupTimeout = setTimeout(setupCardListeners, 500);

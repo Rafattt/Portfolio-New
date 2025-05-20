@@ -67,11 +67,12 @@ html, body {
   }
   #root {
     width:100%;
-    height:100%;
+    height:auto;
+    min-height:100%;
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
-
+    
 
     color-scheme: light dark;
     color: rgba(255, 255, 255, 0.87);
@@ -82,6 +83,8 @@ html, body {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-image: url("src/assets/img/bg3.png");
+    background-repeat: repeat;
     
   }
   .bg-img {
@@ -411,6 +414,7 @@ html, body {
   overflow: hidden;
   cursor: pointer;
   outline: none;
+  filter: url(#combined);
   img {
     max-height: 80%;
     max-width: 90%;
@@ -589,12 +593,12 @@ html, body {
 }
 
 .background-img {
-  position: absolute;
-  top: 100px;
+  position: relative;
+  top: 0;
   left: 0;
   right: 0;
   min-height: 100%;
-  overflow-x:scroll;
+  height:100%;
    
 
   &::after {
