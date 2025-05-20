@@ -28,7 +28,7 @@ var support_linear_float = _getWebGLContext.support_linear_float;
 function getWebGLContext(canvas) {
     var params = {
         alpha: true,  // Enable transparency
-        depth: false,
+        depth: true,
         stencil: false,
         antialias: true
     };

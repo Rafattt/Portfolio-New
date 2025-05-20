@@ -92,6 +92,11 @@ function Home() {
   }, []);
 
   const handleOpenPortfolio = () => {
+    const canvas = canvasRef.current;
+    if (canvas) {
+      canvas.classList.remove('fade-in');
+      canvas.classList.add('fade-out');
+    }
     document.querySelector('.home-content')?.classList.add('fade');
     setTimeout(() => {
       navigate('/my-work');
