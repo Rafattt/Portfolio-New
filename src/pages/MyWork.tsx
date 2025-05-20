@@ -325,6 +325,8 @@ function MyWork() {
   ];
 
   return (
+    <>  
+    <div id="background-image"></div>
     <div className="background-img">
       <div className="frosted-overlay"></div>
       <div className={`my-work ${isVisible ? 'fade-in' : ''} ${selectedProject !== null ? 'project-open' : ''}`}>
@@ -344,6 +346,7 @@ function MyWork() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

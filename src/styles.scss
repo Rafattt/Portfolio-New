@@ -52,7 +52,6 @@ html, body {
   z-index: 22;
   background: transparent;
   position: fixed !important;
-  opacity: 1 !important;
   visibility: visible !important;
   display: block !important;
   pointer-events: auto !important;
@@ -64,6 +63,15 @@ html, body {
   }
   canvas.fade-out {
     animation: fadeOutCanvas 1s ease forwards !important;
+  }
+  #background-image {
+    background-image: url("src/assets/img/bg3.png");
+    background-repeat: repeat;
+    width:100%;
+    height:100vh;
+    opacity:0.2;
+    position:fixed;
+    top:0;
   }
   #root {
     width:100%;
@@ -83,8 +91,6 @@ html, body {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-image: url("src/assets/img/bg3.png");
-    background-repeat: repeat;
     
   }
   .bg-img {

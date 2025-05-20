@@ -132,6 +132,7 @@ function Home() {
 
   return (
     <>   
+    <div id="background-image"></div>
       <div className="home-content">
         <canvas ref={canvasRef}></canvas> 
         <div className="home-content-inner" id="home-content">
