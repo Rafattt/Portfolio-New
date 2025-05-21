@@ -16,6 +16,35 @@ function MyWork() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Dodaj obsługę zamykania przez ESC i kliknięcie poza detalami
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && showDetailView) {
+        handleCloseCard();
+      }
+    };
+
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (showDetailView) {
+        // Sprawdź, czy kliknięcie było poza detail-view
+        const detailView = document.querySelector('.detail-view');
+        if (detailView && !detailView.contains(e.target as Node)) {
+          handleCloseCard();
+        }
+      }
+    };
+
+    // Dodaj listenery
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    // Usuń listenery przy odmontowaniu
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [showDetailView]); // Zależność od showDetailView
+
   const handleOpenCard = (index: number) => {
     setSelectedProject(index);
     
@@ -371,7 +400,7 @@ function MyWork() {
         </div>
       </div>
       
-      {/* Nowy komponent widoku szczegółowego projektu */}
+      {/* Zmodyfikowany kontener detali */}
       {selectedProject !== null && showDetailView && (
         <div className="detail-view-container">
           <div className="detail-view" style={{'--highlight-color': projects[selectedProject].highlightColor} as React.CSSProperties}>
