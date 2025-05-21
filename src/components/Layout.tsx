@@ -2,14 +2,22 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Header from './Header';
 import { updateVantaHighlightColor } from './VantaBackground';
+import gsap from 'gsap';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
   const isHome = location.pathname === '/';
   const observerRef = useRef<MutationObserver | null>(null);
+  const mousePosRef = useRef({ x: 0, y: 0 });
   const currentColorRef = useRef(0x0);
+  const currentTweenRef = useRef<gsap.core.Tween | null>(null);
+  const lastTargetColorRef = useRef<number | null>(null);
+  const resetTimeoutRef = useRef<number | null>(null);
+
   const animationRef = useRef<number>();
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  
+  
 
   const lerp = (start: number, end: number, t: number) => {
     return start * (1 - t) + end * t;
@@ -34,35 +42,55 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     return (r << 16) | (g << 8) | b;
   };
 
-  const transitionColor = (targetColor: number, isCardSelected: boolean = false) => {
-    const startColor = currentColorRef.current;
-    let startTime: number | null = null;
-    const duration = 2200; // 0.2 seconds
+  let lastUpdateTime = 0;
+const throttleInterval = 66; // ms ~15fps
 
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const elapsed = timestamp - startTime;
-      const progress = Math.min(elapsed / duration, 1);
+const throttledVantaUpdate = (color: number) => {
+  const now = performance.now();
+  if (now - lastUpdateTime >= throttleInterval) {
+    updateVantaHighlightColor(color);
+    lastUpdateTime = now;
+  }
+};
 
-      const currentColorVal = interpolateRGB(startColor, targetColor, progress);
-      currentColorRef.current = currentColorVal;
+const transitionColor = (targetColor: number) => {
+  // 🔒 Jeśli kolor docelowy się nie zmienia — nie rób nic
+  if (targetColor === lastTargetColorRef.current) return;
+  lastTargetColorRef.current = targetColor;
+console.log('fff')
+  // 🎯 Kolor startowy
+  const startColor = currentColorRef.current;
+  const startR = (startColor >> 16) & 0xff;
+  const startG = (startColor >> 8) & 0xff;
+  const startB = startColor & 0xff;
 
-      // Try using the imported function directly, which should also update window.setVantaColor
-      updateVantaHighlightColor(currentColorVal);
+  const endR = (targetColor >> 16) & 0xff;
+  const endG = (targetColor >> 8) & 0xff;
+  const endB = targetColor & 0xff;
 
-      // Continue animation if not complete and card is open
-      const selectedCard = document.querySelector('.card.selected');
-      if (progress < 1 || (isCardSelected && selectedCard)) {
-        animationRef.current = requestAnimationFrame(animate);
-      }
-    };
+  const obj = { r: startR, g: startG, b: startB };
 
-    if (animationRef.current && !isCardSelected) {
-      cancelAnimationFrame(animationRef.current);
+  // zatrzymaj poprzednią animację jeśli jeszcze trwa
+  currentTweenRef.current?.kill();
+
+  //  Nowa animacja
+  currentTweenRef.current = gsap.to(obj, {
+    r: endR,
+    g: endG,
+    b: endB,
+    duration: 1.8,
+    ease: 'power2.out',
+    onUpdate: () => {
+      const r = Math.round(obj.r);
+      const g = Math.round(obj.g);
+      const b = Math.round(obj.b);
+      const hex = (r << 16) | (g << 8) | b;
+      currentColorRef.current = hex;
+      throttledVantaUpdate(hex);
     }
+  });
+};
 
-    requestAnimationFrame(animate);
-  };
 
   // Use memo or stable refs for event handlers to avoid recreation on rerenders
   const setupCardListeners = useCallback(() => {
@@ -75,6 +103,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       
       const handleColorChange = () => {
         // Dodaj klasę 'active-color' do karty
+        if (resetTimeoutRef.current) {
+          clearTimeout(resetTimeoutRef.current);
+          resetTimeoutRef.current = null;
+        }
         cards.forEach(c => c.classList.remove('active-color'));
         card.classList.add('active-color');
         
@@ -112,27 +144,33 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             case 'anchor': targetColor = 0x2e7ebf; break;
           }
           const isSelected = card.classList.contains('selected');
-          transitionColor(targetColor, isSelected);
+          transitionColor(targetColor);
         }
       };
 
-      const resetColor = (e: MouseEvent) => {
-        // Sprawdź, czy detale są otwarte
-        const detailsOpen = document.querySelector('.detail-view-container');
-        
-        // Usuń klasę tylko jeśli nie ma otwartych detali
-        if (!detailsOpen) {
-          card.classList.remove('active-color');
-          
-          // Sprawdź, czy jakakolwiek karta ma klasę 'active-color'
-          const anyCardActive = document.querySelector('.card.active-color');
-          
-          if (!anyCardActive) {
-            setHoveredCard(null);
-            transitionColor(0x0, false);
-          }
-        }
-      };
+      const resetColor = () => {
+  if (resetTimeoutRef.current) {
+    clearTimeout(resetTimeoutRef.current);
+  }
+
+  resetTimeoutRef.current = window.setTimeout(() => {
+    const detailsOpen = document.querySelector('.detail-view-container');
+
+    const { x, y } = mousePosRef.current;
+    const el = document.elementFromPoint(x, y);
+
+    const isOnCard = el?.closest('.card');
+    const isOnDetails = el?.closest('.detail-view-container');
+
+    if (!isOnCard && !isOnDetails && !detailsOpen) {
+      setHoveredCard(null);
+      transitionColor(0x0);
+    }
+
+    resetTimeoutRef.current = null;
+  }, 1000);
+};
+
 
       // First remove any existing listeners to prevent duplicates
       card.removeEventListener('mouseenter', handleColorChange);
@@ -246,6 +284,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       clearTimeout(setupTimeout);
     };
   }, [location.pathname, setupCardListeners]);
+
+  useEffect(() => {
+  const updateMousePos = (e: MouseEvent) => {
+    mousePosRef.current = { x: e.clientX, y: e.clientY };
+  };
+  window.addEventListener('mousemove', updateMousePos);
+  return () => window.removeEventListener('mousemove', updateMousePos);
+}, []);
 
   return (
     <>

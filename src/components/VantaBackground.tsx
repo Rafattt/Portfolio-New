@@ -33,9 +33,9 @@ const VantaBackground = () => {
         // Create new effect with only supported parameters
         vantaEffect = window.VANTA.FOG({
           el: "#root",
-          alpha: true,
-          mouseControls: true,
-          touchControls: true,
+          alpha: false,
+          mouseControls: false,
+          touchControls: false,
           gyroControls: false,
           
           // Kluczowe parametry, które na pewno działają:
@@ -44,23 +44,23 @@ const VantaBackground = () => {
           lowlightColor: 0xf5f5f5,    // Kolor tonów ciemnych (biały)
           baseColor: 0x0,             // Kolor podstawowy (czarny)
           
-          blurFactor: 0.4,            // Współczynnik rozmycia (0-1)
-          speed: 0.6,                 // Szybkość animacji (0-3)
+          blurFactor: 0.2,            // Współczynnik rozmycia (0-1)
+          speed: 0.4,                 // Szybkość animacji (0-3)
           
           // Dodatkowe parametry, które działają w VANTA.FOG:
           zoom: 0.8,                  // Przybliżenie (0.1-3)
-          scale: 2,                   // Skala efektu
+          scale: 1,                   // Skala efektu
           backgroundAlpha: 0.00,
           scaleMobile: 1              // Skala na urządzeniach mobilnych
         });
         
         // Dostosowanie opacity przez manipulację CSS canvasa
-        setTimeout(() => {
-          const vantaCanvas = document.querySelector('.vanta-canvas');
-          if (vantaCanvas) {
-            (vantaCanvas as HTMLElement).style.opacity = '1'; // Regulacja przezroczystości przez CSS
-          }
-        }, 100);
+        // setTimeout(() => {
+        //   const vantaCanvas = document.querySelector('.vanta-canvas');
+        //   if (vantaCanvas) {
+        //     (vantaCanvas as HTMLElement).style.opacity = '1'; // Regulacja przezroczystości przez CSS
+        //   }
+        // }, 100);
         
         // Make the color updater available
         window.setVantaColor = updateVantaHighlightColor;

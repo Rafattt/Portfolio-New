@@ -4,7 +4,7 @@ export const getWebGLContext = (canvas: HTMLCanvasElement) => {
     depth: false,
     stencil: false,
     antialias: false,
-    preserveDrawingBuffer: true
+    preserveDrawingBuffer: false //performance testing, true may be needed
   };
 
   // Try WebGL2 first

@@ -6,15 +6,15 @@ export function initWebGL(canvas: HTMLCanvasElement, gl: WebGLRenderingContext, 
   // var canvas = document.getElementsByTagName('canvas')[0];
 
   // Ustawienie poprawnych wymiarów
-  canvas.width = canvas.clientWidth;
-  canvas.height = canvas.clientHeight;
+//   canvas.width = canvas.clientWidth;
+//   canvas.height = canvas.clientHeight; performance testing, may be needed
 
 var config = {
-    TEXTURE_DOWNSAMPLE: 1.1,
+    TEXTURE_DOWNSAMPLE: 1.5,
     DENSITY_DISSIPATION: 0.98,
     VELOCITY_DISSIPATION: 0.99,
     PRESSURE_DISSIPATION: 0.8,
-    PRESSURE_ITERATIONS: 20,
+    PRESSURE_ITERATIONS: 12,
     CURL: 30,
     SPLAT_RADIUS: 0.007
 };
@@ -177,8 +177,8 @@ function initFramebuffers() {
     var formatRG  = ext.formatRG;
     var texType   = ext.texType;
 
-    density    = createDoubleFBO( 0, textureWidth, textureHeight, iFormat, gl.RGBA, texType, support_linear_float ? gl.LINEAR : gl.NEAREST );
-    velocity   = createDoubleFBO( 2, textureWidth, textureHeight, iFormatRG, formatRG, texType, support_linear_float ? gl.LINEAR : gl.NEAREST );
+    density    = createDoubleFBO( 0, textureWidth, textureHeight, iFormat, gl.RGBA, texType, gl.NEAREST );
+    velocity   = createDoubleFBO( 2, textureWidth, textureHeight, iFormatRG, formatRG, texType, gl.NEAREST );
     divergence = createFBO( 4, textureWidth, textureHeight, iFormatRG, formatRG, texType, gl.NEAREST );
     curl       = createFBO( 5, textureWidth, textureHeight, iFormatRG, formatRG, texType, gl.NEAREST );
     pressure   = createDoubleFBO( 6, textureWidth, textureHeight, iFormatRG, formatRG, texType, gl.NEAREST );
@@ -247,31 +247,44 @@ var blit = function () {
 
 }();
 
-var lastTime = Date.now();
+var lastTime = performance.now();
 
 update();
 
 function update() {
 
+    document.hidden === false
     resizeCanvas();
 
-    var dt = Math.min( (Date.now() - lastTime) / 1000, 0.016 );
-    lastTime = Date.now();
+    const now = performance.now();
+    const dt = Math.min((now - lastTime) / 1000, 0.016);
+    lastTime = now;
 
     gl.viewport( 0, 0, textureWidth, textureHeight );
 
-    if ( splatStack.length > 0 ) {
-        for ( var m = 0; m < splatStack.pop(); m++ ) {
+    if (splatStack.length > 0) {
+    const count = splatStack.pop() || 0;
+    const maxSplats = Math.min(count, 10); // np. hard limit
 
-            var color = [ Math.random() * 10, Math.random() * 10, Math.random() * 10 ];
-            var x     = canvas.width * Math.random();
-            var y     = canvas.height * Math.random();
-            var dx    = 1000 * (Math.random() - 0.5);
-            var dy    = 1000 * (Math.random() - 0.5);
+    for (let m = 0; m < maxSplats; m++) {
+        const angle = Math.random() * 2 * Math.PI;
+        const speed = 500 + Math.random() * 500;
 
-            splat( x, y, dx, dy, color );
-        }
+        const dx = Math.cos(angle) * speed;
+        const dy = Math.sin(angle) * speed;
+
+        const color = [
+            Math.random() * 5 + 5,   // Jaśniejsze kolory, mniej rozjazdu
+            Math.random() * 5 + 5,
+            Math.random() * 5 + 5
+        ];
+
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+
+        splat(x, y, dx, dy, color);
     }
+}
 
     advectionProgram.bind();
     gl.uniform2f( advectionProgram.uniforms.texelSize, 1.0 / textureWidth, 1.0 / textureHeight );
