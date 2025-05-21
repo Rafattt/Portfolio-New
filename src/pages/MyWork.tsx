@@ -1,22 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Card from '../components/Card';
 import '../styles/MyWork.css';
 
 function MyWork() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
-  const [isVisible, setIsVisible] = useState(false); // Zmieniono na false, by zaczynać od niewidocznego stanu
+  const [isVisible, setIsVisible] = useState(false);
   const [showDetailView, setShowDetailView] = useState(false);
+  const [selectedFilters, setSelectedFilters] = useState<string[]>(['all']); // Default to 'all'
+  const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
-    // Ustawiamy timer na 2 sekundy zamiast 1 sekundy
     const timer = setTimeout(() => {
       setIsVisible(true);
-    }, 2000); // Zmieniono na 2000ms (2 sekundy)
+    }, 2000);
     
     return () => clearTimeout(timer);
   }, []);
 
-  // Dodaj obsługę zamykania przez ESC i kliknięcie poza detalami
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && showDetailView) {
@@ -26,7 +26,6 @@ function MyWork() {
 
     const handleOutsideClick = (e: MouseEvent) => {
       if (showDetailView) {
-        // Sprawdź, czy kliknięcie było poza detail-view
         const detailView = document.querySelector('.detail-view');
         if (detailView && !detailView.contains(e.target as Node)) {
           handleCloseCard();
@@ -34,26 +33,22 @@ function MyWork() {
       }
     };
 
-    // Dodaj listenery
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('mousedown', handleOutsideClick);
 
-    // Usuń listenery przy odmontowaniu
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('mousedown', handleOutsideClick);
     };
-  }, [showDetailView]); // Zależność od showDetailView
+  }, [showDetailView]);
 
   const handleOpenCard = (index: number) => {
     setSelectedProject(index);
     
-    // Ustaw aktywny kolor dla wybranej karty
     if (window.setActiveCardColor) {
       window.setActiveCardColor(projects[index].classCard);
     }
     
-    // Krótkie opóźnienie przed pokazaniem szczegółów widoku
     setTimeout(() => {
       setShowDetailView(true);
     }, 50);
@@ -62,15 +57,12 @@ function MyWork() {
   const handleCloseCard = () => {
     setShowDetailView(false);
     
-    // Krótkie opóźnienie przed resetowaniem wybranego projektu
     setTimeout(() => {
       setSelectedProject(null);
       
-      // Sprawdź, czy kursor jest nad jakąś kartą
       const hoveredCard = document.querySelector('.card:hover');
       
       if (!hoveredCard && window.setActiveCardColor) {
-        // Jeśli nie ma najechanych kart, zresetuj kolor
         window.setActiveCardColor(null);
       }
     }, 300);
@@ -104,32 +96,34 @@ function MyWork() {
       imgSrc: 'src/assets/img/ciranda-logo.webp',
       classCard: 'ciranda',
       link: 'https://www.ciranda.com/',
+      platform: 'OroCommerce',
       highlightColor: 0xff6600, // Orange for Ciranda
       desktopImage: 'src/assets/img/mockup-ciranda.webp', // Add path when ready
       mobileImage: '', // Add path when ready
     },
     {
       title: "Huyett – Custom OroCommerce Frontend & Searchspring Integration",
-      description: "I was responsible for the front-end integration of Searchspring into Huyett’s OroCommerce-based storefront, covering product listing pages (PLP), search results (SRP), and product detail pages (PDP). Since no documentation was available, I designed the communication flow from scratch. When a user typed a query or visited a category, Searchspring returned a list of product IDs. I used those IDs to query Oro’s backend and dynamically built the product dataset using custom JavaScript logic. The rendered UI was fully customized — including dynamic fields like certificate selectors, filter toggles, and conditional UI based on product metadata. All rendering and fallback logic was handled on the frontend. This hybrid approach allowed Searchspring to provide relevance and speed, while Oro remained the authoritative source of structured product data. The implementation also included deeper customization of Oro’s UI: I modified layout structure, extended widgets, and added dynamic binding between Oro’s backend data and JS-based frontend rendering.",
+      description: "I was responsible for the front-end integration of Searchspring into Huyett's OroCommerce-based storefront, covering product listing pages (PLP), search results (SRP), and product detail pages (PDP). Since no documentation was available, I designed the communication flow from scratch. When a user typed a query or visited a category, Searchspring returned a list of product IDs. I used those IDs to query Oro's backend and dynamically built the product dataset using custom JavaScript logic. The rendered UI was fully customized — including dynamic fields like certificate selectors, filter toggles, and conditional UI based on product metadata. All rendering and fallback logic was handled on the frontend. This hybrid approach allowed Searchspring to provide relevance and speed, while Oro remained the authoritative source of structured product data. The implementation also included deeper customization of Oro's UI: I modified layout structure, extended widgets, and added dynamic binding between Oro's backend data and JS-based frontend rendering.",
       examples: ['https://www.huyett.com/product/search?search=bolts', 'https://www.huyett.com/product/search?search=bolts'],
       technologies: [
-  "OroCommerce",
-  "JavaScript",
-  "Vue.js (SDK)",
-  "HTML",
-  "SCSS/CSS",
-  "Searchspring API"
-],
+        "OroCommerce",
+        "JavaScript",
+        "Vue.js (SDK)",
+        "HTML",
+        "SCSS/CSS",
+        "Searchspring API"
+      ],
       platformSpecific: [
-  "Twig templating",
-  "Oro layout.yml",
-  "Oro UI customization",
-  "Dynamic DOM rendering",
-  "Custom JS↔DB binding"
-],
+        "Twig templating",
+        "Oro layout.yml",
+        "Oro UI customization",
+        "Dynamic DOM rendering",
+        "Custom JS↔DB binding"
+      ],
       imgSrc: 'src/assets/img/huyett-logo.webp',
       classCard: 'huyett',
       link: 'https://www.huyett.com/',
+      platform: 'OroCommerce',
       highlightColor: 0x000066, // Dark blue for Huyett
       desktopImage: 'src/assets/img/mockup-huyett.webp', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -141,6 +135,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/wastebuilt-logo.webp',
       classCard: 'wastebuilt',
       link: 'https://www.wastebuilt.com/',
+      platform: 'OroCommerce',
       highlightColor: 0x00ff00, // Bright green for Wastebuilt
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -152,6 +147,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/mountain-logo.webp',
       classCard: 'mountain',
       link: 'https://mountaintarp.com/',
+      platform: 'OroCommerce',
       highlightColor: 0x00ff00, // Bright green for Wastebuilt
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -163,6 +159,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/singer-logo.webp',
       classCard: 'singer',
       link: 'https://www.singerequipment.com/',
+      platform: 'RocCommerce',
       highlightColor: 0xff0000, // Red for Singer
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -174,6 +171,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/chicago-logo.webp',
       classCard: 'chicago-auto',
       link: 'https://www.chicagoautoshow.com',
+      platform: 'iDev',
       highlightColor: 0x00ffff, // Cyan for Chicago Auto Show
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -185,6 +183,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/virginia-logo.webp',
       classCard: 'virginia',
       link: 'https://www.vre.org/',
+      platform: 'iDev',
       highlightColor: 0xff00ff, // Magenta for Virginia Railways
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -196,6 +195,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/foley-logo.webp',
       classCard: 'foley',
       link: 'https://www.vre.org/',
+      platform: 'Salesforce',
       highlightColor: 0x800080, // Purple for Foley Family Wines
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -207,7 +207,8 @@ function MyWork() {
       imgSrc: 'src/assets/img/anderson-logo.webp',
       classCard: 'anderson',
       link: 'https://www.anderson-negele.com/us/',
-      highlightColor: 0x39b54a, // Purple for Foley Family Wines
+      platform: 'Wordpress',
+      highlightColor: 0x39b54a, // Green for Anderson-Negele
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
     },
@@ -218,6 +219,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/denimcratic-logo.webp',
       classCard: 'denimcratic',
       link: 'https://denimcratic.com/',
+      platform: 'Shopify',
       highlightColor: 0xffff00, // Yellow for Deniimcratic
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -229,6 +231,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/blaupunkt-logo.webp',
       classCard: 'blue',
       link: 'https://blue.bike/',
+      platform: 'Shopify',
       highlightColor: 0x0000ff, // Blue for Blaupunkt
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -240,6 +243,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/metlife-logo.webp',
       classCard: 'metlife',
       link: 'https://www.metlifestadium.com/',
+      platform: 'iDev',
       highlightColor: 0xff1493, // Deep pink for MetLife Stadium
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -251,6 +255,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/itron-logo.webp',
       classCard: 'itron',
       link: 'https://na.itron.com/',
+      platform: 'Liferay',
       highlightColor: 0x00bfff, // Deep sky blue for Itron
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -262,6 +267,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/polacheck-logo.webp',
       classCard: 'polacheck',
       link: 'https://polachecks.com/',
+      platform: 'Shopify',
       highlightColor: 0xff4500, // Orange red for Polacheck's Jewelers
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -273,6 +279,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/benchmark-logo.webp',
       classCard: 'benchmark',
       link: 'https://bcbforlife.bank/',
+      platform: 'Liferay',
       highlightColor: 0x2e8b57, // Sea green for Benchmark Community Bank
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -284,6 +291,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/shoshana-logo.webp',
       classCard: 'shoshanna',
       link: 'https://shoshanna.com/',
+      platform: 'Shopify',
       highlightColor: 0x4682b4, // Steel blue for Shoshanna
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -295,7 +303,8 @@ function MyWork() {
       imgSrc: 'src/assets/img/armor-logo.webp',
       classCard: 'armor',
       link: 'https://armorpoxy.com/',
-      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      platform: 'BigCommerce',
+      highlightColor: 0x4682b4, // Steel blue for ArmorPoxy
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
     },
@@ -306,7 +315,8 @@ function MyWork() {
       imgSrc: 'src/assets/img/anchor-logo.webp',
       classCard: 'anchor',
       link: 'https://www.anchorpaper.com/',
-      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      platform: 'Magento',
+      highlightColor: 0x4682b4, // Steel blue for Anchor-Paper
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
     },
@@ -317,7 +327,8 @@ function MyWork() {
       imgSrc: 'src/assets/img/chicago-logo.webp',
       classCard: 'chicago-coffee',
       link: 'https://www.coffeemasters.com/',
-      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      platform: 'BigCommerce',
+      highlightColor: 0x4682b4, // Steel blue for Chicago Coffee
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
     },
@@ -328,7 +339,8 @@ function MyWork() {
       imgSrc: 'src/assets/img/society-logo.webp',
       classCard: 'society',
       link: 'https://www.asahq.org/',
-      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      platform: 'Magento',
+      highlightColor: 0x4682b4, // Steel blue for American Society of Anesthesiologists
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
     },
@@ -339,7 +351,8 @@ function MyWork() {
       imgSrc: 'src/assets/img/land-logo.webp',
       classCard: 'land',
       link: 'https://www.landandcoates.net/',
-      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      platform: 'Znode',
+      highlightColor: 0x4682b4, // Steel blue for Land and Coates
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
     },
@@ -350,7 +363,8 @@ function MyWork() {
       imgSrc: 'src/assets/img/procon-logo.webp',
       classCard: 'procon',
       link: 'https://www.proconpumps.com/',
-      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      platform: 'Znode',
+      highlightColor: 0x4682b4, // Steel blue for Procon Pump
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
     },
@@ -361,7 +375,8 @@ function MyWork() {
       imgSrc: 'src/assets/img/darpet-logo.webp',
       classCard: 'darpet',
       link: 'https://www.darpet.com/',
-      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      platform: 'Wordpress',
+      highlightColor: 0x4682b4, // Steel blue for Darpet
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
     },
@@ -372,28 +387,136 @@ function MyWork() {
       imgSrc: 'src/assets/img/pure-logo.webp',
       classCard: 'pure',
       link: 'https://pureorder.org',
-      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      platform: 'HTML',
+      highlightColor: 0x4682b4, // Steel blue for PureOrder
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
     }
   ];
+
+  // Get unique platforms from projects (excluding empty ones)
+  const availablePlatforms = useMemo(() => {
+    const platforms = projects
+      .map(project => project.platform)
+      .filter(platform => platform && platform.trim() !== '');
+    
+    // Get unique values
+    return [...new Set(platforms)].sort();
+  }, [projects]);
+
+  // Filter projects based on selected platforms
+  const filteredProjects = useMemo(() => {
+    if (selectedFilters.includes('all')) {
+      return projects; // Show all projects when 'all' is selected
+    }
+    
+    return projects.filter(project => 
+      selectedFilters.includes(project.platform)
+    );
+  }, [projects, selectedFilters]);
+
+  // Handle filter selection
+  const handleFilterChange = (platform: string) => {
+    setSelectedFilters(prev => {
+      // If selecting 'all', clear other filters
+      if (platform === 'all') {
+        return ['all'];
+      }
+      
+      // If selecting a specific platform, remove 'all' from selection
+      let newFilters = prev.filter(p => p !== 'all');
+      
+      if (prev.includes(platform)) {
+        // Remove filter if already selected
+        newFilters = newFilters.filter(p => p !== platform);
+      } else {
+        // Add filter
+        newFilters = [...newFilters, platform];
+      }
+      
+      // If no filters left, select 'all' again
+      if (newFilters.length === 0) {
+        return ['all'];
+      }
+      
+      return newFilters;
+    });
+  };
+
+  // Reset all filters
+  const resetFilters = () => {
+    setSelectedFilters(['all']);
+  };
+
+  // Toggle filter visibility (for mobile)
+  const toggleFilters = () => {
+    setShowFilters(prev => !prev);
+  };
 
   return (
     <>  
     <div id="background-image"></div>
     <div className="background-img">
       <div className="frosted-overlay"></div>
+      
+      {/* Filters Panel */}
+      <div className={`filters-panel ${showFilters ? 'show' : ''}`}>
+        <button className="filter-toggle" onClick={toggleFilters}>
+          {showFilters ? 'Hide Filters' : 'Show Filters'} 
+          <span className="filter-icon">🔍</span>
+        </button>
+        
+        <div className="filters-content">
+          <h3>Filter by Platform</h3>
+          <div className="filter-options">
+            {/* All Platforms option */}
+            <label className="filter-option">
+              <input
+                type="checkbox"
+                checked={selectedFilters.includes('all')}
+                onChange={() => handleFilterChange('all')}
+              />
+              <span className="filter-name">All Platforms</span>
+              <span className="filter-count">
+                ({projects.length})
+              </span>
+            </label>
+            
+            {/* Individual platform options */}
+            {availablePlatforms.map(platform => (
+              <label key={platform} className="filter-option">
+                <input
+                  type="checkbox"
+                  checked={selectedFilters.includes(platform)}
+                  onChange={() => handleFilterChange(platform)}
+                />
+                <span className="filter-name">{platform}</span>
+                <span className="filter-count">
+                  ({projects.filter(p => p.platform === platform).length})
+                </span>
+              </label>
+            ))}
+          </div>
+          
+          {!selectedFilters.includes('all') && selectedFilters.length > 0 && (
+            <button className="reset-filters" onClick={resetFilters}>
+              Reset Filters
+            </button>
+          )}
+        </div>
+      </div>
+      
       <div className={`my-work ${isVisible ? 'fade-in' : ''} ${selectedProject !== null ? 'project-open' : ''}`}>
         <div className="my-work-inner">
           <div className="cards-container">
-            {projects.map((project, index) => (
+            {filteredProjects.map((project, index) => (
               <Card 
                 key={index} 
                 {...project}
-                isSelected={false} // Zawsze false, bo używamy osobnego widoku szczegółowego
-                isHidden={showDetailView} // Ukrywamy wszystkie karty, gdy szczegóły są widoczne
-                onClick={() => handleOpenCard(index)}
-                onClose={() => {}} // Pusta funkcja, bo obsługujemy zamykanie w komponencie projektu szczegółowego
+                isSelected={false} 
+                isHidden={showDetailView} 
+                onClick={() => handleOpenCard(projects.indexOf(project))}
+                onClose={() => {}} 
               />
             ))}
           </div>
