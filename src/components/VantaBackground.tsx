@@ -3,14 +3,28 @@ import { useEffect, useRef } from 'react';
 // ──────────────────────── GLOBAL ────────────────────────
 let vantaEffect: any = null;
 let lastColor = 0;                  // do deboun­ce'u
+let lastUpdateTime = 0;
+const THROTTLE_MS = 1000 / 25;
 
 export function updateVantaHighlightColor(color: number) {
-  // 60 ms throttle + unikamy wywołania, gdy kolor się nie zmienił
+  const now = performance.now();
+  
+
+  // Unikamy zbędnych aktualizacji
   if (color === lastColor) return;
+
+  // THROTTLING
+  if (now - lastUpdateTime < THROTTLE_MS) return;
+
+  lastUpdateTime = now;
   lastColor = color;
 
   requestAnimationFrame(() => {
-    vantaEffect?.setOptions?.({ highlightColor: color });
+    try {
+      vantaEffect?.setOptions?.({ highlightColor: color });
+    } catch (e) {
+      console.error("Vanta setOptions error:", e);
+    }
   });
 }
 
@@ -33,7 +47,8 @@ const VantaBackground = () => {
         mouseControls: false,
         touchControls: false,
         gyroControls: false,
-        pixelRatio: Math.min(window.devicePixelRatio, 1.5),   // ① LIMIT
+        pixelRatio: 1,
+
 
         highlightColor: 0x0,
         midtoneColor: 0x0,
@@ -41,7 +56,7 @@ const VantaBackground = () => {
         baseColor: 0x0,
 
         blurFactor: 0.2,
-        speed: 0.4,
+        speed: 0.1,
         zoom: 0.8,
         scale: 1,
         backgroundAlpha: 0.0,
