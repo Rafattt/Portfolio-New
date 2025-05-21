@@ -74,8 +74,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       }
       
       const handleColorChange = () => {
+        // Dodaj klasę 'active-color' do karty
+        cards.forEach(c => c.classList.remove('active-color'));
+        card.classList.add('active-color');
+        
         const cardClass = Array.from(card.classList)
-          .find(className => className !== 'card' && className !== 'selected' && className !== 'hidden');
+          .find(className => className !== 'card' && className !== 'selected' && className !== 'hidden' && className !== 'active-color');
         
         if (cardClass) {
           setHoveredCard(cardClass);
@@ -112,10 +116,21 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         }
       };
 
-      const resetColor = () => {
-        setHoveredCard(null);
-        if (!card.classList.contains('selected')) {
-          transitionColor(0x0, false);
+      const resetColor = (e: MouseEvent) => {
+        // Sprawdź, czy detale są otwarte
+        const detailsOpen = document.querySelector('.detail-view-container');
+        
+        // Usuń klasę tylko jeśli nie ma otwartych detali
+        if (!detailsOpen) {
+          card.classList.remove('active-color');
+          
+          // Sprawdź, czy jakakolwiek karta ma klasę 'active-color'
+          const anyCardActive = document.querySelector('.card.active-color');
+          
+          if (!anyCardActive) {
+            setHoveredCard(null);
+            transitionColor(0x0, false);
+          }
         }
       };
 
@@ -135,13 +150,20 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       card.setAttribute('data-has-listeners', 'true');
     });
 
-    // Obserwuj zmiany klasy 'selected' na kartach
+    // Obserwuj zmiany klasy 'active-color' na kartach
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         const target = mutation.target as HTMLElement;
         if (target.classList.contains('card')) {
-          if (!target.classList.contains('selected') && !hoveredCard) {
-            transitionColor(0x0);
+          // Jeśli karta straciła klasę 'active-color' i nie ma żadnej innej karty z tą klasą
+          if (!target.classList.contains('active-color') && !document.querySelector('.card.active-color')) {
+            // Sprawdź, czy detale są otwarte
+            const detailsOpen = document.querySelector('.detail-view-container');
+            
+            // Zresetuj kolor tylko jeśli nie ma otwartych detali
+            if (!detailsOpen) {
+              transitionColor(0x0);
+            }
           }
         }
       });
@@ -153,6 +175,60 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         attributeFilter: ['class']
       });
     });
+
+    // Dodaj globalną funkcję do ręcznego ustawiania aktywnego koloru
+    window.setActiveCardColor = (cardClass: string | null) => {
+      if (cardClass) {
+        // Znajdź kartę z pasującą klasą
+        const card = Array.from(cards).find(c => 
+          Array.from(c.classList).some(cls => cls === cardClass)
+        );
+        
+        if (card) {
+          // Dodaj klasę active-color do tej karty
+          cards.forEach(c => c.classList.remove('active-color'));
+          card.classList.add('active-color');
+          
+          // Wywołaj symulację handleColorChange
+          let targetColor = 0x0;
+          
+          switch(cardClass) {
+            case 'ciranda': targetColor = 0xdc431c; break;
+            case 'huyett': targetColor = 0x17305a; break;
+            case 'wastebuilt': targetColor = 0x097a40; break;
+            case 'singer': targetColor = 0x4091C9; break;
+            case 'chicago-auto': targetColor = 0x009edd; break;
+            case 'virginia': targetColor = 0xee3e42; break;
+            case 'foley': targetColor = 0xad9863; break;
+            case 'denimcratic': targetColor = 0x31589f; break; 
+            case 'blue': targetColor = 0x009ee0; break;
+            case 'metlife': targetColor = 0x103669; break;
+            case 'itron': targetColor = 0xd22930; break;
+            case 'anderson': targetColor = 0x39b54a; break;
+            case 'polacheck': targetColor = 0xFFD700; break;
+            case 'benchmark': targetColor = 0x551226; break;
+            case 'shoshanna': targetColor = 0xF88379; break;
+            case 'mountain': targetColor = 0x0c4e83; break;
+            case 'society': targetColor = 0x8a84d6; break;
+            case 'land': targetColor = 0x115A31; break;
+            case 'procon': targetColor = 0xd12428; break;
+            case 'darpet': targetColor = 0x831e0a; break;
+            case 'pure': targetColor = 0xf8f7f4; break;
+            case 'armor': targetColor = 0x015cff; break;
+            case 'chicago-coffee': targetColor = 0x65497c; break;
+            case 'anchor': targetColor = 0x2e7ebf; break;
+          }
+          
+          transitionColor(targetColor, true);
+        }
+      } else {
+        // Usuń klasę active-color ze wszystkich kart
+        cards.forEach(c => c.classList.remove('active-color'));
+        
+        // Resetuj kolor
+        transitionColor(0x0, false);
+      }
+    };
 
     return observer;
   }, [hoveredCard]); // Only depend on state that affects the handlers

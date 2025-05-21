@@ -18,6 +18,12 @@ function MyWork() {
 
   const handleOpenCard = (index: number) => {
     setSelectedProject(index);
+    
+    // Ustaw aktywny kolor dla wybranej karty
+    if (window.setActiveCardColor) {
+      window.setActiveCardColor(projects[index].classCard);
+    }
+    
     // Krótkie opóźnienie przed pokazaniem szczegółów widoku
     setTimeout(() => {
       setShowDetailView(true);
@@ -26,9 +32,18 @@ function MyWork() {
 
   const handleCloseCard = () => {
     setShowDetailView(false);
+    
     // Krótkie opóźnienie przed resetowaniem wybranego projektu
     setTimeout(() => {
       setSelectedProject(null);
+      
+      // Sprawdź, czy kursor jest nad jakąś kartą
+      const hoveredCard = document.querySelector('.card:hover');
+      
+      if (!hoveredCard && window.setActiveCardColor) {
+        // Jeśli nie ma najechanych kart, zresetuj kolor
+        window.setActiveCardColor(null);
+      }
     }, 300);
   };
 
