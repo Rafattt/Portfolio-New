@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import Card from '../components/Card';
+import '../styles/MyWork.css';
 
 function MyWork() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false); // Zmieniono na false, by zaczynać od niewidocznego stanu
+  const [showDetailView, setShowDetailView] = useState(false);
 
   useEffect(() => {
     // Ustawiamy timer na 2 sekundy zamiast 1 sekundy
@@ -14,12 +16,64 @@ function MyWork() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Dodaj obsługę zamykania przez ESC i kliknięcie poza detalami
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && showDetailView) {
+        handleCloseCard();
+      }
+    };
+
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (showDetailView) {
+        // Sprawdź, czy kliknięcie było poza detail-view
+        const detailView = document.querySelector('.detail-view');
+        if (detailView && !detailView.contains(e.target as Node)) {
+          handleCloseCard();
+        }
+      }
+    };
+
+    // Dodaj listenery
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    // Usuń listenery przy odmontowaniu
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [showDetailView]); // Zależność od showDetailView
+
   const handleOpenCard = (index: number) => {
     setSelectedProject(index);
+    
+    // Ustaw aktywny kolor dla wybranej karty
+    if (window.setActiveCardColor) {
+      window.setActiveCardColor(projects[index].classCard);
+    }
+    
+    // Krótkie opóźnienie przed pokazaniem szczegółów widoku
+    setTimeout(() => {
+      setShowDetailView(true);
+    }, 50);
   };
 
   const handleCloseCard = () => {
-    setSelectedProject(null);
+    setShowDetailView(false);
+    
+    // Krótkie opóźnienie przed resetowaniem wybranego projektu
+    setTimeout(() => {
+      setSelectedProject(null);
+      
+      // Sprawdź, czy kursor jest nad jakąś kartą
+      const hoveredCard = document.querySelector('.card:hover');
+      
+      if (!hoveredCard && window.setActiveCardColor) {
+        // Jeśli nie ma najechanych kart, zresetuj kolor
+        window.setActiveCardColor(null);
+      }
+    }, 300);
   };
 
   const projects = [
@@ -235,6 +289,39 @@ function MyWork() {
       mobileImage: '', // Add path when ready
     },
     {
+      title: "ArmorPoxy",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: 'src/assets/img/armor-logo.webp',
+      classCard: 'armor',
+      link: 'https://armorpoxy.com/',
+      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      desktopImage: '', // Add path when ready
+      mobileImage: '', // Add path when ready
+    },
+    {
+      title: "Anchor-Paper",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: 'src/assets/img/anchor-logo.webp',
+      classCard: 'anchor',
+      link: 'https://www.anchorpaper.com/',
+      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      desktopImage: '', // Add path when ready
+      mobileImage: '', // Add path when ready
+    },
+    {
+      title: "Chicago Coffee",
+      description: "Collaborative project management tool",
+      technologies: [""],
+      imgSrc: 'src/assets/img/chicago-logo.webp',
+      classCard: 'chicago-coffee',
+      link: 'https://www.coffeemasters.com/',
+      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      desktopImage: '', // Add path when ready
+      mobileImage: '', // Add path when ready
+    },
+    {
       title: "American Society of Anesthesiologists",
       description: "Collaborative project management tool",
       technologies: [""],
@@ -292,6 +379,8 @@ function MyWork() {
   ];
 
   return (
+    <>  
+    <div id="background-image"></div>
     <div className="background-img">
       <div className="frosted-overlay"></div>
       <div className={`my-work ${isVisible ? 'fade-in' : ''} ${selectedProject !== null ? 'project-open' : ''}`}>
@@ -301,16 +390,85 @@ function MyWork() {
               <Card 
                 key={index} 
                 {...project}
-                isSelected={selectedProject === index}
-                isHidden={selectedProject !== null && selectedProject !== index}
+                isSelected={false} // Zawsze false, bo używamy osobnego widoku szczegółowego
+                isHidden={showDetailView} // Ukrywamy wszystkie karty, gdy szczegóły są widoczne
                 onClick={() => handleOpenCard(index)}
-                onClose={handleCloseCard}
+                onClose={() => {}} // Pusta funkcja, bo obsługujemy zamykanie w komponencie projektu szczegółowego
               />
             ))}
           </div>
         </div>
       </div>
+      
+      {/* Zmodyfikowany kontener detali */}
+      {selectedProject !== null && showDetailView && (
+        <div className="detail-view-container">
+          <div className="detail-view" style={{'--highlight-color': projects[selectedProject].highlightColor} as React.CSSProperties}>
+            <button className="close-button" onClick={handleCloseCard}>×</button>
+            
+            <div className="detail-content">
+              <img src={projects[selectedProject].imgSrc} alt={projects[selectedProject].title} className="detail-logo" />
+              <h2>{projects[selectedProject].title}</h2>
+              <p className="description">{projects[selectedProject].description}</p>
+              
+              {projects[selectedProject].technologies && projects[selectedProject].technologies.length > 0 && (
+                <>
+                  <h3>Technologies</h3>
+                  <ul className="technologies">
+                    {projects[selectedProject].technologies.map((tech, i) => (
+                      <li key={i} className="tech-tag">{tech}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              
+              {/* Platform Specific Features (if available) */}
+              {projects[selectedProject].platformSpecific && projects[selectedProject].platformSpecific.length > 0 && (
+                <>
+                  <h3>Platform Specific Features</h3>
+                  <ul className="technologies">
+                    {projects[selectedProject].platformSpecific.map((feature, i) => (
+                      <li key={i} className="tech-tag">{feature}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              
+              {/* Screenshots */}
+              <div className="project-screenshots">
+                {projects[selectedProject].desktopImage && (
+                  <img 
+                    src={projects[selectedProject].desktopImage} 
+                    alt="Desktop view" 
+                    className="desktop-screenshot" 
+                  />
+                )}
+                {projects[selectedProject].mobileImage && (
+                  <img 
+                    src={projects[selectedProject].mobileImage} 
+                    alt="Mobile view" 
+                    className="mobile-screenshot" 
+                  />
+                )}
+              </div>
+              
+              {/* Visit site link */}
+              {projects[selectedProject].link && (
+                <a 
+                  href={projects[selectedProject].link} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="visit-site-button"
+                >
+                  Visit Website
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
+    </>
   );
 }
 
