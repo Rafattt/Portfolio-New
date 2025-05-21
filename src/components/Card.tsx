@@ -16,6 +16,7 @@ interface CardProps {
   desktopImage?: string;
   mobileImage?: string;
   platformSpecific?: string[];
+  platform?: string; // Dodana nowa właściwość platform
 }
 
 const Card: React.FC<CardProps> = ({ 

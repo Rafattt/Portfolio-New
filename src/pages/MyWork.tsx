@@ -104,32 +104,34 @@ function MyWork() {
       imgSrc: 'src/assets/img/ciranda-logo.webp',
       classCard: 'ciranda',
       link: 'https://www.ciranda.com/',
+      platform: 'OroCommerce',
       highlightColor: 0xff6600, // Orange for Ciranda
       desktopImage: 'src/assets/img/mockup-ciranda.webp', // Add path when ready
       mobileImage: '', // Add path when ready
     },
     {
       title: "Huyett – Custom OroCommerce Frontend & Searchspring Integration",
-      description: "I was responsible for the front-end integration of Searchspring into Huyett’s OroCommerce-based storefront, covering product listing pages (PLP), search results (SRP), and product detail pages (PDP). Since no documentation was available, I designed the communication flow from scratch. When a user typed a query or visited a category, Searchspring returned a list of product IDs. I used those IDs to query Oro’s backend and dynamically built the product dataset using custom JavaScript logic. The rendered UI was fully customized — including dynamic fields like certificate selectors, filter toggles, and conditional UI based on product metadata. All rendering and fallback logic was handled on the frontend. This hybrid approach allowed Searchspring to provide relevance and speed, while Oro remained the authoritative source of structured product data. The implementation also included deeper customization of Oro’s UI: I modified layout structure, extended widgets, and added dynamic binding between Oro’s backend data and JS-based frontend rendering.",
+      description: "I was responsible for the front-end integration of Searchspring into Huyett's OroCommerce-based storefront, covering product listing pages (PLP), search results (SRP), and product detail pages (PDP). Since no documentation was available, I designed the communication flow from scratch. When a user typed a query or visited a category, Searchspring returned a list of product IDs. I used those IDs to query Oro's backend and dynamically built the product dataset using custom JavaScript logic. The rendered UI was fully customized — including dynamic fields like certificate selectors, filter toggles, and conditional UI based on product metadata. All rendering and fallback logic was handled on the frontend. This hybrid approach allowed Searchspring to provide relevance and speed, while Oro remained the authoritative source of structured product data. The implementation also included deeper customization of Oro's UI: I modified layout structure, extended widgets, and added dynamic binding between Oro's backend data and JS-based frontend rendering.",
       examples: ['https://www.huyett.com/product/search?search=bolts', 'https://www.huyett.com/product/search?search=bolts'],
       technologies: [
-  "OroCommerce",
-  "JavaScript",
-  "Vue.js (SDK)",
-  "HTML",
-  "SCSS/CSS",
-  "Searchspring API"
-],
+        "OroCommerce",
+        "JavaScript",
+        "Vue.js (SDK)",
+        "HTML",
+        "SCSS/CSS",
+        "Searchspring API"
+      ],
       platformSpecific: [
-  "Twig templating",
-  "Oro layout.yml",
-  "Oro UI customization",
-  "Dynamic DOM rendering",
-  "Custom JS↔DB binding"
-],
+        "Twig templating",
+        "Oro layout.yml",
+        "Oro UI customization",
+        "Dynamic DOM rendering",
+        "Custom JS↔DB binding"
+      ],
       imgSrc: 'src/assets/img/huyett-logo.webp',
       classCard: 'huyett',
       link: 'https://www.huyett.com/',
+      platform: 'OroCommerce',
       highlightColor: 0x000066, // Dark blue for Huyett
       desktopImage: 'src/assets/img/mockup-huyett.webp', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -141,6 +143,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/wastebuilt-logo.webp',
       classCard: 'wastebuilt',
       link: 'https://www.wastebuilt.com/',
+      platform: 'OroCommerce',
       highlightColor: 0x00ff00, // Bright green for Wastebuilt
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -152,6 +155,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/mountain-logo.webp',
       classCard: 'mountain',
       link: 'https://mountaintarp.com/',
+      platform: 'OroCommerce',
       highlightColor: 0x00ff00, // Bright green for Wastebuilt
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -163,6 +167,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/singer-logo.webp',
       classCard: 'singer',
       link: 'https://www.singerequipment.com/',
+      platform: 'RocCommerce',
       highlightColor: 0xff0000, // Red for Singer
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -174,6 +179,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/chicago-logo.webp',
       classCard: 'chicago-auto',
       link: 'https://www.chicagoautoshow.com',
+      platform: 'iDev',
       highlightColor: 0x00ffff, // Cyan for Chicago Auto Show
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -185,6 +191,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/virginia-logo.webp',
       classCard: 'virginia',
       link: 'https://www.vre.org/',
+      platform: 'iDev',
       highlightColor: 0xff00ff, // Magenta for Virginia Railways
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -196,6 +203,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/foley-logo.webp',
       classCard: 'foley',
       link: 'https://www.vre.org/',
+      platform: 'Salesforce',
       highlightColor: 0x800080, // Purple for Foley Family Wines
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -207,7 +215,8 @@ function MyWork() {
       imgSrc: 'src/assets/img/anderson-logo.webp',
       classCard: 'anderson',
       link: 'https://www.anderson-negele.com/us/',
-      highlightColor: 0x39b54a, // Purple for Foley Family Wines
+      platform: 'Wordpress',
+      highlightColor: 0x39b54a, // Green for Anderson-Negele
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
     },
@@ -218,6 +227,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/denimcratic-logo.webp',
       classCard: 'denimcratic',
       link: 'https://denimcratic.com/',
+      platform: 'Shopify',
       highlightColor: 0xffff00, // Yellow for Deniimcratic
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -229,6 +239,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/blaupunkt-logo.webp',
       classCard: 'blue',
       link: 'https://blue.bike/',
+      platform: 'Shopify',
       highlightColor: 0x0000ff, // Blue for Blaupunkt
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -240,6 +251,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/metlife-logo.webp',
       classCard: 'metlife',
       link: 'https://www.metlifestadium.com/',
+      platform: 'iDev',
       highlightColor: 0xff1493, // Deep pink for MetLife Stadium
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -251,6 +263,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/itron-logo.webp',
       classCard: 'itron',
       link: 'https://na.itron.com/',
+      platform: 'Liferay',
       highlightColor: 0x00bfff, // Deep sky blue for Itron
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -262,6 +275,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/polacheck-logo.webp',
       classCard: 'polacheck',
       link: 'https://polachecks.com/',
+      platform: 'Shopify',
       highlightColor: 0xff4500, // Orange red for Polacheck's Jewelers
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -273,6 +287,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/benchmark-logo.webp',
       classCard: 'benchmark',
       link: 'https://bcbforlife.bank/',
+      platform: 'Liferay',
       highlightColor: 0x2e8b57, // Sea green for Benchmark Community Bank
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -284,6 +299,7 @@ function MyWork() {
       imgSrc: 'src/assets/img/shoshana-logo.webp',
       classCard: 'shoshanna',
       link: 'https://shoshanna.com/',
+      platform: 'Shopify',
       highlightColor: 0x4682b4, // Steel blue for Shoshanna
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
@@ -295,7 +311,8 @@ function MyWork() {
       imgSrc: 'src/assets/img/armor-logo.webp',
       classCard: 'armor',
       link: 'https://armorpoxy.com/',
-      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      platform: 'BigCommerce',
+      highlightColor: 0x4682b4, // Steel blue for ArmorPoxy
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
     },
@@ -306,7 +323,8 @@ function MyWork() {
       imgSrc: 'src/assets/img/anchor-logo.webp',
       classCard: 'anchor',
       link: 'https://www.anchorpaper.com/',
-      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      platform: 'Magento',
+      highlightColor: 0x4682b4, // Steel blue for Anchor-Paper
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
     },
@@ -317,7 +335,8 @@ function MyWork() {
       imgSrc: 'src/assets/img/chicago-logo.webp',
       classCard: 'chicago-coffee',
       link: 'https://www.coffeemasters.com/',
-      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      platform: 'BigCommerce',
+      highlightColor: 0x4682b4, // Steel blue for Chicago Coffee
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
     },
@@ -328,7 +347,8 @@ function MyWork() {
       imgSrc: 'src/assets/img/society-logo.webp',
       classCard: 'society',
       link: 'https://www.asahq.org/',
-      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      platform: 'Magento',
+      highlightColor: 0x4682b4, // Steel blue for American Society of Anesthesiologists
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
     },
@@ -339,7 +359,8 @@ function MyWork() {
       imgSrc: 'src/assets/img/land-logo.webp',
       classCard: 'land',
       link: 'https://www.landandcoates.net/',
-      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      platform: 'Znode',
+      highlightColor: 0x4682b4, // Steel blue for Land and Coates
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
     },
@@ -350,7 +371,8 @@ function MyWork() {
       imgSrc: 'src/assets/img/procon-logo.webp',
       classCard: 'procon',
       link: 'https://www.proconpumps.com/',
-      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      platform: 'Znode',
+      highlightColor: 0x4682b4, // Steel blue for Procon Pump
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
     },
@@ -361,7 +383,8 @@ function MyWork() {
       imgSrc: 'src/assets/img/darpet-logo.webp',
       classCard: 'darpet',
       link: 'https://www.darpet.com/',
-      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      platform: 'Wordpress',
+      highlightColor: 0x4682b4, // Steel blue for Darpet
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
     },
@@ -372,7 +395,8 @@ function MyWork() {
       imgSrc: 'src/assets/img/pure-logo.webp',
       classCard: 'pure',
       link: 'https://pureorder.org',
-      highlightColor: 0x4682b4, // Steel blue for Shoshanna
+      platform: 'HTML',
+      highlightColor: 0x4682b4, // Steel blue for PureOrder
       desktopImage: '', // Add path when ready
       mobileImage: '', // Add path when ready
     }
