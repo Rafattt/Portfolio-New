@@ -17,6 +17,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const animationRef = useRef<number>();
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   
+  const colorTween = useRef<gsap.core.Tween | null>(null);
+  const resetTimer = useRef<number | null>(null);
   
 
   const lerp = (start: number, end: number, t: number) => {

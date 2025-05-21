@@ -9,6 +9,9 @@ export function initWebGL(canvas: HTMLCanvasElement, gl: WebGLRenderingContext, 
 //   canvas.width = canvas.clientWidth;
 //   canvas.height = canvas.clientHeight; performance testing, may be needed
 
+const deviceRatio = Math.min(window.devicePixelRatio, 1.5);   // max 1.5×
+  const DOWNSAMPLE_EXP = deviceRatio >= 1.5 ? 1 : 0;            // 1 → /2, 0 → /1
+
 var config = {
     TEXTURE_DOWNSAMPLE: 1.5,
     DENSITY_DISSIPATION: 0.98,
