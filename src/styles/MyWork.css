@@ -125,3 +125,122 @@
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+/* Filter Panel Styles */
+.filters-panel {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  width: 250px;
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.filter-toggle {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 14px;
+}
+
+.filter-icon {
+  font-size: 16px;
+  margin-left: 8px;
+}
+
+.filters-content {
+  margin-top: 15px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.filters-panel.show .filters-content {
+  max-height: 500px; /* Adjust based on content */
+}
+
+.filters-panel h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: normal;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.filter-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.filter-option input[type="checkbox"] {
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.filter-name {
+  flex: 1;
+}
+
+.filter-count {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+}
+
+.reset-filters {
+  margin-top: 15px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 12px;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.reset-filters:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Add a separator after the All Platforms option */
+.filter-option:first-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .filters-panel {
+    width: 200px;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .filter-toggle {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}

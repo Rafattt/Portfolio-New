@@ -1,22 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Card from '../components/Card';
 import '../styles/MyWork.css';
 
 function MyWork() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
-  const [isVisible, setIsVisible] = useState(false); // Zmieniono na false, by zaczynać od niewidocznego stanu
+  const [isVisible, setIsVisible] = useState(false);
   const [showDetailView, setShowDetailView] = useState(false);
+  const [selectedFilters, setSelectedFilters] = useState<string[]>(['all']); // Default to 'all'
+  const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
-    // Ustawiamy timer na 2 sekundy zamiast 1 sekundy
     const timer = setTimeout(() => {
       setIsVisible(true);
-    }, 2000); // Zmieniono na 2000ms (2 sekundy)
+    }, 2000);
     
     return () => clearTimeout(timer);
   }, []);
 
-  // Dodaj obsługę zamykania przez ESC i kliknięcie poza detalami
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && showDetailView) {
@@ -26,7 +26,6 @@ function MyWork() {
 
     const handleOutsideClick = (e: MouseEvent) => {
       if (showDetailView) {
-        // Sprawdź, czy kliknięcie było poza detail-view
         const detailView = document.querySelector('.detail-view');
         if (detailView && !detailView.contains(e.target as Node)) {
           handleCloseCard();
@@ -34,26 +33,22 @@ function MyWork() {
       }
     };
 
-    // Dodaj listenery
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('mousedown', handleOutsideClick);
 
-    // Usuń listenery przy odmontowaniu
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('mousedown', handleOutsideClick);
     };
-  }, [showDetailView]); // Zależność od showDetailView
+  }, [showDetailView]);
 
   const handleOpenCard = (index: number) => {
     setSelectedProject(index);
     
-    // Ustaw aktywny kolor dla wybranej karty
     if (window.setActiveCardColor) {
       window.setActiveCardColor(projects[index].classCard);
     }
     
-    // Krótkie opóźnienie przed pokazaniem szczegółów widoku
     setTimeout(() => {
       setShowDetailView(true);
     }, 50);
@@ -62,15 +57,12 @@ function MyWork() {
   const handleCloseCard = () => {
     setShowDetailView(false);
     
-    // Krótkie opóźnienie przed resetowaniem wybranego projektu
     setTimeout(() => {
       setSelectedProject(null);
       
-      // Sprawdź, czy kursor jest nad jakąś kartą
       const hoveredCard = document.querySelector('.card:hover');
       
       if (!hoveredCard && window.setActiveCardColor) {
-        // Jeśli nie ma najechanych kart, zresetuj kolor
         window.setActiveCardColor(null);
       }
     }, 300);
@@ -402,22 +394,129 @@ function MyWork() {
     }
   ];
 
+  // Get unique platforms from projects (excluding empty ones)
+  const availablePlatforms = useMemo(() => {
+    const platforms = projects
+      .map(project => project.platform)
+      .filter(platform => platform && platform.trim() !== '');
+    
+    // Get unique values
+    return [...new Set(platforms)].sort();
+  }, [projects]);
+
+  // Filter projects based on selected platforms
+  const filteredProjects = useMemo(() => {
+    if (selectedFilters.includes('all')) {
+      return projects; // Show all projects when 'all' is selected
+    }
+    
+    return projects.filter(project => 
+      selectedFilters.includes(project.platform)
+    );
+  }, [projects, selectedFilters]);
+
+  // Handle filter selection
+  const handleFilterChange = (platform: string) => {
+    setSelectedFilters(prev => {
+      // If selecting 'all', clear other filters
+      if (platform === 'all') {
+        return ['all'];
+      }
+      
+      // If selecting a specific platform, remove 'all' from selection
+      let newFilters = prev.filter(p => p !== 'all');
+      
+      if (prev.includes(platform)) {
+        // Remove filter if already selected
+        newFilters = newFilters.filter(p => p !== platform);
+      } else {
+        // Add filter
+        newFilters = [...newFilters, platform];
+      }
+      
+      // If no filters left, select 'all' again
+      if (newFilters.length === 0) {
+        return ['all'];
+      }
+      
+      return newFilters;
+    });
+  };
+
+  // Reset all filters
+  const resetFilters = () => {
+    setSelectedFilters(['all']);
+  };
+
+  // Toggle filter visibility (for mobile)
+  const toggleFilters = () => {
+    setShowFilters(prev => !prev);
+  };
+
   return (
     <>  
     <div id="background-image"></div>
     <div className="background-img">
       <div className="frosted-overlay"></div>
+      
+      {/* Filters Panel */}
+      <div className={`filters-panel ${showFilters ? 'show' : ''}`}>
+        <button className="filter-toggle" onClick={toggleFilters}>
+          {showFilters ? 'Hide Filters' : 'Show Filters'} 
+          <span className="filter-icon">🔍</span>
+        </button>
+        
+        <div className="filters-content">
+          <h3>Filter by Platform</h3>
+          <div className="filter-options">
+            {/* All Platforms option */}
+            <label className="filter-option">
+              <input
+                type="checkbox"
+                checked={selectedFilters.includes('all')}
+                onChange={() => handleFilterChange('all')}
+              />
+              <span className="filter-name">All Platforms</span>
+              <span className="filter-count">
+                ({projects.length})
+              </span>
+            </label>
+            
+            {/* Individual platform options */}
+            {availablePlatforms.map(platform => (
+              <label key={platform} className="filter-option">
+                <input
+                  type="checkbox"
+                  checked={selectedFilters.includes(platform)}
+                  onChange={() => handleFilterChange(platform)}
+                />
+                <span className="filter-name">{platform}</span>
+                <span className="filter-count">
+                  ({projects.filter(p => p.platform === platform).length})
+                </span>
+              </label>
+            ))}
+          </div>
+          
+          {!selectedFilters.includes('all') && selectedFilters.length > 0 && (
+            <button className="reset-filters" onClick={resetFilters}>
+              Reset Filters
+            </button>
+          )}
+        </div>
+      </div>
+      
       <div className={`my-work ${isVisible ? 'fade-in' : ''} ${selectedProject !== null ? 'project-open' : ''}`}>
         <div className="my-work-inner">
           <div className="cards-container">
-            {projects.map((project, index) => (
+            {filteredProjects.map((project, index) => (
               <Card 
                 key={index} 
                 {...project}
-                isSelected={false} // Zawsze false, bo używamy osobnego widoku szczegółowego
-                isHidden={showDetailView} // Ukrywamy wszystkie karty, gdy szczegóły są widoczne
-                onClick={() => handleOpenCard(index)}
-                onClose={() => {}} // Pusta funkcja, bo obsługujemy zamykanie w komponencie projektu szczegółowego
+                isSelected={false} 
+                isHidden={showDetailView} 
+                onClick={() => handleOpenCard(projects.indexOf(project))}
+                onClose={() => {}} 
               />
             ))}
           </div>
