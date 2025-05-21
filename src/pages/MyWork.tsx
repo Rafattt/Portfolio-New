@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import Card from '../components/Card';
+import '../styles/MyWork.css';
 
 function MyWork() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false); // Zmieniono na false, by zaczynać od niewidocznego stanu
+  const [showDetailView, setShowDetailView] = useState(false);
 
   useEffect(() => {
     // Ustawiamy timer na 2 sekundy zamiast 1 sekundy
@@ -16,10 +18,18 @@ function MyWork() {
 
   const handleOpenCard = (index: number) => {
     setSelectedProject(index);
+    // Krótkie opóźnienie przed pokazaniem szczegółów widoku
+    setTimeout(() => {
+      setShowDetailView(true);
+    }, 50);
   };
 
   const handleCloseCard = () => {
-    setSelectedProject(null);
+    setShowDetailView(false);
+    // Krótkie opóźnienie przed resetowaniem wybranego projektu
+    setTimeout(() => {
+      setSelectedProject(null);
+    }, 300);
   };
 
   const projects = [
@@ -336,15 +346,83 @@ function MyWork() {
               <Card 
                 key={index} 
                 {...project}
-                isSelected={selectedProject === index}
-                isHidden={selectedProject !== null && selectedProject !== index}
+                isSelected={false} // Zawsze false, bo używamy osobnego widoku szczegółowego
+                isHidden={showDetailView} // Ukrywamy wszystkie karty, gdy szczegóły są widoczne
                 onClick={() => handleOpenCard(index)}
-                onClose={handleCloseCard}
+                onClose={() => {}} // Pusta funkcja, bo obsługujemy zamykanie w komponencie projektu szczegółowego
               />
             ))}
           </div>
         </div>
       </div>
+      
+      {/* Nowy komponent widoku szczegółowego projektu */}
+      {selectedProject !== null && showDetailView && (
+        <div className="detail-view-container">
+          <div className="detail-view" style={{'--highlight-color': projects[selectedProject].highlightColor} as React.CSSProperties}>
+            <button className="close-button" onClick={handleCloseCard}>×</button>
+            
+            <div className="detail-content">
+              <img src={projects[selectedProject].imgSrc} alt={projects[selectedProject].title} className="detail-logo" />
+              <h2>{projects[selectedProject].title}</h2>
+              <p className="description">{projects[selectedProject].description}</p>
+              
+              {projects[selectedProject].technologies && projects[selectedProject].technologies.length > 0 && (
+                <>
+                  <h3>Technologies</h3>
+                  <ul className="technologies">
+                    {projects[selectedProject].technologies.map((tech, i) => (
+                      <li key={i} className="tech-tag">{tech}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              
+              {/* Platform Specific Features (if available) */}
+              {projects[selectedProject].platformSpecific && projects[selectedProject].platformSpecific.length > 0 && (
+                <>
+                  <h3>Platform Specific Features</h3>
+                  <ul className="technologies">
+                    {projects[selectedProject].platformSpecific.map((feature, i) => (
+                      <li key={i} className="tech-tag">{feature}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              
+              {/* Screenshots */}
+              <div className="project-screenshots">
+                {projects[selectedProject].desktopImage && (
+                  <img 
+                    src={projects[selectedProject].desktopImage} 
+                    alt="Desktop view" 
+                    className="desktop-screenshot" 
+                  />
+                )}
+                {projects[selectedProject].mobileImage && (
+                  <img 
+                    src={projects[selectedProject].mobileImage} 
+                    alt="Mobile view" 
+                    className="mobile-screenshot" 
+                  />
+                )}
+              </div>
+              
+              {/* Visit site link */}
+              {projects[selectedProject].link && (
+                <a 
+                  href={projects[selectedProject].link} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="visit-site-button"
+                >
+                  Visit Website
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
     </>
   );
