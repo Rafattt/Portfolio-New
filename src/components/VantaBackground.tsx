@@ -47,7 +47,7 @@ const VantaBackground = () => {
         mouseControls: false,
         touchControls: false,
         gyroControls: false,
-        pixelRatio: 1,
+        pixelRatio: window.innerWidth < 1024 ? 1 : Math.min(window.devicePixelRatio, 1.5),
 
 
         highlightColor: 0x0,
@@ -55,7 +55,7 @@ const VantaBackground = () => {
         lowlightColor: 0xf5f5f5,
         baseColor: 0x0,
 
-        blurFactor: 0.2,
+        blurFactor: 0.3,
         speed: 0.1,
         zoom: 0.8,
         scale: 1,
@@ -75,11 +75,23 @@ const VantaBackground = () => {
       initVanta();
     };
 
+    let resizeTimeout: number | null = null;
+
+  const handleResize = () => {
+    if (resizeTimeout) clearTimeout(resizeTimeout);
+    resizeTimeout = window.setTimeout(() => {
+      window.reinitializeVanta?.();
+    }, 300); // debounce time
+  };
+
+  window.addEventListener("resize", handleResize);
+
     // ② sprzątamy przy odmontowaniu
     return () => {
       vantaEffect?.destroy?.();
       vantaEffect = null;
       initialized.current = false;
+       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
