@@ -68,6 +68,7 @@ function MyWork() {
     }, 300);
   };
 
+
   const projects = [
     {
       title: " Ciranda – Custom OroCommerce Frontend & Interactive Content Architecture",
@@ -93,12 +94,12 @@ function MyWork() {
         "Session-aware rendering"
       ],
       featured: true,
-      imgSrc: 'src/assets/img/ciranda-logo.webp',
+      imgSrc: '/img/ciranda-logo.webp',
       classCard: 'ciranda',
       link: 'https://www.ciranda.com/',
       platform: 'OroCommerce',
       highlightColor: 0xff6600, // Orange for Ciranda
-      desktopImage: 'src/assets/img/mockup-ciranda.webp', // Add path when ready
+      desktopImage: '/img/mockup-ciranda.webp',
       mobileImage: '', // Add path when ready
     },
     {
@@ -120,19 +121,19 @@ function MyWork() {
         "Dynamic DOM rendering",
         "Custom JS↔DB binding"
       ],
-      imgSrc: 'src/assets/img/huyett-logo.webp',
+      imgSrc: '/img/huyett-logo.webp',
       classCard: 'huyett',
       link: 'https://www.huyett.com/',
       platform: 'OroCommerce',
       highlightColor: 0x000066, // Dark blue for Huyett
-      desktopImage: 'src/assets/img/mockup-huyett.webp', // Add path when ready
+      desktopImage: '/img/mockup-huyett.webp',
       mobileImage: '', // Add path when ready
     },
     {
       title: "Wastebuilt",
       description: "Real-time weather data visualization",
       technologies: [""],
-      imgSrc: 'src/assets/img/wastebuilt-logo.webp',
+      imgSrc: '/img/wastebuilt-logo.webp',
       classCard: 'wastebuilt',
       link: 'https://www.wastebuilt.com/',
       platform: 'OroCommerce',
@@ -144,7 +145,7 @@ function MyWork() {
       title: "Mountain Tarp",
       description: "Real-time weather data visualization",
       technologies: [""],
-      imgSrc: 'src/assets/img/mountain-logo.webp',
+      imgSrc: '/img/mountain-logo.webp',
       classCard: 'mountain',
       link: 'https://mountaintarp.com/',
       platform: 'OroCommerce',
@@ -156,7 +157,7 @@ function MyWork() {
       title: "Singer",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/singer-logo.webp',
+      imgSrc: '/img/singer-logo.webp',
       classCard: 'singer',
       link: 'https://www.singerequipment.com/',
       platform: 'RocCommerce',
@@ -168,7 +169,7 @@ function MyWork() {
       title: "Chicago Auto Show",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/chicago-logo.webp',
+      imgSrc: '/img/chicago-logo.webp',
       classCard: 'chicago-auto',
       link: 'https://www.chicagoautoshow.com',
       platform: 'iDev',
@@ -180,7 +181,7 @@ function MyWork() {
       title: "Virginia Raylways",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/virginia-logo.webp',
+      imgSrc: '/img/virginia-logo.webp',
       classCard: 'virginia',
       link: 'https://www.vre.org/',
       platform: 'iDev',
@@ -192,7 +193,7 @@ function MyWork() {
       title: "Foley Family Wines",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/foley-logo.webp',
+      imgSrc: '/img/foley-logo.webp',
       classCard: 'foley',
       link: 'https://www.vre.org/',
       platform: 'Salesforce',
@@ -204,7 +205,7 @@ function MyWork() {
       title: "Anderson-Negele",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/anderson-logo.webp',
+      imgSrc: '/img/anderson-logo.webp',
       classCard: 'anderson',
       link: 'https://www.anderson-negele.com/us/',
       platform: 'Wordpress',
@@ -216,7 +217,7 @@ function MyWork() {
       title: "Deniimcratic",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/denimcratic-logo.webp',
+      imgSrc: '/img/denimcratic-logo.webp',
       classCard: 'denimcratic',
       link: 'https://denimcratic.com/',
       platform: 'Shopify',
@@ -228,7 +229,7 @@ function MyWork() {
       title: "Blaupunkt",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/blaupunkt-logo.webp',
+      imgSrc: '/img/blaupunkt-logo.webp',
       classCard: 'blue',
       link: 'https://blue.bike/',
       platform: 'Shopify',
@@ -240,7 +241,7 @@ function MyWork() {
       title: "MetLife Stadium",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/metlife-logo.webp',
+      imgSrc: '/img/metlife-logo.webp',
       classCard: 'metlife',
       link: 'https://www.metlifestadium.com/',
       platform: 'iDev',
@@ -252,7 +253,7 @@ function MyWork() {
       title: "Itron",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/itron-logo.webp',
+      imgSrc: '/img/itron-logo.webp',
       classCard: 'itron',
       link: 'https://na.itron.com/',
       platform: 'Liferay',
@@ -264,7 +265,7 @@ function MyWork() {
       title: "Polacheck's Jewelers:",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/polacheck-logo.webp',
+      imgSrc: '/img/polacheck-logo.webp',
       classCard: 'polacheck',
       link: 'https://polachecks.com/',
       platform: 'Shopify',
@@ -276,7 +277,7 @@ function MyWork() {
       title: "Benchmark Community Bank",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/benchmark-logo.webp',
+      imgSrc: '/img/benchmark-logo.webp',
       classCard: 'benchmark',
       link: 'https://bcbforlife.bank/',
       platform: 'Liferay',
@@ -288,7 +289,7 @@ function MyWork() {
       title: "Shoshanna",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/shoshana-logo.webp',
+      imgSrc: '/img/shoshana-logo.webp',
       classCard: 'shoshanna',
       link: 'https://shoshanna.com/',
       platform: 'Shopify',
@@ -300,7 +301,7 @@ function MyWork() {
       title: "ArmorPoxy",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/armor-logo.webp',
+      imgSrc: '/img/armor-logo.webp',
       classCard: 'armor',
       link: 'https://armorpoxy.com/',
       platform: 'BigCommerce',
@@ -312,7 +313,7 @@ function MyWork() {
       title: "Anchor-Paper",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/anchor-logo.webp',
+      imgSrc: '/img/anchor-logo.webp',
       classCard: 'anchor',
       link: 'https://www.anchorpaper.com/',
       platform: 'Magento',
@@ -324,7 +325,7 @@ function MyWork() {
       title: "Chicago Coffee",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/chicago-logo.webp',
+      imgSrc: '/img/chicago-logo.webp',
       classCard: 'chicago-coffee',
       link: 'https://www.coffeemasters.com/',
       platform: 'BigCommerce',
@@ -336,7 +337,7 @@ function MyWork() {
       title: "American Society of Anesthesiologists",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/society-logo.webp',
+      imgSrc: '/img/society-logo.webp',
       classCard: 'society',
       link: 'https://www.asahq.org/',
       platform: 'Magento',
@@ -348,7 +349,7 @@ function MyWork() {
       title: "Land and Coates",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/land-logo.webp',
+      imgSrc: '/img/land-logo.webp',
       classCard: 'land',
       link: 'https://www.landandcoates.net/',
       platform: 'Znode',
@@ -360,7 +361,7 @@ function MyWork() {
       title: "Procon Pump",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/procon-logo.webp',
+      imgSrc: '/img/procon-logo.webp',
       classCard: 'procon',
       link: 'https://www.proconpumps.com/',
       platform: 'Znode',
@@ -372,7 +373,7 @@ function MyWork() {
       title: "Darpet",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/darpet-logo.webp',
+      imgSrc: '/img/darpet-logo.webp',
       classCard: 'darpet',
       link: 'https://www.darpet.com/',
       platform: 'Wordpress',
@@ -384,7 +385,7 @@ function MyWork() {
       title: "PureOrder",
       description: "Collaborative project management tool",
       technologies: [""],
-      imgSrc: 'src/assets/img/pure-logo.webp',
+      imgSrc: '/img/pure-logo.webp',
       classCard: 'pure',
       link: 'https://pureorder.org',
       platform: 'HTML',
@@ -393,6 +394,8 @@ function MyWork() {
       mobileImage: '', // Add path when ready
     }
   ];
+
+// ...existing code...
 
   // Get unique platforms from projects (excluding empty ones)
   const availablePlatforms = useMemo(() => {
