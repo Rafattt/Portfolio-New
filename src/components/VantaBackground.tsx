@@ -56,7 +56,7 @@ const VantaBackground = () => {
         baseColor: 0x0,
 
         blurFactor: 0.3,
-        speed: 0.1,
+        speed: 0.3,
         zoom: 0.8,
         scale: 1,
         backgroundAlpha: 0.0,

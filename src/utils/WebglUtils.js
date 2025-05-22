@@ -1,4 +1,4 @@
-export function initWebGL(canvas: HTMLCanvasElement, gl: WebGLRenderingContext, ext: any, support_linear_float: boolean) {
+export function initWebGL(canvas, gl, ext, support_linear_float) {
     'use strict';
 
   // Zamiast ponownej deklaracji canvas, użyjmy istniejącego parametru

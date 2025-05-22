@@ -259,14 +259,14 @@ console.log('fff')
             case 'anchor': targetColor = 0x2e7ebf; break;
           }
           
-          transitionColor(targetColor, true);
+          transitionColor(targetColor);
         }
       } else {
         // Usuń klasę active-color ze wszystkich kart
         cards.forEach(c => c.classList.remove('active-color'));
         
         // Resetuj kolor
-        transitionColor(0x0, false);
+        transitionColor(0x0);
       }
     };
 
