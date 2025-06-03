@@ -4,21 +4,20 @@ export const getWebGLContext = (canvas: HTMLCanvasElement) => {
     depth: false,
     stencil: false,
     antialias: false,
-    preserveDrawingBuffer: true
+    preserveDrawingBuffer: false
   };
 
-  // Try WebGL2 first
-  let gl = canvas.getContext('webgl2', params);
-  if (!gl) {
-    // Fallback to WebGL1
-    gl = canvas.getContext('webgl', params) || canvas.getContext('experimental-webgl', params);
-  }
+  const possibleGl =
+    canvas.getContext('webgl2', params) ||
+    canvas.getContext('webgl', params) ||
+    canvas.getContext('experimental-webgl', params);
 
-  if (!gl) {
+  if (!possibleGl || typeof (possibleGl as WebGLRenderingContext).getExtension !== 'function') {
     throw new Error('WebGL not supported');
   }
 
-  // Initialize extensions
+  const gl = possibleGl as WebGLRenderingContext | WebGL2RenderingContext;
+
   const support_linear_float = gl.getExtension('OES_texture_half_float_linear');
   const ext = {
     textureFloat: gl.getExtension('OES_texture_float'),

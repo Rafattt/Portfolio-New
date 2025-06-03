@@ -48,8 +48,8 @@ function Home() {
       try {
         console.log('Initializing smoke animation...');
         const canvas = canvasRef.current;
-        canvas.width = canvas.clientWidth;
-        canvas.height = canvas.clientHeight;
+        // canvas.width = canvas.clientWidth;
+        // canvas.height = canvas.clientHeight; performance testing, may be needed
 
         const context = getWebGLContext(canvas);
         webglContextRef.current = context;
@@ -83,11 +83,9 @@ function Home() {
     }, 1000);
     
     // Initialize WebGL with small delay to ensure canvas is ready
-    setTimeout(() => {
-      if (!isDestroyed) {
-        initGL();
-      }
-    }, 100);
+    requestAnimationFrame(() => {
+  if (!isDestroyed) initGL();
+});
     
     // Handle window resize
     const handleResize = () => {
@@ -100,7 +98,13 @@ function Home() {
       }
     };
 
-    window.addEventListener('resize', handleResize);
+    let resizeTimeout: number;
+const throttledResize = () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = window.setTimeout(handleResize, 200);
+};
+
+window.addEventListener('resize', throttledResize);
 
     return () => {
       isDestroyed = true;
