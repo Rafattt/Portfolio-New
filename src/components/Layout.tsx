@@ -45,7 +45,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   };
 
   let lastUpdateTime = 0;
-const throttleInterval = 66; // ms ~15fps
+const throttleInterval = 66; 
 
 const throttledVantaUpdate = (color: number) => {
   const now = performance.now();
@@ -56,11 +56,8 @@ const throttledVantaUpdate = (color: number) => {
 };
 
 const transitionColor = (targetColor: number) => {
-  // 🔒 Jeśli kolor docelowy się nie zmienia — nie rób nic
   if (targetColor === lastTargetColorRef.current) return;
   lastTargetColorRef.current = targetColor;
-console.log('fff')
-  // 🎯 Kolor startowy
   const startColor = currentColorRef.current;
   const startR = (startColor >> 16) & 0xff;
   const startG = (startColor >> 8) & 0xff;
@@ -72,10 +69,7 @@ console.log('fff')
 
   const obj = { r: startR, g: startG, b: startB };
 
-  // zatrzymaj poprzednią animację jeśli jeszcze trwa
   currentTweenRef.current?.kill();
-
-  //  Nowa animacja
   currentTweenRef.current = gsap.to(obj, {
     r: endR,
     g: endG,
@@ -93,18 +87,15 @@ console.log('fff')
   });
 };
 
-
-  // Use memo or stable refs for event handlers to avoid recreation on rerenders
   const setupCardListeners = useCallback(() => {
     const cards = document.querySelectorAll('.card');
     cards.forEach(card => {
       const existingHandlers = card.getAttribute('data-has-listeners') === 'true';
       if (existingHandlers) {
-        return; // Skip if already has listeners
+        return; 
       }
       
       const handleColorChange = () => {
-        // Dodaj klasę 'active-color' do karty
         if (resetTimeoutRef.current) {
           clearTimeout(resetTimeoutRef.current);
           resetTimeoutRef.current = null;
@@ -173,34 +164,27 @@ console.log('fff')
   }, 1000);
 };
 
-
-      // First remove any existing listeners to prevent duplicates
       card.removeEventListener('mouseenter', handleColorChange);
       card.removeEventListener('mouseleave', resetColor);
       card.removeEventListener('focusin', handleColorChange);
       card.removeEventListener('focusout', resetColor);
       
-      // Then add the listeners
       card.addEventListener('mouseenter', handleColorChange);
       card.addEventListener('mouseleave', resetColor);
       card.addEventListener('focusin', handleColorChange);
       card.addEventListener('focusout', resetColor);
 
-      // Mark as having listeners
       card.setAttribute('data-has-listeners', 'true');
     });
 
-    // Obserwuj zmiany klasy 'active-color' na kartach
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         const target = mutation.target as HTMLElement;
         if (target.classList.contains('card')) {
-          // Jeśli karta straciła klasę 'active-color' i nie ma żadnej innej karty z tą klasą
+
           if (!target.classList.contains('active-color') && !document.querySelector('.card.active-color')) {
-            // Sprawdź, czy detale są otwarte
             const detailsOpen = document.querySelector('.detail-view-container');
             
-            // Zresetuj kolor tylko jeśli nie ma otwartych detali
             if (!detailsOpen) {
               transitionColor(0x0);
             }
@@ -216,20 +200,17 @@ console.log('fff')
       });
     });
 
-    // Dodaj globalną funkcję do ręcznego ustawiania aktywnego koloru
     window.setActiveCardColor = (cardClass: string | null) => {
       if (cardClass) {
-        // Znajdź kartę z pasującą klasą
         const card = Array.from(cards).find(c => 
           Array.from(c.classList).some(cls => cls === cardClass)
         );
         
         if (card) {
-          // Dodaj klasę active-color do tej karty
+
           cards.forEach(c => c.classList.remove('active-color'));
           card.classList.add('active-color');
           
-          // Wywołaj symulację handleColorChange
           let targetColor = 0x0;
           
           switch(cardClass) {
@@ -262,16 +243,16 @@ console.log('fff')
           transitionColor(targetColor);
         }
       } else {
-        // Usuń klasę active-color ze wszystkich kart
+
         cards.forEach(c => c.classList.remove('active-color'));
         
-        // Resetuj kolor
+
         transitionColor(0x0);
       }
     };
 
     return observer;
-  }, [hoveredCard]); // Only depend on state that affects the handlers
+  }, [hoveredCard]); 
 
   useEffect(() => {
     
@@ -279,7 +260,6 @@ console.log('fff')
       document.querySelector('.my-work')?.classList.add('fade-in');
     }, 300);
 
-    // Use a small delay to make sure DOM is ready
     const setupTimeout = setTimeout(setupCardListeners, 500);
     
     return () => {

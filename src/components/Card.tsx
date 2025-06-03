@@ -3,6 +3,7 @@ import React from 'react';
 interface CardProps {
   title: string;
   description: string;
+  companyDesc: string;
   technologies: string[];
   imgSrc: string;
   classCard: string;
@@ -22,6 +23,7 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({ 
   title, 
   description, 
+  companyDesc,
   technologies, 
   imgSrc, 
   classCard, 
@@ -57,6 +59,7 @@ const Card: React.FC<CardProps> = ({
         <h2 className="card-title">{title}</h2>
         </div>
           <p className="project-desc">{description}</p>
+          <p className="project-desc company-desc">{companyDesc}</p>
          <div className="card-content-bottom">
           <div className="content-bottom-text">
           
