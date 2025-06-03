@@ -33,7 +33,6 @@ function Home() {
   const animationInitializedRef = useRef(false);
 
   useEffect(() => {
-    // Reset the home content fade state when returning
     const homeContent = document.querySelector('.home-content');
     if (homeContent) {
       homeContent.classList.remove('fade');
@@ -41,16 +40,11 @@ function Home() {
     
     let isDestroyed = false;
 
-    // Initialize WebGL for smoke animation
     const initGL = () => {
       if (!canvasRef.current || isDestroyed || animationInitializedRef.current) return;
 
       try {
-        console.log('Initializing smoke animation...');
         const canvas = canvasRef.current;
-        // canvas.width = canvas.clientWidth;
-        // canvas.height = canvas.clientHeight; performance testing, may be needed
-
         const context = getWebGLContext(canvas);
         webglContextRef.current = context;
 
@@ -62,14 +56,12 @@ function Home() {
             context.support_linear_float
           );
           animationInitializedRef.current = true;
-          console.log('Smoke animation initialized successfully');
         }
       } catch (error) {
         console.error('WebGL initialization failed:', error);
       }
     };
 
-    // Initialize elements
     setTimeout(() => {
       if (!isDestroyed) {
         document.querySelector('.subtitle')?.classList.add('active');
@@ -82,17 +74,14 @@ function Home() {
       }
     }, 1000);
     
-    // Initialize WebGL with small delay to ensure canvas is ready
     requestAnimationFrame(() => {
   if (!isDestroyed) initGL();
 });
     
-    // Handle window resize
     const handleResize = () => {
       if (canvasRef.current && webglContextRef.current) {
         canvasRef.current.width = canvasRef.current.clientWidth;
         canvasRef.current.height = canvasRef.current.clientHeight;
-        // Reset and re-initialize
         animationInitializedRef.current = false;
         initGL();
       }

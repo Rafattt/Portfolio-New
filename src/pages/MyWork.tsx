@@ -94,12 +94,12 @@ function MyWork() {
         "Session-aware rendering"
       ],
       featured: true,
-      imgSrc: 'src/assets/img/ciranda-logo.webp',
+      imgSrc: 'public/img/ciranda-logo.webp',
       classCard: 'ciranda',
       link: 'https://www.ciranda.com/',
       platform: 'OroCommerce',
       highlightColor: 0xff6600, // Orange for Ciranda
-      desktopImage: 'src/assets/img/mockup-ciranda.webp', 
+      desktopImage: 'public/img/mockup-ciranda.webp', 
       mobileImage: '', 
     },
     {
@@ -122,12 +122,12 @@ function MyWork() {
         "Dynamic DOM rendering",
         "Custom JS↔DB binding"
       ],
-      imgSrc: 'src/assets/img/huyett-logo.webp',
+      imgSrc: 'public/img/huyett-logo.webp',
       classCard: 'huyett',
       link: 'https://www.huyett.com/',
       platform: 'OroCommerce',
       highlightColor: 0x000066, // Dark blue for Huyett
-      desktopImage: 'src/assets/img/mockup-huyett.webp', 
+      desktopImage: 'public/img/mockup-huyett.webp', 
       mobileImage: '', 
     },
     {
@@ -152,7 +152,7 @@ function MyWork() {
         "Custom filter behavior",
         "Dynamic DOM overrides"
       ],
-      imgSrc: 'src/assets/img/wastebuilt-logo.webp',
+      imgSrc: 'public/img/wastebuilt-logo.webp',
       classCard: 'wastebuilt',
       link: 'https://www.wastebuilt.com/',
       platform: 'OroCommerce',
@@ -180,7 +180,7 @@ function MyWork() {
         "Frontend overrides by context",
         "Dynamic component mounting"
       ],
-      imgSrc: 'src/assets/img/mountain-logo.webp',
+      imgSrc: 'public/img/mountain-logo.webp',
       classCard: 'mountain',
       link: 'https://mountaintarp.com/',
       platform: 'OroCommerce',
@@ -208,7 +208,7 @@ function MyWork() {
         "Screen reader compatibility",
         "Keyboard-first navigation"
       ],
-      imgSrc: 'src/assets/img/singer-logo.webp',
+      imgSrc: 'public/img/singer-logo.webp',
       classCard: 'singer',
       link: 'https://www.singerequipment.com/',
       platform: 'RocCommerce',
@@ -235,7 +235,7 @@ function MyWork() {
         "Production under tight deadlines",
         "Server-side templating (C#)"
       ],
-      imgSrc: 'src/assets/img/chicago-logo.webp',
+      imgSrc: 'public/img/chicago-logo.webp',
       classCard: 'chicago-auto',
       link: 'https://www.chicagoautoshow.com/first-look-for-charity/',
       platform: 'iDev',
@@ -262,7 +262,7 @@ function MyWork() {
         "Style overrides in legacy templates",
         "Assistive tech QA support"
       ],
-      imgSrc: 'src/assets/img/virginia-logo.webp',
+      imgSrc: 'public/img/virginia-logo.webp',
       classCard: 'virginia',
       link: 'https://www.vre.org/',
       platform: 'iDev',
@@ -289,7 +289,7 @@ function MyWork() {
         "Cross-client QA (Outlook, iOS, Android)",
         "Litmus automated checks"
       ],
-      imgSrc: 'src/assets/img/foley-logo.webp',
+      imgSrc: 'public/img/foley-logo.webp',
       classCard: 'foley',
       link: 'https://www.foleyfoodandwinesociety.com/',
       platform: 'Salesforce',
@@ -315,7 +315,7 @@ function MyWork() {
         "WordPress override of default search",
         "Time-sensitive deployment"
       ],
-      imgSrc: 'src/assets/img/anderson-logo.webp',
+      imgSrc: 'public/img/anderson-logo.webp',
       classCard: 'anderson',
       link: 'https://www.anderson-negele.com/us/',
       platform: 'Wordpress',
@@ -341,7 +341,7 @@ function MyWork() {
         "Handbuilt Liquid sections",
         "Responsive layout from scratch"
       ],
-      imgSrc: 'src/assets/img/denimcratic-logo.webp',
+      imgSrc: 'public/img/denimcratic-logo.webp',
       classCard: 'denimcratic',
       link: 'https://denimcratic.com/',
       platform: 'Shopify',
@@ -364,7 +364,7 @@ function MyWork() {
         "Responsive design corrections",
         "Lightweight front-end contribution"
       ],
-      imgSrc: 'src/assets/img/blaupunkt-logo.webp',
+      imgSrc: 'public/img/blaupunkt-logo.webp',
       classCard: 'blue',
       link: 'https://blue.bike/',
       platform: 'Shopify',
@@ -392,7 +392,7 @@ function MyWork() {
         "Cross-browser layout fixes",
         "Screen reader & keyboard support"
       ],
-      imgSrc: 'src/assets/img/metlife-logo.webp',
+      imgSrc: 'public/img/metlife-logo.webp',
       classCard: 'metlife',
       link: 'https://www.metlifestadium.com/',
       platform: 'iDev',
@@ -421,7 +421,7 @@ function MyWork() {
         "Keyboard navigation & ARIA structure",
         "Enterprise CMS templating (FTL)"
       ],
-      imgSrc: 'src/assets/img/itron-logo.webp',
+      imgSrc: 'public/img/itron-logo.webp',
       classCard: 'itron',
       link: 'https://na.itron.com/',
       platform: 'Liferay',
@@ -449,7 +449,7 @@ function MyWork() {
         "Brand-aware filtering logic",
         "Solo front-end development"
       ],
-      imgSrc: 'src/assets/img/polacheck-logo.webp',
+      imgSrc: 'public/img/polacheck-logo.webp',
       classCard: 'polacheck',
       link: 'https://polachecks.com/',
       platform: 'Shopify',
@@ -476,7 +476,7 @@ function MyWork() {
         "Keyboard navigation compliance",
         "WCAG alignment"
       ],
-      imgSrc: 'src/assets/img/benchmark-logo.webp',
+      imgSrc: 'public/img/benchmark-logo.webp',
       classCard: 'benchmark',
       link: 'https://www.bcbonline.com/',
       platform: 'Liferay',
@@ -503,7 +503,7 @@ function MyWork() {
         "Add to Cart sync",
         "Lead front-end role"
       ],
-      imgSrc: 'src/assets/img/shoshana-logo.webp',
+      imgSrc: 'public/img/shoshana-logo.webp',
       classCard: 'shoshanna',
       link: 'https://shoshanna.com/',
       platform: 'Shopify',
@@ -530,7 +530,7 @@ function MyWork() {
         "Conditional templates",
         "Custom UI per group"
       ],
-      imgSrc: 'src/assets/img/armor-logo.webp',
+      imgSrc: 'public/img/armor-logo.webp',
       classCard: 'b2e',
       link: 'https://armorpoxy.com/',
       platform: 'BigCommerce',
@@ -556,7 +556,7 @@ function MyWork() {
         "Front-end performance optimization",
         "Legacy code modernization"
       ],
-      imgSrc: 'src/assets/img/anchor-logo.webp',
+      imgSrc: 'public/img/anchor-logo.webp',
       classCard: 'magento',
       link: 'https://www.anchorpaper.com/',
       platform: 'Magento',
@@ -581,7 +581,7 @@ function MyWork() {
         "New reusable templates",
         "Responsive layout improvements"
       ],
-      imgSrc: 'src/assets/img/coffee-logo.webp',
+      imgSrc: 'public/img/coffee-logo.webp',
       classCard: 'bigcommerce',
       link: 'https://www.chicagocoffee.com/',
       platform: 'BigCommerce',
@@ -607,7 +607,7 @@ function MyWork() {
         "Accessibility testing",
         "Audit documentation & handoff"
       ],
-      imgSrc: 'src/assets/img/society-logo.webp',
+      imgSrc: 'public/img/society-logo.webp',
       classCard: 'audit',
       link: 'https://www.asahq.org/',
       platform: 'Custom CMS',
@@ -634,7 +634,7 @@ function MyWork() {
         "Server-side view integration",
         "Responsive theme overhaul"
       ],
-      imgSrc: 'src/assets/img/land-logo.webp',
+      imgSrc: 'public/img/land-logo.webp',
       classCard: 'land',
       link: 'https://www.landandcoates.net/',
       platform: 'Znode',
@@ -663,7 +663,7 @@ function MyWork() {
         "Facet & sort state sync",
         "Custom Znode view overrides"
       ],
-      imgSrc: 'src/assets/img/procon-logo.webp',
+      imgSrc: 'public/img/procon-logo.webp',
       classCard: 'procon',
       link: 'https://www.proconpumps.com/',
       platform: 'Znode',
@@ -693,7 +693,7 @@ function MyWork() {
         "Social feed integration",
         "Email template design"
       ],
-      imgSrc: 'src/assets/img/darpet-logo.webp',
+      imgSrc: 'public/img/darpet-logo.webp',
       classCard: 'darpet',
       link: 'https://www.darpet.com/',
       platform: 'WordPress / Shopify',
@@ -720,7 +720,7 @@ function MyWork() {
         "Clean semantic layout",
         "Custom favicon & accessibility fixes"
       ],
-      imgSrc: 'src/assets/img/pure-logo.webp',
+      imgSrc: 'public/img/pure-logo.webp',
       classCard: 'pureorder',
       link: 'https://pureorder.org', 
       platform: 'Static (HTML/CSS/JS)',
