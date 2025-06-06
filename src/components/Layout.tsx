@@ -25,25 +25,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     return start * (1 - t) + end * t;
   };
 
-  const interpolateRGB = (startColor: number, endColor: number, t: number) => {
-    // Extract RGB components correctly
-    const startR = (startColor >> 16) & 0xFF;
-    const startG = (startColor >> 8) & 0xFF;
-    const startB = startColor & 0xFF;
-    
-    const endR = (endColor >> 16) & 0xFF;
-    const endG = (endColor >> 8) & 0xFF;
-    const endB = endColor & 0xFF;
-    
-    // Interpolate each component
-    const r = Math.round(startR + (endR - startR) * t);
-    const g = Math.round(startG + (endG - startG) * t);
-    const b = Math.round(startB + (endB - startB) * t);
-    
-    // Combine back to hex
-    return (r << 16) | (g << 8) | b;
-  };
-
   let lastUpdateTime = 0;
 const throttleInterval = 66; 
 

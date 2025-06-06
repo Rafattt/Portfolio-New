@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 // ──────────────────────── GLOBAL ────────────────────────
 let vantaEffect: any = null;
-let lastColor = 0;                  // do deboun­ce'u
+let lastColor = 0;
 let lastUpdateTime = 0;
 const THROTTLE_MS = 1000 / 25;
 
@@ -10,7 +10,6 @@ export function updateVantaHighlightColor(color: number) {
   const now = performance.now();
   
 
-  // Unikamy zbędnych aktualizacji
   if (color === lastColor) return;
 
   // THROTTLING
@@ -33,12 +32,11 @@ const VantaBackground = () => {
   const initialized = useRef(false);
 
   useEffect(() => {
-    if (initialized.current) return;          // tylko raz
+    if (initialized.current) return;         
 
     const initVanta = () => {
       if (!window.VANTA?.FOG) return;
 
-      // wyczyść starą instancję
       vantaEffect?.destroy?.();
 
       vantaEffect = window.VANTA.FOG({
@@ -51,11 +49,11 @@ const VantaBackground = () => {
 
 
         highlightColor: 0x0,
-        midtoneColor: 0x0,
+        midtoneColor: 0x808080,
         lowlightColor: 0xf5f5f5,
         baseColor: 0x0,
 
-        blurFactor: 0.3,
+        blurFactor: 0.4,
         speed: 0.3,
         zoom: 0.8,
         scale: 1,
@@ -69,7 +67,6 @@ const VantaBackground = () => {
 
     initVanta();
 
-    // umożliwiam ręczne przeładowanie
     window.reinitializeVanta = () => {
       initialized.current = false;
       initVanta();
@@ -86,7 +83,6 @@ const VantaBackground = () => {
 
   window.addEventListener("resize", handleResize);
 
-    // ② sprzątamy przy odmontowaniu
     return () => {
       vantaEffect?.destroy?.();
       vantaEffect = null;
@@ -95,7 +91,7 @@ const VantaBackground = () => {
     };
   }, []);
 
-  return null; // nie wstawiam dodatkowych divów – układ zostaje jak był
+  return null; 
 };
 
 export default VantaBackground;
