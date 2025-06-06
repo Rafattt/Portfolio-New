@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
 import Card from '../components/Card';
-import '../styles/MyWork.css';
 
 function MyWork() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);

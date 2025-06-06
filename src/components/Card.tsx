@@ -39,10 +39,15 @@ const Card: React.FC<CardProps> = ({
   platformSpecific,
   ...props 
 }) => {
-  return (
-    <div 
+  return (    <div 
       className={`card ${classCard} ${isSelected ? 'selected' : ''} ${isHidden ? 'hidden' : ''} `}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick?.();
+        }
+      }}
       role="button"
       tabIndex={0}
       {...props}
