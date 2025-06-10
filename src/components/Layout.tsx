@@ -110,6 +110,7 @@ const transitionColor = (targetColor: number) => {
             case 'mountain': targetColor = 0x0c4e83; break;
             case 'society': targetColor = 0x8a84d6; break;
             case 'land': targetColor = 0x115A31; break;
+            case 'audit': targetColor = 0x1226AA; break;
             case 'procon': targetColor = 0xd12428; break;
             case 'darpet': targetColor = 0x831e0a; break;
             case 'pure': targetColor = 0xf8f7f4; break;
@@ -180,57 +181,6 @@ const transitionColor = (targetColor: number) => {
         attributeFilter: ['class']
       });
     });
-
-    window.setActiveCardColor = (cardClass: string | null) => {
-      if (cardClass) {
-        const card = Array.from(cards).find(c => 
-          Array.from(c.classList).some(cls => cls === cardClass)
-        );
-        
-        if (card) {
-
-          cards.forEach(c => c.classList.remove('active-color'));
-          card.classList.add('active-color');
-          
-          let targetColor = 0x0;
-          
-          switch(cardClass) {
-            case 'ciranda': targetColor = 0xdc431c; break;
-            case 'huyett': targetColor = 0x17305a; break;
-            case 'wastebuilt': targetColor = 0x097a40; break;
-            case 'singer': targetColor = 0x4091C9; break;
-            case 'chicago-auto': targetColor = 0x009edd; break;
-            case 'virginia': targetColor = 0xee3e42; break;
-            case 'foley': targetColor = 0xad9863; break;
-            case 'denimcratic': targetColor = 0x31589f; break; 
-            case 'blue': targetColor = 0x009ee0; break;
-            case 'metlife': targetColor = 0x103669; break;
-            case 'itron': targetColor = 0xd22930; break;
-            case 'anderson': targetColor = 0x39b54a; break;
-            case 'polacheck': targetColor = 0xFFD700; break;
-            case 'benchmark': targetColor = 0x551226; break;
-            case 'shoshanna': targetColor = 0xF88379; break;
-            case 'mountain': targetColor = 0x0c4e83; break;
-            case 'society': targetColor = 0x8a84d6; break;
-            case 'land': targetColor = 0x115A31; break;
-            case 'procon': targetColor = 0xd12428; break;
-            case 'darpet': targetColor = 0x831e0a; break;
-            case 'pure': targetColor = 0xf8f7f4; break;
-            case 'armor': targetColor = 0x015cff; break;
-            case 'chicago-coffee': targetColor = 0x65497c; break;
-            case 'anchor': targetColor = 0x2e7ebf; break;
-          }
-          
-          transitionColor(targetColor);
-        }
-      } else {
-
-        cards.forEach(c => c.classList.remove('active-color'));
-        
-
-        transitionColor(0x0);
-      }
-    };
 
     return observer;
   }, [hoveredCard]); 

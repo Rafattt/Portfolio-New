@@ -557,7 +557,7 @@ function MyWork() {
         "Legacy code modernization"
       ],
       imgSrc: 'public/img/anchor-logo.webp',
-      classCard: 'magento',
+      classCard: 'anchor',
       link: 'https://www.anchorpaper.com/',
       platform: 'Magento',
       highlightColor: 0x003366,
@@ -582,7 +582,7 @@ function MyWork() {
         "Responsive layout improvements"
       ],
       imgSrc: 'public/img/coffee-logo.webp',
-      classCard: 'bigcommerce',
+      classCard: 'chicago-coffee',
       link: 'https://www.chicagocoffee.com/',
       platform: 'BigCommerce',
       highlightColor: 0x4b2e2b,
@@ -611,7 +611,7 @@ function MyWork() {
       classCard: 'audit',
       link: 'https://www.asahq.org/',
       platform: 'Custom CMS',
-      highlightColor: 0x1f4f70,
+      highlightColor: 0xdc431c,
       desktopImage: '',
       mobileImage: '',
     },
