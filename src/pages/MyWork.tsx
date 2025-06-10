@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
 import Card from '../components/Card';
-import '../styles/MyWork.css';
 
 function MyWork() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
@@ -41,6 +40,7 @@ function MyWork() {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, [showDetailView]);
+  
 
   const handleOpenCard = (index: number) => {
     setSelectedProject(index);
@@ -797,14 +797,20 @@ function MyWork() {
         <div className="frosted-overlay"></div>
 
         {/* Filters Panel */}
-        <div className={`filters-panel ${showFilters ? 'show' : ''}`}>
+        
+
+        <div className={`my-work ${isVisible ? 'fade-in' : ''} ${selectedProject !== null ? 'project-open' : ''}`}>
+          <div className='filters-toggle-container'>
+          <div className={`filters-panel ${showFilters ? 'show' : ''}`}>
           <button className="filter-toggle" onClick={toggleFilters}>
-            {showFilters ? 'Hide Filters' : 'Show Filters'}
-            <span className="filter-icon">🔍</span>
+            <span>{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
           </button>
 
-          <div className="filters-content">
-            <h3>Filter by Platform</h3>
+          
+        </div>
+        <div className="filters-content">
+            <div className='filters-inner'>
+            <h3>Filter Projects</h3>
             <div className="filter-options">
               {/* All Platforms option */}
               <label className="filter-option">
@@ -834,6 +840,8 @@ function MyWork() {
                 </label>
               ))}
             </div>
+            </div>
+            
 
             {!selectedFilters.includes('all') && selectedFilters.length > 0 && (
               <button className="reset-filters" onClick={resetFilters}>
@@ -842,8 +850,6 @@ function MyWork() {
             )}
           </div>
         </div>
-
-        <div className={`my-work ${isVisible ? 'fade-in' : ''} ${selectedProject !== null ? 'project-open' : ''}`}>
           <div className="my-work-inner">
             <div className="cards-container">
               {filteredProjects.map((project, index) => (

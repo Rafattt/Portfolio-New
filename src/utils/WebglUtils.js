@@ -80,12 +80,11 @@ function getWebGLContext(canvas) {
 function pointerPrototype() {
     this.id    = -1;
     this.x     = 0;
-    this.y     = 0;
-    this.dx    = 0;
+    this.y     = 0;    this.dx    = 0;
     this.dy    = 0;
     this.down  = false;
     this.moved = false;
-    this.color = [ 30, 0, 300 ];
+    this.color = [ 1, 1, 1 ]; // White color (RGB: 1,1,1)
 }
 
 pointers.push( new pointerPrototype() );
@@ -267,7 +266,7 @@ function update() {
 
     if (splatStack.length > 0) {
     const count = splatStack.pop() || 0;
-    const maxSplats = Math.min(count, 10); // np. hard limit
+    const maxSplats = Math.min(count, 10); //  hard limit
 
     for (let m = 0; m < maxSplats; m++) {
         const angle = Math.random() * 2 * Math.PI;
@@ -277,7 +276,7 @@ function update() {
         const dy = Math.sin(angle) * speed;
 
         const color = [
-            Math.random() * 5 + 5,   // Jaśniejsze kolory, mniej rozjazdu
+            Math.random() * 5 + 5,   // lighter colors
             Math.random() * 5 + 5,
             Math.random() * 5 + 5
         ];
@@ -397,15 +396,13 @@ function resizeCanvas() {
 }
 
 var count    = 0;
-var grey = 0.7 + Math.random() * 0.3; 
-var color2 = 0.71 + Math.random() * 0.1; 
-var colorArr = [ grey , color2, grey ];
+var grey = 1.0; // White color
+var color2 = 1.0; // White color
+var colorArr = [ 1, 1, 1 ]; // White color (RGB: 1,1,1)
 
-canvas.addEventListener( 'mousemove', function ( e ) {
+canvas.addEventListener( 'mousemove', function ( e ) {    count++;
 
-    count++;
-
-    ( count > 25 ) && (colorArr = [ grey , grey, grey ], count = 0);
+    ( count > 25 ) && (colorArr = [ 1, 1, 1 ], count = 0); // White color
 
     pointers[ 0 ].down  = true;
     pointers[ 0 ].color = colorArr;
@@ -421,11 +418,9 @@ canvas.addEventListener( 'touchmove', function ( e ) {
 
     e.preventDefault();
 
-    var touches = e.targetTouches;
+    var touches = e.targetTouches;    count++;
 
-    count++;
-
-    ( count > 25 ) && (colorArr = [ Math.random() + 0.2, Math.random() + 0.2, Math.random() + 0.2 ], count = 0);
+    ( count > 25 ) && (colorArr = [ 1, 1, 1 ], count = 0); // White color
 
     for ( var i = 0, len = touches.length; i < len; i++ ) {
 
