@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import './styles.scss';
+import './styles/Contact.css';
 import { initWebGL } from './utils/WebglUtils';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import MyWork from './pages/MyWork';
 import About from './pages/About';
+import Contact from './pages/Contact';
 import Layout from './components/Layout';
 import { getWebGLContext } from './utils/WebglContext';
 import VantaBackground from './components/VantaBackground';
@@ -18,7 +20,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/my-work" element={<MyWork />} />
           <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<div>Contact Page</div>} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </Layout>
     </Router>
