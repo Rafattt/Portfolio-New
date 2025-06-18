@@ -557,7 +557,7 @@ function MyWork() {
         "Legacy code modernization"
       ],
       imgSrc: 'public/img/anchor-logo.webp',
-      classCard: 'magento',
+      classCard: 'anchor',
       link: 'https://www.anchorpaper.com/',
       platform: 'Magento',
       highlightColor: 0x003366,
@@ -582,7 +582,7 @@ function MyWork() {
         "Responsive layout improvements"
       ],
       imgSrc: 'public/img/coffee-logo.webp',
-      classCard: 'bigcommerce',
+      classCard: 'chicago-coffee',
       link: 'https://www.chicagocoffee.com/',
       platform: 'BigCommerce',
       highlightColor: 0x4b2e2b,
@@ -611,7 +611,7 @@ function MyWork() {
       classCard: 'audit',
       link: 'https://www.asahq.org/',
       platform: 'Custom CMS',
-      highlightColor: 0x1f4f70,
+      highlightColor: 0xdc431c,
       desktopImage: '',
       mobileImage: '',
     },
@@ -798,7 +798,6 @@ function MyWork() {
 
         {/* Filters Panel */}
         
-
         <div className={`my-work ${isVisible ? 'fade-in' : ''} ${selectedProject !== null ? 'project-open' : ''}`}>
           <div className='filters-toggle-container'>
           <div className={`filters-panel ${showFilters ? 'show' : ''}`}>
@@ -807,63 +806,6 @@ function MyWork() {
           </button>
 
           
-        </div>
-        <div className="filters-content">
-            <div className='filters-inner'>
-            <h3>Filter Projects</h3>
-            <div className="filter-options">
-              {/* All Platforms option */}
-              <label className="filter-option">
-                <input
-                  type="checkbox"
-                  checked={selectedFilters.includes('all')}
-                  onChange={() => handleFilterChange('all')}
-                />
-                <span className="filter-name">All Platforms</span>
-                <span className="filter-count">
-                  ({projects.length})
-                </span>
-              </label>
-
-              {/* Individual platform options */}
-              {availablePlatforms.map(platform => (
-                <label key={platform} className="filter-option">
-                  <input
-                    type="checkbox"
-                    checked={selectedFilters.includes(platform)}
-                    onChange={() => handleFilterChange(platform)}
-                  />
-                  <span className="filter-name">{platform}</span>
-                  <span className="filter-count">
-                    ({projects.filter(p => p.platform === platform).length})
-                  </span>
-                </label>
-              ))}
-            </div>
-            </div>
-            
-
-            {!selectedFilters.includes('all') && selectedFilters.length > 0 && (
-              <button className="reset-filters" onClick={resetFilters}>
-                Reset Filters
-              </button>
-            )}
-          </div>
-        </div>
-          <div className="my-work-inner">
-            <div className="cards-container">
-              {filteredProjects.map((project, index) => (
-                <Card
-                  key={index}
-                  {...project}
-                  isSelected={false}
-                  isHidden={showDetailView}
-                  onClick={() => handleOpenCard(projects.indexOf(project))}
-                  onClose={() => { }}
-                />
-              ))}
-            </div>
-          </div>
         </div>
 
         {/* Zmodyfikowany kontener detali */}
@@ -934,6 +876,66 @@ function MyWork() {
             </div>
           </div>
         )}
+        
+        <div className="filters-content">
+            <div className='filters-inner'>
+            <h3>Filter Projects</h3>
+            <div className="filter-options">
+              {/* All Platforms option */}
+              <label className="filter-option">
+                <input
+                  type="checkbox"
+                  checked={selectedFilters.includes('all')}
+                  onChange={() => handleFilterChange('all')}
+                />
+                <span className="filter-name">All Platforms</span>
+                <span className="filter-count">
+                  ({projects.length})
+                </span>
+              </label>
+
+              {/* Individual platform options */}
+              {availablePlatforms.map(platform => (
+                <label key={platform} className="filter-option">
+                  <input
+                    type="checkbox"
+                    checked={selectedFilters.includes(platform)}
+                    onChange={() => handleFilterChange(platform)}
+                  />
+                  <span className="filter-name">{platform}</span>
+                  <span className="filter-count">
+                    ({projects.filter(p => p.platform === platform).length})
+                  </span>
+                </label>
+              ))}
+            </div>
+            </div>
+            
+
+            {!selectedFilters.includes('all') && selectedFilters.length > 0 && (
+              <button className="reset-filters" onClick={resetFilters}>
+                Reset Filters
+              </button>
+            )}
+          </div>
+        </div>
+          <div className="my-work-inner">
+            <div className="cards-container">
+              {filteredProjects.map((project, index) => (
+                <Card
+                  key={index}
+                  {...project}
+                  isSelected={false}
+                  isHidden={showDetailView}
+                  onClick={() => handleOpenCard(projects.indexOf(project))}
+                  onClose={() => { }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        
       </div>
     </>
   );
