@@ -774,9 +774,10 @@ html, body {
   max-height: 80vh;
   overflow-y: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: white;
-  padding: 30px;
+  padding: 50px 30px;
+
   animation: scaleIn 0.3s ease;
   margin:0 auto;
   border-radius:8px;
@@ -856,19 +857,27 @@ html, body {
   }
   
   .visit-site-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    margin-top: 20px;
-    transition: all 0.2s ease;
-    
-    &:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: translateY(-2px);
-    }
+      display: inline-block;
+      margin-top: 20px;
+      color: white;
+      text-decoration: none;
+      border-radius: 25px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      font-size: 32px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 5px 40px;
+      border-radius: 30px;
+      margin: 0 auto;
+      display: flex;
+      width: fit-content;
+      transition: .3s;
+      border: 2px solid transparent;
+      &:hover {
+        background: rgba(255, 255, 255, 0.3);
+        border: 2px solid silver;
+        transition: .3s;
+      }
   }
 }
 
@@ -940,23 +949,6 @@ html, body {
 .detail-view .mobile-screenshot {
   max-width: 150px;
   border-radius: 8px;
-}
-
-.detail-view .visit-site-button {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: var(--highlight-color);
-  color: white;
-  text-decoration: none;
-  border-radius: 25px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.detail-view .visit-site-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(var(--highlight-color), 0.4);
 }
 
 @keyframes fadeIn {
@@ -1205,7 +1197,6 @@ html, body {
 
 .skill-tag:hover {
   background-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
 }
 
 .experience-grid {
