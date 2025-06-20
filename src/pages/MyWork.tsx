@@ -39,19 +39,30 @@ function MyWork() {
       document.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('mousedown', handleOutsideClick);
     };
-  }, [showDetailView]);
-    const handleOpenCard = (index: number) => {
+  }, [showDetailView]);  const handleOpenCard = (index: number) => {
+    // Set selected project first
     setSelectedProject(index);
 
     if (window.setActiveCardColor) {
       window.setActiveCardColor(projects[index].classCard);
-    }    // Only hide filters container, header stays visible
+    }
+    
+    // Only hide filters container, header stays visible
     document.querySelector('.filters-toggle-container')?.classList.add('hidden');
     
-    // Then show details after a short delay to ensure smooth transitions
+    // Force immediate scroll to top with no animation 
+    // This ensures we're at the top before showing the detail view
+    window.scrollTo(0, 0);
+    
+    // Then show detail view with a slight delay
     setTimeout(() => {
       setShowDetailView(true);
-    }, 200);
+      
+      // After detail view is shown, ensure we're still at the top
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 100);
+    }, 100);
   };
   const handleCloseCard = () => {
     // First hide the detail view
@@ -809,6 +820,47 @@ function MyWork() {
             <span>{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
           </button>
           </div>
+          <div className="filters-content">
+            <div className='filters-inner'>
+            <h3>Filter Projects</h3>
+            <div className="filter-options">
+              {/* All Platforms option */}
+              <label className="filter-option">
+                <input
+                  type="checkbox"
+                  checked={selectedFilters.includes('all')}
+                  onChange={() => handleFilterChange('all')}
+                />
+                <span className="filter-name">All Platforms</span>
+                <span className="filter-count">
+                  ({projects.length})
+                </span>
+              </label>
+
+              {/* Individual platform options */}
+              {availablePlatforms.map(platform => (
+                <label key={platform} className="filter-option">
+                  <input
+                    type="checkbox"
+                    checked={selectedFilters.includes(platform)}
+                    onChange={() => handleFilterChange(platform)}
+                  />
+                  <span className="filter-name">{platform}</span>
+                  <span className="filter-count">
+                    ({projects.filter(p => p.platform === platform).length})
+                  </span>
+                </label>
+              ))}
+            </div>
+            </div>
+            
+
+            {!selectedFilters.includes('all') && selectedFilters.length > 0 && (
+              <button className="reset-filters" onClick={resetFilters}>
+                Reset Filters
+              </button>
+            )}
+          </div>
           
         </div>
 
@@ -881,47 +933,7 @@ function MyWork() {
           </div>
         )}
         
-        <div className="filters-content">
-            <div className='filters-inner'>
-            <h3>Filter Projects</h3>
-            <div className="filter-options">
-              {/* All Platforms option */}
-              <label className="filter-option">
-                <input
-                  type="checkbox"
-                  checked={selectedFilters.includes('all')}
-                  onChange={() => handleFilterChange('all')}
-                />
-                <span className="filter-name">All Platforms</span>
-                <span className="filter-count">
-                  ({projects.length})
-                </span>
-              </label>
-
-              {/* Individual platform options */}
-              {availablePlatforms.map(platform => (
-                <label key={platform} className="filter-option">
-                  <input
-                    type="checkbox"
-                    checked={selectedFilters.includes(platform)}
-                    onChange={() => handleFilterChange(platform)}
-                  />
-                  <span className="filter-name">{platform}</span>
-                  <span className="filter-count">
-                    ({projects.filter(p => p.platform === platform).length})
-                  </span>
-                </label>
-              ))}
-            </div>
-            </div>
-            
-
-            {!selectedFilters.includes('all') && selectedFilters.length > 0 && (
-              <button className="reset-filters" onClick={resetFilters}>
-                Reset Filters
-              </button>
-            )}
-          </div>
+        
         
           <div className="my-work-inner">
             <div className="cards-container">
