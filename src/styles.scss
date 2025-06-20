@@ -684,6 +684,8 @@ html {
         transition: .3s;
         backdrop-filter:none;
         border:none;
+        height:0;
+        overflow:hidden;
       }
   }
 }
