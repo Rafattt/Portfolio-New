@@ -40,31 +40,35 @@ function MyWork() {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, [showDetailView]);
-  
-
-  const handleOpenCard = (index: number) => {
+    const handleOpenCard = (index: number) => {
     setSelectedProject(index);
 
     if (window.setActiveCardColor) {
       window.setActiveCardColor(projects[index].classCard);
-    }
-
+    }    // Only hide filters container, header stays visible
+    document.querySelector('.filters-toggle-container')?.classList.add('hidden');
+    
+    // Then show details after a short delay to ensure smooth transitions
     setTimeout(() => {
       setShowDetailView(true);
-    }, 50);
+    }, 200);
   };
-
   const handleCloseCard = () => {
+    // First hide the detail view
     setShowDetailView(false);
-
+      // After detail view transitions out, show filters
     setTimeout(() => {
-      setSelectedProject(null);
+      document.querySelector('.filters-toggle-container')?.classList.remove('hidden');
+      
+      // Then reset the selected project
+      setTimeout(() => {
+        setSelectedProject(null);
 
-      const hoveredCard = document.querySelector('.card:hover');
+        const hoveredCard = document.querySelector('.card:hover');
 
-      if (!hoveredCard && window.setActiveCardColor) {
-        window.setActiveCardColor(null);
-      }
+        if (!hoveredCard && window.setActiveCardColor) {
+          window.setActiveCardColor(null);
+        }      }, 200);
     }, 300);
   };
 
@@ -804,7 +808,7 @@ function MyWork() {
           <button className="filter-toggle" onClick={toggleFilters}>
             <span>{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
           </button>
-
+          </div>
           
         </div>
 
@@ -918,7 +922,7 @@ function MyWork() {
               </button>
             )}
           </div>
-        </div>
+        
           <div className="my-work-inner">
             <div className="cards-container">
               {filteredProjects.map((project, index) => (
