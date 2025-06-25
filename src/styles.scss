@@ -182,11 +182,10 @@ html {
         pointer-events: none;
         transition: opacity 0.3s ease, visibility 0.3s ease;
 
-    }
-    &.fade-in {
+    }    &.fade-in {
       opacity:1;
       pointer-events: auto;
-      transition:.5s;
+      transition:.3s;
       
       .card {
         pointer-events: auto;
@@ -202,7 +201,7 @@ html {
       pointer-events: auto;
       
       .card {
-        transition: opacity 0.5s ease, transform 0.3s ease;
+        transition: opacity 0.2s ease, transform 0.2s ease;
         
         &.hidden {
           opacity: 0;
@@ -214,6 +213,7 @@ html {
       .my-work-inner {
         opacity: 0;
         visibility: hidden;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
       }
     }
     @media (max-width:1889px) {
@@ -751,6 +751,11 @@ html {
   to { opacity: 1; }
 }
 
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
 @keyframes scaleIn {
   from { 
     opacity: 0;
@@ -762,6 +767,17 @@ html {
   }
 }
 
+@keyframes scaleOut {
+  from { 
+    opacity: 1;
+    transform: scale(1);
+  }
+  to { 
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
 .detail-view-container {
   position: relative;
   width: 100%;
@@ -769,12 +785,31 @@ html {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  z-index: 1000;
-  animation: fadeIn 0.3s ease;
+  z-index: 1000;  animation: fadeIn 0.2s ease;
   pointer-events: auto;
   max-width: 1820px;
   margin: 0 auto;
   padding-top: 100px; /* Padding to ensure it's visible below the header */
+  .detail-content {
+    max-width:100%;
+    width:1440px;
+    margin:0 auto;
+    .detail-header {
+      display: flex;
+      flex-direction: row;
+      align-items:center;
+      margin-bottom:50px;
+      h2 {
+        padding-left:40px;
+        font-size: 38px;
+        margin:0;
+      }
+    }
+  }
+  
+  &.closing {
+    animation: fadeOut 0.2s ease forwards;
+  }
 }
 
 .detail-view {
@@ -792,10 +827,14 @@ html {
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: white;
   padding: 50px 30px;
-  scroll-behavior: smooth; /* Enable smooth scrolling within the detail view */
-  animation: scaleIn 0.3s ease;
+  scroll-behavior: smooth; /* Enable smooth scrolling within the detail view */  animation: scaleIn 0.2s ease;
   margin:0 auto;
   border-radius:8px;
+  
+  /* Animation for closing */
+  &.closing {
+    animation: scaleOut 0.2s ease forwards;
+  }
   
   /* Custom scrollbar styling */
   &::-webkit-scrollbar {
@@ -830,7 +869,7 @@ html {
   
   .detail-logo {
     max-width: 200px;
-    margin-bottom: 20px;
+
   }
   
   h2 {
@@ -841,6 +880,7 @@ html {
   .description {
     margin-bottom: 20px;
     line-height: 1.6;
+    font-size:1.5rem;
   }
   
   h3 {
@@ -860,7 +900,7 @@ html {
       background: rgba(255, 255, 255, 0.1);
       padding: 5px 10px;
       border-radius: 15px;
-      font-size: 14px;
+      font-size: 1.2rem;
     }
   }
   
@@ -888,7 +928,6 @@ html {
   
   .visit-site-button {
       display: inline-block;
-      margin-top: 20px;
       color: white;
       text-decoration: none;
       border-radius: 25px;
@@ -898,7 +937,7 @@ html {
       background: rgba(255, 255, 255, 0.1);
       padding: 5px 40px;
       border-radius: 30px;
-      margin: 0 auto;
+      margin: 60px auto 0;
       display: flex;
       width: fit-content;
       transition: .3s;
@@ -909,6 +948,7 @@ html {
         transition: .3s;
       }
   }
+
 }
 
 .detail-view .close-button {
@@ -923,11 +963,6 @@ html {
   z-index: 10;
 }
 
-.detail-view .detail-logo {
-  max-width: 150px;
-  margin-bottom: 20px;
-}
-
 .detail-view h2 {
   margin-bottom: 15px;
   font-size: 24px;
@@ -935,9 +970,10 @@ html {
   color: white;
 }
 
-.detail-view .description {
+.detail-view .sub-title {
   margin-bottom: 25px;
   line-height: 1.6;
+  font-size:1.75rem;
 }
 
 .detail-view h3 {
@@ -994,9 +1030,8 @@ html {
       padding: 0;
       margin: 0 auto;
       display: flex;
-      flex-direction: column;
-      margin-top:40px;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
+      flex-direction: column;      margin-top:40px;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
   .filters-panel {
     z-index: 100;
     width: 100%;
@@ -1369,4 +1404,5 @@ html {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
 }

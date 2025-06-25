@@ -63,24 +63,43 @@ function MyWork() {
         window.scrollTo(0, 0);
       }, 100);
     }, 100);
-  };
-  const handleCloseCard = () => {
-    // First hide the detail view
-    setShowDetailView(false);
-      // After detail view transitions out, show filters
-    setTimeout(() => {
-      document.querySelector('.filters-toggle-container')?.classList.remove('hidden');
+  };  const handleCloseCard = () => {
+    // Apply closing animation class to detail-view before hiding it
+    const detailViewContainer = document.querySelector('.detail-view-container');
+    const detailView = document.querySelector('.detail-view');
+    
+    if (detailViewContainer && detailView) {
+      detailViewContainer.classList.add('closing');
+      detailView.classList.add('closing');
       
-      // Then reset the selected project
+      // Wait for animation to complete before hiding
       setTimeout(() => {
+        setShowDetailView(false);
+        
+        // Show filters immediately after the detail view is hidden
+        document.querySelector('.filters-toggle-container')?.classList.remove('hidden');
+        
+        // Reset the selected project with minimal delay
+        setTimeout(() => {
+          setSelectedProject(null);
+          
+          const hoveredCard = document.querySelector('.card:hover');
+          if (!hoveredCard && window.setActiveCardColor) {
+            window.setActiveCardColor(null);
+          }
+          
+          // Remove closing classes for future use
+          detailViewContainer.classList.remove('closing');
+          detailView.classList.remove('closing');
+        }, 50);
+      }, 200); // Match this with animation duration
+    } else {
+      // Fallback if elements not found
+      setShowDetailView(false);
+      setTimeout(() => {
+        document.querySelector('.filters-toggle-container')?.classList.remove('hidden');
         setSelectedProject(null);
-
-        const hoveredCard = document.querySelector('.card:hover');
-
-        if (!hoveredCard && window.setActiveCardColor) {
-          window.setActiveCardColor(null);
-        }      }, 200);
-    }, 300);
+      }, 100);    }
   };
 
   const projects = [
@@ -94,7 +113,7 @@ function MyWork() {
         "jQuery",
         "HTML",
         "SCSS",
-        "REST API (Oro)"
+        "REST API"
       ],
       platformSpecific: [
         "Twig templating",
@@ -871,14 +890,16 @@ function MyWork() {
               <button className="close-button" onClick={handleCloseCard}>×</button>
 
               <div className="detail-content">
-                <img src={projects[selectedProject].imgSrc} alt={projects[selectedProject].title} className="detail-logo" />
+                <div className="detail-header">
+                  <img src={projects[selectedProject].imgSrc} alt={projects[selectedProject].title} className="detail-logo" />
                 <h2>{projects[selectedProject].title}</h2>
-                <h3 className="description">{projects[selectedProject].companyDesc}</h3>
+                </div>
+                <h3 className="sub-title">{projects[selectedProject].companyDesc}</h3>
                 <p className="description">{projects[selectedProject].description}</p>
 
                 {projects[selectedProject].technologies && projects[selectedProject].technologies.length > 0 && (
                   <>
-                    <h3>Technologies</h3>
+                    <h2 className="tech-title">Technologies</h2>
                     <ul className="technologies">
                       {projects[selectedProject].technologies.map((tech, i) => (
                         <li key={i} className="tech-tag">{tech}</li>
@@ -890,7 +911,7 @@ function MyWork() {
                 {/* Platform Specific Features (if available) */}
                 {projects[selectedProject].platformSpecific && projects[selectedProject].platformSpecific.length > 0 && (
                   <>
-                    <h3>Platform Specific Features</h3>
+                    <h2 className="tech-title">Platform Specific Features</h2>
                     <ul className="technologies">
                       {projects[selectedProject].platformSpecific.map((feature, i) => (
                         <li key={i} className="tech-tag">{feature}</li>
@@ -900,6 +921,7 @@ function MyWork() {
                 )}
 
                 {/* Screenshots */}
+                {/*}
                 <div className="project-screenshots">
                   {projects[selectedProject].desktopImage && (
                     <img
@@ -916,6 +938,7 @@ function MyWork() {
                     />
                   )}
                 </div>
+                */}
 
                 {/* Visit site link */}
                 {projects[selectedProject].link && (
