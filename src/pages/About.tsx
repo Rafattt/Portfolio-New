@@ -61,7 +61,8 @@ function About() {
 
   return (
     <div className="about-container">
-      <section className="about-section">
+      <div class="about-inner">
+<section className="about-section">
         <h1 className="about-header">About Me</h1>
         
         <div className="profile-section">
@@ -196,6 +197,8 @@ function About() {
           </div>
         </div>
       </section>
+      </div>
+      
     </div>
   );
 }
