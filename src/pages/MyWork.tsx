@@ -39,33 +39,67 @@ function MyWork() {
       document.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('mousedown', handleOutsideClick);
     };
-  }, [showDetailView]);
-  
-
-  const handleOpenCard = (index: number) => {
+  }, [showDetailView]);  const handleOpenCard = (index: number) => {
+    // Set selected project first
     setSelectedProject(index);
 
     if (window.setActiveCardColor) {
       window.setActiveCardColor(projects[index].classCard);
     }
-
+    
+    // Only hide filters container, header stays visible
+    document.querySelector('.filters-toggle-container')?.classList.add('hidden');
+    
+    // Force immediate scroll to top with no animation 
+    // This ensures we're at the top before showing the detail view
+    window.scrollTo(0, 0);
+    
+    // Then show detail view with a slight delay
     setTimeout(() => {
       setShowDetailView(true);
-    }, 50);
-  };
-
-  const handleCloseCard = () => {
-    setShowDetailView(false);
-
-    setTimeout(() => {
-      setSelectedProject(null);
-
-      const hoveredCard = document.querySelector('.card:hover');
-
-      if (!hoveredCard && window.setActiveCardColor) {
-        window.setActiveCardColor(null);
-      }
-    }, 300);
+      
+      // After detail view is shown, ensure we're still at the top
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 100);
+    }, 100);
+  };  const handleCloseCard = () => {
+    // Apply closing animation class to detail-view before hiding it
+    const detailViewContainer = document.querySelector('.detail-view-container');
+    const detailView = document.querySelector('.detail-view');
+    
+    if (detailViewContainer && detailView) {
+      detailViewContainer.classList.add('closing');
+      detailView.classList.add('closing');
+      
+      // Wait for animation to complete before hiding
+      setTimeout(() => {
+        setShowDetailView(false);
+        
+        // Show filters immediately after the detail view is hidden
+        document.querySelector('.filters-toggle-container')?.classList.remove('hidden');
+        
+        // Reset the selected project with minimal delay
+        setTimeout(() => {
+          setSelectedProject(null);
+          
+          const hoveredCard = document.querySelector('.card:hover');
+          if (!hoveredCard && window.setActiveCardColor) {
+            window.setActiveCardColor(null);
+          }
+          
+          // Remove closing classes for future use
+          detailViewContainer.classList.remove('closing');
+          detailView.classList.remove('closing');
+        }, 50);
+      }, 200); // Match this with animation duration
+    } else {
+      // Fallback if elements not found
+      setShowDetailView(false);
+      setTimeout(() => {
+        document.querySelector('.filters-toggle-container')?.classList.remove('hidden');
+        setSelectedProject(null);
+      }, 100);    }
   };
 
   const projects = [
@@ -79,7 +113,7 @@ function MyWork() {
         "jQuery",
         "HTML",
         "SCSS",
-        "REST API (Oro)"
+        "REST API"
       ],
       platformSpecific: [
         "Twig templating",
@@ -804,80 +838,8 @@ function MyWork() {
           <button className="filter-toggle" onClick={toggleFilters}>
             <span>{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
           </button>
-
-          
-        </div>
-
-        {/* Zmodyfikowany kontener detali */}
-        {selectedProject !== null && showDetailView && (
-          <div className="detail-view-container">
-            <div className="detail-view" style={{ '--highlight-color': projects[selectedProject].highlightColor } as React.CSSProperties}>
-              <button className="close-button" onClick={handleCloseCard}>×</button>
-
-              <div className="detail-content">
-                <img src={projects[selectedProject].imgSrc} alt={projects[selectedProject].title} className="detail-logo" />
-                <h2>{projects[selectedProject].title}</h2>
-                <h3 className="description">{projects[selectedProject].companyDesc}</h3>
-                <p className="description">{projects[selectedProject].description}</p>
-
-                {projects[selectedProject].technologies && projects[selectedProject].technologies.length > 0 && (
-                  <>
-                    <h3>Technologies</h3>
-                    <ul className="technologies">
-                      {projects[selectedProject].technologies.map((tech, i) => (
-                        <li key={i} className="tech-tag">{tech}</li>
-                      ))}
-                    </ul>
-                  </>
-                )}
-
-                {/* Platform Specific Features (if available) */}
-                {projects[selectedProject].platformSpecific && projects[selectedProject].platformSpecific.length > 0 && (
-                  <>
-                    <h3>Platform Specific Features</h3>
-                    <ul className="technologies">
-                      {projects[selectedProject].platformSpecific.map((feature, i) => (
-                        <li key={i} className="tech-tag">{feature}</li>
-                      ))}
-                    </ul>
-                  </>
-                )}
-
-                {/* Screenshots */}
-                <div className="project-screenshots">
-                  {projects[selectedProject].desktopImage && (
-                    <img
-                      src={projects[selectedProject].desktopImage}
-                      alt="Desktop view"
-                      className="desktop-screenshot"
-                    />
-                  )}
-                  {projects[selectedProject].mobileImage && (
-                    <img
-                      src={projects[selectedProject].mobileImage}
-                      alt="Mobile view"
-                      className="mobile-screenshot"
-                    />
-                  )}
-                </div>
-
-                {/* Visit site link */}
-                {projects[selectedProject].link && (
-                  <a
-                    href={projects[selectedProject].link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="visit-site-button"
-                  >
-                    Visit Website
-                  </a>
-                )}
-              </div>
-            </div>
           </div>
-        )}
-        
-        <div className="filters-content">
+          <div className="filters-content">
             <div className='filters-inner'>
             <h3>Filter Projects</h3>
             <div className="filter-options">
@@ -918,7 +880,84 @@ function MyWork() {
               </button>
             )}
           </div>
+          
         </div>
+
+        {/* Zmodyfikowany kontener detali */}
+        {selectedProject !== null && showDetailView && (
+          <div className="detail-view-container">
+            <div className="detail-view" style={{ '--highlight-color': projects[selectedProject].highlightColor } as React.CSSProperties}>
+              <button className="close-button" onClick={handleCloseCard}>×</button>
+
+              <div className="detail-content">
+                <div className="detail-header">
+                  <img src={projects[selectedProject].imgSrc} alt={projects[selectedProject].title} className="detail-logo" />
+                <h2>{projects[selectedProject].title}</h2>
+                </div>
+                <h3 className="sub-title">{projects[selectedProject].companyDesc}</h3>
+                <p className="description">{projects[selectedProject].description}</p>
+
+                {projects[selectedProject].technologies && projects[selectedProject].technologies.length > 0 && (
+                  <>
+                    <h2 className="tech-title">Technologies</h2>
+                    <ul className="technologies">
+                      {projects[selectedProject].technologies.map((tech, i) => (
+                        <li key={i} className="tech-tag">{tech}</li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+
+                {/* Platform Specific Features (if available) */}
+                {projects[selectedProject].platformSpecific && projects[selectedProject].platformSpecific.length > 0 && (
+                  <>
+                    <h2 className="tech-title">Platform Specific Features</h2>
+                    <ul className="technologies">
+                      {projects[selectedProject].platformSpecific.map((feature, i) => (
+                        <li key={i} className="tech-tag">{feature}</li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+
+                {/* Screenshots */}
+                {/*}
+                <div className="project-screenshots">
+                  {projects[selectedProject].desktopImage && (
+                    <img
+                      src={projects[selectedProject].desktopImage}
+                      alt="Desktop view"
+                      className="desktop-screenshot"
+                    />
+                  )}
+                  {projects[selectedProject].mobileImage && (
+                    <img
+                      src={projects[selectedProject].mobileImage}
+                      alt="Mobile view"
+                      className="mobile-screenshot"
+                    />
+                  )}
+                </div>
+                */}
+
+                {/* Visit site link */}
+                {projects[selectedProject].link && (
+                  <a
+                    href={projects[selectedProject].link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="visit-site-button"
+                  >
+                    Visit Website
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+        
+        
+        
           <div className="my-work-inner">
             <div className="cards-container">
               {filteredProjects.map((project, index) => (
