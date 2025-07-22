@@ -50,7 +50,8 @@ function Contact() {
   return (
     <div className="contact-container">
       <section className="contact-section">
-        <h1 className="about-header">Contact Me</h1>        <p className="about-text">
+        <div className="contact-inner">
+            <h1 className="about-header">Contact Me</h1>        <p className="about-text">
           I'm always interested in hearing about new projects and opportunities.
           Feel free to get in touch with me using the form below.
         </p>
@@ -134,6 +135,7 @@ function Contact() {
             </div>
           )}
         </form>
+        </div>
       </section>
     </div>
   );

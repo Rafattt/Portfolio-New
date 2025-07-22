@@ -139,64 +139,6 @@ function About() {
         </div>
       </section>
 
-      <section className="about-section">
-        <h2 className="about-header">Work Experience</h2>
-        <p className="about-text">
-          Throughout my career, I've worked with a diverse range of clients and technologies,
-          focusing on creating impactful digital solutions. Here's a brief overview of my professional journey:
-        </p>
-        
-        <div className="experience-grid">
-          {experiences.map((exp, index) => (
-            <div key={index} className="experience-card">
-              <div className="experience-period">{exp.period}</div>
-              <h3 className="experience-title">{exp.title}</h3>
-              <div className="experience-company">{exp.company}</div>
-              <p className="experience-description">{exp.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="about-section">
-        <h2 className="about-header">Education</h2>
-        <h3 className="about-subheader">Bachelor of Science in Computer Science</h3>
-        <p className="about-text">University of Technology, Graduated 2015</p>
-        
-        <h3 className="about-subheader">Certifications</h3>
-        <div className="skills-container">
-          <span className="skill-tag">Web Accessibility Specialist (WAS)</span>
-          <span className="skill-tag">Frontend Performance Optimization</span>
-          <span className="skill-tag">Advanced JavaScript Development</span>
-          <span className="skill-tag">UX/UI Design Fundamentals</span>
-        </div>
-      </section>
-
-      <section className="about-section">
-        <h2 className="about-header">Contact Me</h2>
-        <p className="about-text">
-          Interested in working together? Feel free to reach out through any of the following channels:
-        </p>
-        
-        <div className="contact-grid">
-          <div className="contact-item">
-            <span className="contact-icon">📧</span>
-            <a href="mailto:your.email@example.com" className="contact-link">your.email@example.com</a>
-          </div>
-          <div className="contact-item">
-            <span className="contact-icon">🔗</span>
-            <a href="https://linkedin.com/in/yourprofile" className="contact-link">LinkedIn</a>
-          </div>
-          <div className="contact-item">
-            <span className="contact-icon">💻</span>
-            <a href="https://github.com/yourusername" className="contact-link">GitHub</a>
-          </div>
-          <div className="contact-item">
-            <span className="contact-icon">🐦</span>
-            <a href="https://twitter.com/yourusername" className="contact-link">Twitter</a>
-          </div>
-        </div>
-      </section>
       </div>
       
     </div>
